@@ -329,7 +329,20 @@ void main() async {
       print('✅ List deleted.');
     }
 
-    // 18. Delete session
+    // 18. Demonstrate MoviesService (Movie Lists)
+    print('\n--- Working with Movie Lists ---');
+    print('Fetching popular movies...');
+    final popularMovies = await tmdbClient.movies.getPopular();
+    print('Popular movies found: ${popularMovies.totalResults}');
+    for (var movie in popularMovies.results.take(3)) {
+      print(' - ${movie.title} (Popularity: ${movie.voteAverage})');
+    }
+
+    print('\nFetching movies now playing in theatres...');
+    final nowPlaying = await tmdbClient.movies.getNowPlaying();
+    print('Movies now playing: ${nowPlaying.totalResults}');
+
+    // 19. Delete session
     print('\n--- Cleaning Up ---');
     await tmdbClient.authentication.deleteSession(session.sessionId);
     print('✅ Session deleted.');

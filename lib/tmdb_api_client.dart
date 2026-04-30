@@ -21,6 +21,7 @@ import 'src/services/genres_service.dart';
 import 'src/services/guest_sessions_service.dart';
 import 'src/services/keywords_service.dart';
 import 'src/services/lists_service.dart';
+import 'src/services/movies_service.dart';
 
 // Exports for the public API of the package.
 // This makes these classes/exceptions directly accessible when importing 'package:tmdb_api_client/tmdb_api_client.dart'.
@@ -68,6 +69,7 @@ class TmdbApiClient {
   late final GuestSessionsService guestSessions;
   late final KeywordsService keywords;
   late final ListsService lists;
+  late final MoviesService movies;
 
   /// Constructor for [TmdbApiClient].
   ///
@@ -94,6 +96,7 @@ class TmdbApiClient {
     guestSessions = GuestSessionsService(this);
     keywords = KeywordsService(this);
     lists = ListsService(this);
+    movies = MoviesService(this);
   }
 
   /// Public getter to access the current configuration of the client.
