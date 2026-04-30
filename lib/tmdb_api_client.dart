@@ -15,6 +15,7 @@ import 'src/services/account_service.dart';
 export 'src/models/tmdb_api_client_config.dart';
 export 'src/models/authentication_models.dart';
 export 'src/models/account_models.dart';
+export 'src/models/media_models.dart';
 export 'src/utils/tmdb_api_exception.dart';
 
 
