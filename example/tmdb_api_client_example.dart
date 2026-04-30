@@ -159,7 +159,30 @@ void main() async {
     final peopleChanges = await tmdbClient.changes.getPeopleChanges();
     print('Recent people changes found: ${peopleChanges.totalResults}');
 
-    // 8. Delete session
+    // 8. Demonstrate CollectionsService
+    print('\n--- Working with Collections ---');
+    const collectionId = 10; // Star Wars Collection
+    print('Fetching details for Star Wars Collection (ID: $collectionId)...');
+    final collection = await tmdbClient.collections.getDetails(collectionId);
+    print('Collection Name: ${collection.name}');
+    print('Number of movies in collection: ${collection.parts.length}');
+    for (var part in collection.parts) {
+      print(' - ${part.title} (${part.releaseDate})');
+    }
+
+    print('\nFetching images for the collection...');
+    final images = await tmdbClient.collections.getImages(collectionId);
+    print('Posters found: ${images.posters.length}');
+    print('Backdrops found: ${images.backdrops.length}');
+
+    print('\nFetching translations for the collection...');
+    final translations = await tmdbClient.collections.getTranslations(collectionId);
+    print('Translations available: ${translations.translations.length}');
+    if (translations.translations.isNotEmpty) {
+      print('First translation language: ${translations.translations.first.englishName}');
+    }
+
+    // 9. Delete session
     print('\n--- Cleaning Up ---');
     await tmdbClient.authentication.deleteSession(session.sessionId);
     print('✅ Session deleted.');
