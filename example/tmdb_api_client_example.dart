@@ -231,9 +231,9 @@ void main() async {
     print('\n--- Working with Discover ---');
     print('Discovering top rated movies of 2023...');
     final discoveredMovies = await tmdbClient.discover.movie(
+      primaryReleaseYear: 2023,
+      sortBy: 'vote_average.desc',
       queryParameters: {
-        'primary_release_year': '2023',
-        'sort_by': 'vote_average.desc',
         'vote_count.gte': '500',
       },
     );
@@ -244,14 +244,27 @@ void main() async {
 
     print('\nDiscovering popular TV shows in English...');
     final discoveredTv = await tmdbClient.discover.tv(
+      sortBy: 'popularity.desc',
       queryParameters: {
         'with_original_language': 'en',
-        'sort_by': 'popularity.desc',
       },
     );
     print('TV shows discovered: ${discoveredTv.totalResults}');
 
-    // 13. Delete session
+    // 13. Demonstrate FindService
+    print('\n--- Working with Find ---');
+    const imdbId = 'tt0137523'; // Fight Club
+    print('Finding media by IMDb ID: $imdbId...');
+    final findResults = await tmdbClient.find.byExternalId(
+      imdbId,
+      externalSource: ExternalSource.imdbId,
+    );
+    if (findResults.movieResults.isNotEmpty) {
+      final movie = findResults.movieResults.first;
+      print('✅ Found Movie: ${movie.title} (Released: ${movie.releaseDate})');
+    }
+
+    // 14. Delete session
     print('\n--- Cleaning Up ---');
     await tmdbClient.authentication.deleteSession(session.sessionId);
     print('✅ Session deleted.');
