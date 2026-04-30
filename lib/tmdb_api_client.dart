@@ -9,6 +9,7 @@ import 'src/models/tmdb_api_client_config.dart';
 // Services - high-level interfaces for specific API functionalities.
 import 'src/services/authentication_service.dart';
 import 'src/services/account_service.dart';
+import 'src/services/certifications_service.dart';
 
 // Exports for the public API of the package.
 // This makes these classes/exceptions directly accessible when importing 'package:tmdb_api_client/tmdb_api_client.dart'.
@@ -16,6 +17,7 @@ export 'src/models/tmdb_api_client_config.dart';
 export 'src/models/authentication_models.dart';
 export 'src/models/account_models.dart';
 export 'src/models/media_models.dart';
+export 'src/models/certification_models.dart';
 export 'src/utils/tmdb_api_exception.dart';
 
 
@@ -34,6 +36,7 @@ class TmdbApiClient {
   // 'late final' ensures they are initialized once in the constructor.
   late final AuthenticationService authentication;
   late final AccountService account;
+  late final CertificationsService certifications;
 
   /// Constructor for [TmdbApiClient].
   ///
@@ -48,6 +51,7 @@ class TmdbApiClient {
     // Services need a reference to TmdbApiClient to access the _apiConnection and its config.
     authentication = AuthenticationService(this);
     account = AccountService(this);
+    certifications = CertificationsService(this);
   }
 
   /// Public getter to access the current configuration of the client.

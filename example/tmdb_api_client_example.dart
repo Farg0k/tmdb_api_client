@@ -123,7 +123,30 @@ void main() async {
     final ratedMovies = await tmdbClient.account.getRatedMovies(accountId: accountId);
     print('Movies rated: ${ratedMovies.totalResults}');
 
-    // 6. Delete session
+    // 6. Demonstrate CertificationsService
+    print('\n--- Working with Certifications ---');
+    print('Fetching movie certifications...');
+    final certifications = await tmdbClient.certifications.getMovieCertifications();
+    
+    // Display US certifications as an example
+    final usCerts = certifications.certifications['US'];
+    if (usCerts != null) {
+      print('US Movie Certifications:');
+      for (var cert in usCerts.take(5)) {
+        print(' - ${cert.certification}: ${cert.meaning}');
+      }
+    }
+
+    // Display UA certifications as another example
+    final uaCerts = certifications.certifications['UA'];
+    if (uaCerts != null) {
+      print('\nUA Movie Certifications:');
+      for (var cert in uaCerts) {
+        print(' - ${cert.certification}: ${cert.meaning}');
+      }
+    }
+
+    // 7. Delete session
     print('\n--- Cleaning Up ---');
     await tmdbClient.authentication.deleteSession(session.sessionId);
     print('✅ Session deleted.');
