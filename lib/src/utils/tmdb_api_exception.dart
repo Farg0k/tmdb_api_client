@@ -1,4 +1,3 @@
-
 /// [TmdbApiException] is a custom exception for errors originating from the TMDB API itself.
 /// It includes the error message, HTTP status code, and an optional TMDB-specific error code.
 class TmdbApiException implements Exception {

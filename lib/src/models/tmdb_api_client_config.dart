@@ -1,4 +1,3 @@
-
 /// [TmdbApiClientConfig] holds the essential configuration for the TMDB API client.
 /// This includes the API key, preferred language, and an optional session ID.
 class TmdbApiClientConfig {
@@ -28,4 +27,3 @@ class TmdbApiClientConfig {
     );
   }
 }
-
