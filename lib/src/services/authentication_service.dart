@@ -73,4 +73,55 @@ class AuthenticationService extends BaseTmdbService {
     }
     return jsonResponse['success'] == true; // TMDB API usually returns {'success': true/false} for this.
   }
+
+  /// 5. Validates a request token with a user's TMDB username and password.
+  ///
+  /// Corresponds to the TMDB API endpoint: `POST /authentication/token/validate_with_login`.
+  /// This is often used in mobile or desktop apps to authenticate the user
+  /// directly without redirecting to a web browser.
+  /// Returns an updated [RequestToken] object that is now "authorized".
+  Future<RequestToken> validateWithLogin({
+    required String username,
+    required String password,
+    required String requestToken,
+  }) async {
+    final jsonResponse = await post(
+      'authentication/token/validate_with_login',
+      body: {
+        'username': username,
+        'password': password,
+        'request_token': requestToken,
+      },
+    );
+    return RequestToken.fromJson(jsonResponse);
+  }
+
+  /// 6. Creates a v3 session ID from a v4 access token.
+  ///
+  /// Corresponds to the TMDB API endpoint: `POST /authentication/session/convert/4`.
+  /// This allows you to migrate or use v4 authentication tokens to get a v3 session ID.
+  /// Returns a [Session] object containing the `sessionId`.
+  Future<Session> createSessionFromV4(String accessTokenV4) async {
+    final jsonResponse = await post(
+      'authentication/session/convert/4',
+      body: {'access_token': accessTokenV4},
+    );
+    final session = Session.fromJson(jsonResponse);
+    updateClientConfig(config.copyWith(sessionId: session.sessionId));
+    return session;
+  }
+
+  /// 7. Validates the current API key.
+  ///
+  /// Corresponds to the TMDB API endpoint: `GET /authentication`.
+  /// A simple way to check if your API key is valid and working.
+  /// Returns `true` if the key is valid, `false` otherwise.
+  Future<bool> validateKey() async {
+    try {
+      final jsonResponse = await get('authentication');
+      return jsonResponse['success'] == true;
+    } catch (e) {
+      return false;
+    }
+  }
 }

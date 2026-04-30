@@ -16,20 +16,60 @@ void main() async {
   final tmdbClient = TmdbApiClient(config: config);
 
   try {
+    print('\n--- API Key Validation ---');
+    final isKeyValid = await tmdbClient.authentication.validateKey();
+    if (!isKeyValid) {
+      print('🛑 Error: Your API key is invalid.');
+      return;
+    }
+    print('✅ API Key is valid.');
+
     print('\n--- Authentication Demonstration ---');
 
-    // 1. Get Request Token
-    final requestToken = await tmdbClient.authentication.createRequestToken();
-    print('✅ Request Token obtained: ${requestToken.requestToken}');
+    // Choice of authentication method
+    print('Select authentication method:');
+    print('1. Standard (via web browser approval)');
+    print('2. Login (via username and password - NOT RECOMMENDED for production)');
+    stdout.write('Enter your choice (1 or 2): ');
+    final choice = stdin.readLineSync();
 
-    // 2. Approve Token
-    final approveUrl = 'https://www.themoviedb.org/authenticate/${requestToken.requestToken}';
-    print('\n🔗 Open this link to approve the token: $approveUrl');
-    print('Press Enter AFTER approving in your browser...');
-    stdin.readLineSync();
+    Session? session;
 
-    // 3. Create Session
-    final session = await tmdbClient.authentication.createSession(requestToken.requestToken);
+    if (choice == '2') {
+      // --- Authentication via Login ---
+      stdout.write('Enter your TMDB username: ');
+      final username = stdin.readLineSync() ?? '';
+      stdout.write('Enter your TMDB password: ');
+      final password = stdin.readLineSync() ?? ''; // Note: stdin shows characters as typed
+
+      print('\nStep 1: Getting Request Token...');
+      final requestToken = await tmdbClient.authentication.createRequestToken();
+
+      print('Step 2: Validating token with login...');
+      await tmdbClient.authentication.validateWithLogin(
+        username: username,
+        password: password,
+        requestToken: requestToken.requestToken,
+      );
+
+      print('Step 3: Creating session...');
+      session = await tmdbClient.authentication.createSession(requestToken.requestToken);
+    } else {
+      // --- Standard Authentication ---
+      // 1. Get Request Token
+      final requestToken = await tmdbClient.authentication.createRequestToken();
+      print('✅ Request Token obtained: ${requestToken.requestToken}');
+
+      // 2. Approve Token
+      final approveUrl = 'https://www.themoviedb.org/authenticate/${requestToken.requestToken}';
+      print('\n🔗 Open this link to approve the token: $approveUrl');
+      print('Press Enter AFTER approving in your browser...');
+      stdin.readLineSync();
+
+      // 3. Create Session
+      session = await tmdbClient.authentication.createSession(requestToken.requestToken);
+    }
+
     print('✅ Session created: ${session.sessionId}');
 
     // 4. Get Account Details
