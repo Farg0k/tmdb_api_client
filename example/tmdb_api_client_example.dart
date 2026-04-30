@@ -218,7 +218,16 @@ void main() async {
     final languages = await tmdbClient.configuration.getLanguages();
     print('Number of languages: ${languages.length}');
 
-    // 11. Delete session
+    // 11. Demonstrate CreditsService
+    print('\n--- Working with Credits ---');
+    const creditId = '52fe422dc3a36847f800a747'; // Mark Hamill in Star Wars
+    print('Fetching credit details for Mark Hamill (ID: $creditId)...');
+    final credit = await tmdbClient.credits.getDetails(creditId);
+    print('Person: ${credit.person.name}');
+    print('Media: ${credit.media.displayName}');
+    print('Job/Role: ${credit.job.isNotEmpty ? credit.job : credit.media.character}');
+
+    // 12. Delete session
     print('\n--- Cleaning Up ---');
     await tmdbClient.authentication.deleteSession(session.sessionId);
     print('✅ Session deleted.');
