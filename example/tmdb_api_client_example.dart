@@ -146,7 +146,20 @@ void main() async {
       }
     }
 
-    // 7. Delete session
+    // 7. Demonstrate ChangesService
+    print('\n--- Working with Changes ---');
+    print('Fetching recent movie changes (past 24h)...');
+    final movieChanges = await tmdbClient.changes.getMovieChanges();
+    print('Recent movie changes found: ${movieChanges.totalResults}');
+    if (movieChanges.results.isNotEmpty) {
+      print('First change ID: ${movieChanges.results.first.id}');
+    }
+
+    print('\nFetching recent people changes (past 24h)...');
+    final peopleChanges = await tmdbClient.changes.getPeopleChanges();
+    print('Recent people changes found: ${peopleChanges.totalResults}');
+
+    // 8. Delete session
     print('\n--- Cleaning Up ---');
     await tmdbClient.authentication.deleteSession(session.sessionId);
     print('✅ Session deleted.');
