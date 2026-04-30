@@ -182,7 +182,27 @@ void main() async {
       print('First translation language: ${translations.translations.first.englishName}');
     }
 
-    // 9. Delete session
+    // 9. Demonstrate CompaniesService
+    print('\n--- Working with Companies ---');
+    const companyId = 1; // Lucasfilm
+    print('Fetching details for Lucasfilm (ID: $companyId)...');
+    final company = await tmdbClient.companies.getDetails(companyId);
+    print('Company Name: ${company.name}');
+    print('Headquarters: ${company.headquarters}');
+    print('Homepage: ${company.homepage}');
+
+    print('\nFetching alternative names for the company...');
+    final altNames = await tmdbClient.companies.getAlternativeNames(companyId);
+    print('Alternative names found: ${altNames.results.length}');
+    for (var name in altNames.results) {
+      print(' - ${name.name} (${name.type})');
+    }
+
+    print('\nFetching logos for the company...');
+    final logos = await tmdbClient.companies.getLogos(companyId);
+    print('Logos found: ${logos.logos.length}');
+
+    // 10. Delete session
     print('\n--- Cleaning Up ---');
     await tmdbClient.authentication.deleteSession(session.sessionId);
     print('✅ Session deleted.');
