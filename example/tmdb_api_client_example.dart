@@ -202,7 +202,23 @@ void main() async {
     final logos = await tmdbClient.companies.getLogos(companyId);
     print('Logos found: ${logos.logos.length}');
 
-    // 10. Delete session
+    // 10. Demonstrate ConfigurationService
+    print('\n--- Working with Configuration ---');
+    print('Fetching API configuration details...');
+    final apiConfig = await tmdbClient.configuration.getDetails();
+    print('Image Base URL: ${apiConfig.secureBaseUrl}');
+    print('Poster Sizes: ${apiConfig.posterSizes.join(', ')}');
+
+    print('\nFetching supported countries...');
+    final countries = await tmdbClient.configuration.getCountries();
+    print('Number of countries: ${countries.length}');
+    print('First 5 countries: ${countries.take(5).map((e) => e.englishName).join(', ')}');
+
+    print('\nFetching supported languages...');
+    final languages = await tmdbClient.configuration.getLanguages();
+    print('Number of languages: ${languages.length}');
+
+    // 11. Delete session
     print('\n--- Cleaning Up ---');
     await tmdbClient.authentication.deleteSession(session.sessionId);
     print('✅ Session deleted.');
