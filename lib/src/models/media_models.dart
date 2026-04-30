@@ -6,6 +6,7 @@ abstract class MediaSummary {
   final String? backdropPath;
   final double voteAverage;
   final int voteCount;
+  final double? rating; // Added for rated content
 
   MediaSummary({
     required this.id,
@@ -14,6 +15,7 @@ abstract class MediaSummary {
     this.backdropPath,
     required this.voteAverage,
     required this.voteCount,
+    this.rating,
   });
 }
 
@@ -29,6 +31,7 @@ class MovieSummary extends MediaSummary {
     super.backdropPath,
     required super.voteAverage,
     required super.voteCount,
+    super.rating,
     required this.title,
     required this.releaseDate,
   });
@@ -41,6 +44,7 @@ class MovieSummary extends MediaSummary {
       backdropPath: json['backdrop_path'] as String?,
       voteAverage: (json['vote_average'] as num).toDouble(),
       voteCount: json['vote_count'] as int,
+      rating: json['rating'] != null ? (json['rating'] as num).toDouble() : null,
       title: json['title'] as String,
       releaseDate: json['release_date'] as String? ?? '',
     );
@@ -59,6 +63,7 @@ class TvSummary extends MediaSummary {
     super.backdropPath,
     required super.voteAverage,
     required super.voteCount,
+    super.rating,
     required this.name,
     required this.firstAirDate,
   });
@@ -71,8 +76,54 @@ class TvSummary extends MediaSummary {
       backdropPath: json['backdrop_path'] as String?,
       voteAverage: (json['vote_average'] as num).toDouble(),
       voteCount: json['vote_count'] as int,
+      rating: json['rating'] != null ? (json['rating'] as num).toDouble() : null,
       name: json['name'] as String,
       firstAirDate: json['first_air_date'] as String? ?? '',
+    );
+  }
+}
+
+/// [RatedEpisodeSummary] represents a TV episode that has been rated.
+class RatedEpisodeSummary {
+  final String airDate;
+  final int episodeNumber;
+  final int id;
+  final String name;
+  final String overview;
+  final int seasonNumber;
+  final int showId;
+  final String? stillPath;
+  final double voteAverage;
+  final int voteCount;
+  final double rating;
+
+  RatedEpisodeSummary({
+    required this.airDate,
+    required this.episodeNumber,
+    required this.id,
+    required this.name,
+    required this.overview,
+    required this.seasonNumber,
+    required this.showId,
+    this.stillPath,
+    required this.voteAverage,
+    required this.voteCount,
+    required this.rating,
+  });
+
+  factory RatedEpisodeSummary.fromJson(Map<String, dynamic> json) {
+    return RatedEpisodeSummary(
+      airDate: json['air_date'] as String? ?? '',
+      episodeNumber: json['episode_number'] as int,
+      id: json['id'] as int,
+      name: json['name'] as String,
+      overview: json['overview'] as String? ?? '',
+      seasonNumber: json['season_number'] as int,
+      showId: json['show_id'] as int,
+      stillPath: json['still_path'] as String?,
+      voteAverage: (json['vote_average'] as num).toDouble(),
+      voteCount: json['vote_count'] as int,
+      rating: (json['rating'] as num).toDouble(),
     );
   }
 }

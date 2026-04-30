@@ -177,8 +177,7 @@ class AccountService extends BaseTmdbService {
   /// 10. Get the list of rated TV episodes.
   ///
   /// Corresponds to the TMDB API endpoint: `GET /account/{account_id}/rated/tv/episodes`.
-  /// Note: This returns a generic Map for now as specific Episode models are not yet implemented.
-  Future<Map<String, dynamic>> getRatedTvEpisodes({
+  Future<TmdbResponsePage<RatedEpisodeSummary>> getRatedTvEpisodes({
     required int accountId,
     int page = 1,
     String? sortBy,
@@ -187,7 +186,8 @@ class AccountService extends BaseTmdbService {
       'page': page.toString(),
       'sort_by': ?sortBy,
     };
-    return get('account/$accountId/rated/tv/episodes', queryParameters: queryParams);
+    final jsonResponse = await get('account/$accountId/rated/tv/episodes', queryParameters: queryParams);
+    return TmdbResponsePage.fromJson(jsonResponse, RatedEpisodeSummary.fromJson);
   }
 
   /// 11. Get the list of custom lists created by the user.

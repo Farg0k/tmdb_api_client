@@ -29,13 +29,13 @@ abstract class BaseTmdbService {
   }
 
   /// Delegates a POST request to the internal [TmdbApiConnection] via the main client.
-  Future<Map<String, dynamic>> post(String path, {Map<String, dynamic>? body}) {
-    return _client.post(path, body: body);
+  Future<Map<String, dynamic>> post(String path, {Map<String, dynamic>? body, Map<String, String>? queryParameters}) {
+    return _client.post(path, body: body, queryParameters: queryParameters);
   }
 
   /// Delegates a DELETE request to the internal [TmdbApiConnection] via the main client.
-  Future<Map<String, dynamic>> delete(String path, {Map<String, dynamic>? body}) {
-    return _client.delete(path, body: body);
+  Future<Map<String, dynamic>> delete(String path, {Map<String, dynamic>? body, Map<String, String>? queryParameters}) {
+    return _client.delete(path, body: body, queryParameters: queryParameters);
   }
 
   /// Provides access to the current [TmdbApiClientConfig] from the main client's connection.

@@ -18,6 +18,9 @@ import 'src/services/credits_service.dart';
 import 'src/services/discover_service.dart';
 import 'src/services/find_service.dart';
 import 'src/services/genres_service.dart';
+import 'src/services/guest_sessions_service.dart';
+import 'src/services/keywords_service.dart';
+import 'src/services/lists_service.dart';
 
 // Exports for the public API of the package.
 // This makes these classes/exceptions directly accessible when importing 'package:tmdb_api_client/tmdb_api_client.dart'.
@@ -33,6 +36,8 @@ export 'src/models/configuration_models.dart';
 export 'src/models/credit_models.dart';
 export 'src/models/find_models.dart';
 export 'src/models/genre_models.dart';
+export 'src/models/keyword_models.dart';
+export 'src/models/list_models.dart';
 export 'src/utils/tmdb_api_exception.dart';
 
 
@@ -60,6 +65,9 @@ class TmdbApiClient {
   late final DiscoverService discover;
   late final FindService find;
   late final GenresService genres;
+  late final GuestSessionsService guestSessions;
+  late final KeywordsService keywords;
+  late final ListsService lists;
 
   /// Constructor for [TmdbApiClient].
   ///
@@ -83,6 +91,9 @@ class TmdbApiClient {
     discover = DiscoverService(this);
     find = FindService(this);
     genres = GenresService(this);
+    guestSessions = GuestSessionsService(this);
+    keywords = KeywordsService(this);
+    lists = ListsService(this);
   }
 
   /// Public getter to access the current configuration of the client.
@@ -102,13 +113,13 @@ class TmdbApiClient {
   }
 
   /// Internal helper to execute POST requests via the API connection.
-  Future<Map<String, dynamic>> post(String path, {Map<String, dynamic>? body}) {
-    return _apiConnection.post(path, body: body);
+  Future<Map<String, dynamic>> post(String path, {Map<String, dynamic>? body, Map<String, String>? queryParameters}) {
+    return _apiConnection.post(path, body: body, queryParameters: queryParameters);
   }
 
   /// Internal helper to execute DELETE requests via the API connection.
-  Future<Map<String, dynamic>> delete(String path, {Map<String, dynamic>? body}) {
-    return _apiConnection.delete(path, body: body);
+  Future<Map<String, dynamic>> delete(String path, {Map<String, dynamic>? body, Map<String, String>? queryParameters}) {
+    return _apiConnection.delete(path, body: body, queryParameters: queryParameters);
   }
 
   /// Closes the underlying HTTP client managed by the API connection.

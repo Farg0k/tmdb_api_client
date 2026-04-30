@@ -275,7 +275,61 @@ void main() async {
     final tvGenres = await tmdbClient.genres.getTvList();
     print('TV genres found: ${tvGenres.genres.length}');
 
-    // 15. Delete session
+    // 15. Demonstrate GuestSessionsService
+    print('\n--- Working with Guest Sessions ---');
+    print('Creating a guest session...');
+    final guestSession = await tmdbClient.authentication.createGuestSession();
+    if (guestSession.success) {
+      print('✅ Guest Session ID: ${guestSession.guestSessionId}');
+      
+      print('Fetching rated movies for guest session (will be empty for new session)...');
+      final ratedMovies = await tmdbClient.guestSessions.getRatedMovies(guestSession.guestSessionId);
+      print('Rated movies found: ${ratedMovies.totalResults}');
+    }
+
+    // 16. Demonstrate KeywordsService
+    print('\n--- Working with Keywords ---');
+    const keywordId = 180547; // "marvel cinematic universe (mcu)"
+    print('Fetching details for keyword: MCU (ID: $keywordId)...');
+    final keyword = await tmdbClient.keywords.getDetails(keywordId);
+    print('Keyword Name: ${keyword.name}');
+
+    print('\nFetching movies for this keyword...');
+    final keywordMovies = await tmdbClient.keywords.getMovies(keywordId);
+    print('Movies found with this keyword: ${keywordMovies.totalResults}');
+    for (var movie in keywordMovies.results.take(3)) {
+      print(' - ${movie.title}');
+    }
+
+    // 17. Demonstrate ListsService
+    print('\n--- Working with Lists ---');
+    print('Creating a new list "My Awesome Movies"...');
+    final createListResponse = await tmdbClient.lists.create(
+      name: 'My Awesome Movies',
+      description: 'A list of movies I really like.',
+    );
+    if (createListResponse.success) {
+      final listId = createListResponse.listId.toString();
+      print('✅ List created with ID: $listId');
+
+      print('Adding "Fight Club" (ID: 550) to the list...');
+      await tmdbClient.lists.addMovie(listId, 550);
+
+      print('Checking if "Fight Club" is in the list...');
+      final isPresent = await tmdbClient.lists.checkItemStatus(listId, 550);
+      print('✅ Is present: $isPresent');
+
+      print('Fetching list details...');
+      final listDetails = await tmdbClient.lists.getDetails(listId);
+      print('List Name: ${listDetails.name}');
+      print('Items in list: ${listDetails.itemCount}');
+
+      print('Deleting the list...');
+      await tmdbClient.lists.deleteList(listId);
+      print('✅ List deleted.');
+    }
+
+    // 18. Delete session
     print('\n--- Cleaning Up ---');
     await tmdbClient.authentication.deleteSession(session.sessionId);
     print('✅ Session deleted.');
