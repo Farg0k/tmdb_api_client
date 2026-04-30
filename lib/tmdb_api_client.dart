@@ -15,6 +15,7 @@ import 'src/services/collections_service.dart';
 import 'src/services/companies_service.dart';
 import 'src/services/configuration_service.dart';
 import 'src/services/credits_service.dart';
+import 'src/services/discover_service.dart';
 
 // Exports for the public API of the package.
 // This makes these classes/exceptions directly accessible when importing 'package:tmdb_api_client/tmdb_api_client.dart'.
@@ -52,6 +53,7 @@ class TmdbApiClient {
   late final CompaniesService companies;
   late final ConfigurationService configuration;
   late final CreditsService credits;
+  late final DiscoverService discover;
 
   /// Constructor for [TmdbApiClient].
   ///
@@ -72,6 +74,7 @@ class TmdbApiClient {
     companies = CompaniesService(this);
     configuration = ConfigurationService(this);
     credits = CreditsService(this);
+    discover = DiscoverService(this);
   }
 
   /// Public getter to access the current configuration of the client.

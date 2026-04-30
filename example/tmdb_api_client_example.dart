@@ -227,7 +227,31 @@ void main() async {
     print('Media: ${credit.media.displayName}');
     print('Job/Role: ${credit.job.isNotEmpty ? credit.job : credit.media.character}');
 
-    // 12. Delete session
+    // 12. Demonstrate DiscoverService
+    print('\n--- Working with Discover ---');
+    print('Discovering top rated movies of 2023...');
+    final discoveredMovies = await tmdbClient.discover.movie(
+      queryParameters: {
+        'primary_release_year': '2023',
+        'sort_by': 'vote_average.desc',
+        'vote_count.gte': '500',
+      },
+    );
+    print('Movies discovered: ${discoveredMovies.totalResults}');
+    for (var movie in discoveredMovies.results.take(3)) {
+      print(' - ${movie.title} (Rating: ${movie.voteAverage})');
+    }
+
+    print('\nDiscovering popular TV shows in English...');
+    final discoveredTv = await tmdbClient.discover.tv(
+      queryParameters: {
+        'with_original_language': 'en',
+        'sort_by': 'popularity.desc',
+      },
+    );
+    print('TV shows discovered: ${discoveredTv.totalResults}');
+
+    // 13. Delete session
     print('\n--- Cleaning Up ---');
     await tmdbClient.authentication.deleteSession(session.sessionId);
     print('✅ Session deleted.');
