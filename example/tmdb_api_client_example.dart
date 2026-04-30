@@ -264,7 +264,18 @@ void main() async {
       print('✅ Found Movie: ${movie.title} (Released: ${movie.releaseDate})');
     }
 
-    // 14. Delete session
+    // 14. Demonstrate GenresService
+    print('\n--- Working with Genres ---');
+    print('Fetching movie genres...');
+    final movieGenres = await tmdbClient.genres.getMovieList();
+    print('Movie genres found: ${movieGenres.genres.length}');
+    print('Sample genres: ${movieGenres.genres.take(5).map((e) => e.name).join(', ')}');
+
+    print('\nFetching TV genres...');
+    final tvGenres = await tmdbClient.genres.getTvList();
+    print('TV genres found: ${tvGenres.genres.length}');
+
+    // 15. Delete session
     print('\n--- Cleaning Up ---');
     await tmdbClient.authentication.deleteSession(session.sessionId);
     print('✅ Session deleted.');
