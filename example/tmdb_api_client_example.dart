@@ -1,112 +1,99 @@
-import 'package:tmdb_api_client/tmdb_api_client.dart'; // Import our TMDB API client package.
-import 'dart:io'; // Required for console input/output (stdin.readLineSync).
+import 'dart:io';
+import 'package:tmdb_api_client/tmdb_api_client.dart';
 
-/// The main entry point of the example application.
+/// Main entry point for the package example.
 void main() async {
   // --- IMPORTANT: Replace with your actual TMDB API Key (v3) ---
   const String apiKey = 'YOUR_TMDB_API_KEY';
 
-  // --- API Key Validation ---
   if (apiKey == 'YOUR_TMDB_API_KEY') {
-    print('ПОМИЛКА: Будь ласка, замініть "YOUR_TMDB_API_KEY" в example/main.dart на ваш реальний ключ TMDB API (v3).');
-    return; // Exit if API key is not set.
+    print('ERROR: Please replace "YOUR_TMDB_API_KEY" with your real API key.');
+    return;
   }
 
-  // Initialize the TMDB API client with the API key and preferred language.
-  final config = TmdbApiClientConfig(apiKey: apiKey, language: 'en-US'); // Using English for consistency in example.
+  // Initialize the client with English as the default language for the example.
+  final config = TmdbApiClientConfig(apiKey: apiKey, language: 'en-US');
   final tmdbClient = TmdbApiClient(config: config);
 
   try {
-    print('\n--- Демонстрація автентифікації користувача TMDB ---');
+    print('\n--- Authentication Demonstration ---');
 
-    // 1. Отримання Request Token
-    print('Крок 1: Отримання нового Request Token...');
-    final requestTokenResponse = await tmdbClient.authentication.createRequestToken();
-    print('  ✅ Отримано Request Token: ${requestTokenResponse.requestToken}');
-    print('  ⏳ Токен спливає: ${requestTokenResponse.expiresAt}');
+    // 1. Get Request Token
+    final requestToken = await tmdbClient.authentication.createRequestToken();
+    print('✅ Request Token obtained: ${requestToken.requestToken}');
 
-    // 2. Схвалення токена користувачем
-    final approveUrl = 'https://www.themoviedb.org/authenticate/${requestTokenResponse.requestToken}';
-    print('\nКрок 2: Необхідне схвалення користувачем');
-    print('  Будь ласка, відкрийте наступне посилання у вашому веб-браузері та схваліть токен:');
-    print('  🔗 $approveUrl');
-    print('\n  Натисніть Enter у цій консолі ПІСЛЯ того, як ви схвалите токен у своєму браузері...');
-    stdin.readLineSync(); // Pauses execution until the user presses Enter.
+    // 2. Approve Token
+    final approveUrl = 'https://www.themoviedb.org/authenticate/${requestToken.requestToken}';
+    print('\n🔗 Open this link to approve the token: $approveUrl');
+    print('Press Enter AFTER approving in your browser...');
+    stdin.readLineSync();
 
-    // 3. Створення Session ID з схваленого Request Token
-    print('\nКрок 3: Створення Session ID зі схваленого Request Token...');
-    Session? sessionResponse; // Make it nullable as it might not be created.
-    try {
-      sessionResponse = await tmdbClient.authentication.createSession(requestTokenResponse.requestToken);
-      if (sessionResponse.success) {
-        print('  ✅ Session ID успішно створено: ${sessionResponse.sessionId}');
-        // Verify that the client's internal config has been updated.
-        print('     Конфігурацію клієнта оновлено з sessionId: ${tmdbClient.config.sessionId}');
-      } else {
-        print('  ❌ Помилка при створенні Session ID. Будь ласка, переконайтеся, що токен було схвалено.');
-      }
-    } on TmdbApiException catch (e) {
-      print('  ❌ Помилка API при створенні Session ID: ${e.message}');
+    // 3. Create Session
+    final session = await tmdbClient.authentication.createSession(requestToken.requestToken);
+    print('✅ Session created: ${session.sessionId}');
+
+    // 4. Get Account Details
+    final account = await tmdbClient.account.getDetails();
+    print('\n--- Account Details ---');
+    print('ID: ${account.id}, Username: ${account.username}');
+
+    final accountId = account.id;
+
+    // 5. Demonstrate AccountService methods
+    print('\n--- Working with Account Lists ---');
+
+    // Mark as favorite (example: "Inception" ID: 27205)
+    print('Adding movie to favorites...');
+    final favSuccess = await tmdbClient.account.markAsFavorite(
+      accountId: accountId,
+      mediaType: MediaType.movie,
+      mediaId: 27205,
+      favorite: true,
+    );
+    print('✅ Status: ${favSuccess ? "Success" : "Failure"}');
+
+    // Add to watchlist (example: "The Last of Us" ID: 100088)
+    print('Adding TV show to watchlist...');
+    final wlSuccess = await tmdbClient.account.addToWatchlist(
+      accountId: accountId,
+      mediaType: MediaType.tv,
+      mediaId: 100088,
+      watchlist: true,
+    );
+    print('✅ Status: ${wlSuccess ? "Success" : "Failure"}');
+
+    // Fetch favorite movies
+    print('\nFetching favorite movies...');
+    final favoriteMovies = await tmdbClient.account.getFavoriteMovies(accountId: accountId);
+    print('Movies found: ${favoriteMovies.totalResults}');
+    for (var movie in favoriteMovies.results) {
+      print(' - ${movie.title} (Rating: ${movie.voteAverage})');
     }
 
-    // --- NEW: Demonstrate fetching account details AFTER a session is created ---
-    if (sessionResponse != null && sessionResponse.success) {
-      print('\n--- Демонстрація отримання деталей облікового запису ---');
-      print('Отримання деталей облікового запису для активної сесії...');
-      try {
-        final accountDetails = await tmdbClient.account.getDetails();
-        print('  ✅ Деталі облікового запису отримано:');
-        print('     ID: ${accountDetails.id}');
-        print('     Ім\'я: ${accountDetails.name}');
-        print('     Ім\'я користувача: ${accountDetails.username}');
-        if (accountDetails.fullGravatarUrl != null) {
-          print('     URL аватара (Gravatar): ${accountDetails.fullGravatarUrl}');
-        }
-      } on TmdbApiException catch (e) {
-        print('  ❌ Помилка API при отриманні деталей облікового запису: ${e.message} (Статус: ${e.statusCode})');
-        print('     Це очікувано, якщо сесію не було створено успішно або вона недійсна.');
-      }
-    } else {
-      print('\n--- Деталі облікового запису пропущено, оскільки Session ID не було створено ---');
+    // Fetch watchlist TV shows
+    print('\nFetching watchlist for TV shows...');
+    final watchlistTv = await tmdbClient.account.getWatchlistTvShows(accountId: accountId);
+    print('TV shows found: ${watchlistTv.totalResults}');
+    for (var tv in watchlistTv.results) {
+      print(' - ${tv.name} (Air Date: ${tv.firstAirDate})');
     }
 
-    // --- Demonstration of Guest Session (Independent Flow) ---
-    print('\n--- Демонстрація створення Guest Session ---');
-    print('Створення Guest Session...');
-    final guestSessionResponse = await tmdbClient.authentication.createGuestSession();
-    if (guestSessionResponse.success) {
-      print('  ✅ Guest Session ID успішно створено: ${guestSessionResponse.guestSessionId}');
-      print('     Guest Session спливає: ${guestSessionResponse.expiresAt}');
-    } else {
-      print('  ❌ Помилка при створенні Guest Session.');
-    }
+    // Fetch rated movies
+    print('\nFetching rated movies...');
+    final ratedMovies = await tmdbClient.account.getRatedMovies(accountId: accountId);
+    print('Movies rated: ${ratedMovies.totalResults}');
 
-    // --- Step 4: Delete the Session ID (if one was successfully created) ---
-    if (sessionResponse != null && sessionResponse.success) {
-      print('\n--- Демонстрація видалення Session ID ---');
-      print('Видалення Session ID: ${sessionResponse.sessionId}...');
-      final deleteSuccess = await tmdbClient.authentication.deleteSession(sessionResponse.sessionId);
-      if (deleteSuccess) {
-        print('  ✅ Сесію успішно видалено.');
-        // Verify that the client's internal config has been cleared.
-        print('     Session ID в клієнті після видалення: ${tmdbClient.config.sessionId}');
-      } else {
-        print('  ❌ Помилка при видаленні сесії.');
-      }
-    }
+    // 6. Delete session
+    print('\n--- Cleaning Up ---');
+    await tmdbClient.authentication.deleteSession(session.sessionId);
+    print('✅ Session deleted.');
 
   } on TmdbApiException catch (e) {
-    // Catch specific TMDB API errors.
-    print('🛑 TMDB API Помилка: ${e.message} (Статус: ${e.statusCode}, Код: ${e.errorCode ?? 'N/A'})');
+    print('🛑 API Error: ${e.message} (Status: ${e.statusCode})');
   } on TmdbNetworkException catch (e) {
-    // Catch network connectivity errors.
-    print('🌐 Мережева Помилка: ${e.message}');
-  } catch (e) {
-    // Catch any other unexpected errors.
-    print('❓ Виникла неочікувана помилка: $e');
+    print('🌐 Network Error: ${e.message}');
   } finally {
-    // Always close the HTTP client to release resources.
     tmdbClient.close();
-    print('\nTMDB API клієнт закрито.');
+    print('Client closed.');
   }
 }
