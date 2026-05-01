@@ -23,9 +23,12 @@ class AccountDetails {
     final gravatar = avatarJson?['gravatar'] as Map<String, dynamic>?;
 
     return AccountDetails(
-      avatarPath: gravatar?['hash'] as String? ?? '', // Gravatar hash is used to construct the avatar URL.
+      avatarPath:
+          gravatar?['hash'] as String? ??
+          '', // Gravatar hash is used to construct the avatar URL.
       id: json['id'] as int, // User's account ID.
-      name: json['name'] as String? ?? 'N/A', // User's name, can be null on TMDB.
+      name:
+          json['name'] as String? ?? 'N/A', // User's name, can be null on TMDB.
       username: json['username'] as String, // User's username.
     );
   }

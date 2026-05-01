@@ -20,7 +20,10 @@ class ChangesService extends BaseTmdbService {
       'start_date': ?startDate,
       'end_date': ?endDate,
     };
-    final jsonResponse = await get('movie/changes', queryParameters: queryParams);
+    final jsonResponse = await get(
+      'movie/changes',
+      queryParameters: queryParams,
+    );
     return ChangesResponse.fromJson(jsonResponse);
   }
 
@@ -56,7 +59,10 @@ class ChangesService extends BaseTmdbService {
       'start_date': ?startDate,
       'end_date': ?endDate,
     };
-    final jsonResponse = await get('person/changes', queryParameters: queryParams);
+    final jsonResponse = await get(
+      'person/changes',
+      queryParameters: queryParams,
+    );
     return ChangesResponse.fromJson(jsonResponse);
   }
 }

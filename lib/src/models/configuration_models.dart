@@ -3,10 +3,7 @@ class TmdbJob {
   final String department;
   final List<String> jobs;
 
-  TmdbJob({
-    required this.department,
-    required this.jobs,
-  });
+  TmdbJob({required this.department, required this.jobs});
 
   factory TmdbJob.fromJson(Map<String, dynamic> json) {
     return TmdbJob(
@@ -41,14 +38,26 @@ class TmdbApiConfigDetails {
   factory TmdbApiConfigDetails.fromJson(Map<String, dynamic> json) {
     final images = json['images'] as Map<String, dynamic>;
     return TmdbApiConfigDetails(
-      backdropSizes: (images['backdrop_sizes'] as List).map((e) => e as String).toList(),
+      backdropSizes: (images['backdrop_sizes'] as List)
+          .map((e) => e as String)
+          .toList(),
       baseUrl: images['base_url'] as String,
-      logoSizes: (images['logo_sizes'] as List).map((e) => e as String).toList(),
-      posterSizes: (images['poster_sizes'] as List).map((e) => e as String).toList(),
-      profileSizes: (images['profile_sizes'] as List).map((e) => e as String).toList(),
+      logoSizes: (images['logo_sizes'] as List)
+          .map((e) => e as String)
+          .toList(),
+      posterSizes: (images['poster_sizes'] as List)
+          .map((e) => e as String)
+          .toList(),
+      profileSizes: (images['profile_sizes'] as List)
+          .map((e) => e as String)
+          .toList(),
       secureBaseUrl: images['secure_base_url'] as String,
-      stillSizes: (images['still_sizes'] as List).map((e) => e as String).toList(),
-      changeKeys: (json['change_keys'] as List).map((e) => e as String).toList(),
+      stillSizes: (images['still_sizes'] as List)
+          .map((e) => e as String)
+          .toList(),
+      changeKeys: (json['change_keys'] as List)
+          .map((e) => e as String)
+          .toList(),
     );
   }
 }

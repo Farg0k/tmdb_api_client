@@ -27,7 +27,9 @@ class TmdbBusinessDetails extends TmdbCompany {
       headquarters: json['headquarters'] as String? ?? '',
       homepage: json['homepage'] as String? ?? '',
       description: json['description'] as String?,
-      parentCompanyId: json['parent_company'] != null ? (json['parent_company'] as Map<String, dynamic>)['id'] as int? : null,
+      parentCompanyId: json['parent_company'] != null
+          ? (json['parent_company'] as Map<String, dynamic>)['id'] as int?
+          : null,
     );
   }
 }

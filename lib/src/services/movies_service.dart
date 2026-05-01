@@ -32,7 +32,10 @@ class MoviesService extends BaseTmdbService {
       'region': ?region,
       ...?queryParameters,
     };
-    final jsonResponse = await get('movie/now_playing', queryParameters: params);
+    final jsonResponse = await get(
+      'movie/now_playing',
+      queryParameters: params,
+    );
     return TmdbResponsePage.fromJson(jsonResponse, MovieSummary.fromJson);
   }
 
@@ -117,7 +120,10 @@ class MoviesService extends BaseTmdbService {
       'guest_session_id': ?guestSessionId,
       ...?queryParameters,
     };
-    final jsonResponse = await get('movie/$movieId/account_states', queryParameters: params);
+    final jsonResponse = await get(
+      'movie/$movieId/account_states',
+      queryParameters: params,
+    );
     return MediaAccountStates.fromJson(jsonResponse);
   }
 
@@ -127,12 +133,16 @@ class MoviesService extends BaseTmdbService {
     String? country,
     Map<String, String>? queryParameters,
   }) async {
-    final params = {
-      'country': ?country,
-      ...?queryParameters,
-    };
-    final jsonResponse = await get('movie/$movieId/alternative_titles', queryParameters: params);
-    return TmdbListResponse.fromJson(jsonResponse, AlternativeTitle.fromJson, resultsKey: 'titles');
+    final params = {'country': ?country, ...?queryParameters};
+    final jsonResponse = await get(
+      'movie/$movieId/alternative_titles',
+      queryParameters: params,
+    );
+    return TmdbListResponse.fromJson(
+      jsonResponse,
+      AlternativeTitle.fromJson,
+      resultsKey: 'titles',
+    );
   }
 
   /// Get the changes for a movie.
@@ -158,17 +168,23 @@ class MoviesService extends BaseTmdbService {
     String? language,
     Map<String, String>? queryParameters,
   }) async {
-    final params = {
-      'language': ?language,
-      ...?queryParameters,
-    };
-    final jsonResponse = await get('movie/$movieId/credits', queryParameters: params);
+    final params = {'language': ?language, ...?queryParameters};
+    final jsonResponse = await get(
+      'movie/$movieId/credits',
+      queryParameters: params,
+    );
     return TmdbCredits.fromJson(jsonResponse);
   }
 
   /// Get the external ids for a movie.
-  Future<TmdbExternalIds> getExternalIds(int movieId, {Map<String, String>? queryParameters}) async {
-    final jsonResponse = await get('movie/$movieId/external_ids', queryParameters: queryParameters);
+  Future<TmdbExternalIds> getExternalIds(
+    int movieId, {
+    Map<String, String>? queryParameters,
+  }) async {
+    final jsonResponse = await get(
+      'movie/$movieId/external_ids',
+      queryParameters: queryParameters,
+    );
     return TmdbExternalIds.fromJson(jsonResponse);
   }
 
@@ -184,14 +200,27 @@ class MoviesService extends BaseTmdbService {
       'include_image_language': ?includeImageLanguage,
       ...?queryParameters,
     };
-    final jsonResponse = await get('movie/$movieId/images', queryParameters: params);
+    final jsonResponse = await get(
+      'movie/$movieId/images',
+      queryParameters: params,
+    );
     return TmdbImagesResponse.fromJson(jsonResponse);
   }
 
   /// Get the keywords that have been added to a movie.
-  Future<TmdbListResponse<Keyword>> getKeywords(int movieId, {Map<String, String>? queryParameters}) async {
-    final jsonResponse = await get('movie/$movieId/keywords', queryParameters: queryParameters);
-    return TmdbListResponse.fromJson(jsonResponse, Keyword.fromJson, resultsKey: 'keywords');
+  Future<TmdbListResponse<Keyword>> getKeywords(
+    int movieId, {
+    Map<String, String>? queryParameters,
+  }) async {
+    final jsonResponse = await get(
+      'movie/$movieId/keywords',
+      queryParameters: queryParameters,
+    );
+    return TmdbListResponse.fromJson(
+      jsonResponse,
+      Keyword.fromJson,
+      resultsKey: 'keywords',
+    );
   }
 
   /// Get the most newly created movie ID.
@@ -199,10 +228,7 @@ class MoviesService extends BaseTmdbService {
     String? language,
     Map<String, String>? queryParameters,
   }) async {
-    final params = {
-      'language': ?language,
-      ...?queryParameters,
-    };
+    final params = {'language': ?language, ...?queryParameters};
     final jsonResponse = await get('movie/latest', queryParameters: params);
     return MovieDetails.fromJson(jsonResponse);
   }
@@ -219,7 +245,10 @@ class MoviesService extends BaseTmdbService {
       'language': ?language,
       ...?queryParameters,
     };
-    final jsonResponse = await get('movie/$movieId/lists', queryParameters: params);
+    final jsonResponse = await get(
+      'movie/$movieId/lists',
+      queryParameters: params,
+    );
     return TmdbResponsePage.fromJson(jsonResponse, (i) => i);
   }
 
@@ -235,13 +264,22 @@ class MoviesService extends BaseTmdbService {
       'language': ?language,
       ...?queryParameters,
     };
-    final jsonResponse = await get('movie/$movieId/recommendations', queryParameters: params);
+    final jsonResponse = await get(
+      'movie/$movieId/recommendations',
+      queryParameters: params,
+    );
     return TmdbResponsePage.fromJson(jsonResponse, MovieSummary.fromJson);
   }
 
   /// Get the release date and certification information by country for a movie.
-  Future<MovieReleaseDatesResponse> getReleaseDates(int movieId, {Map<String, String>? queryParameters}) async {
-    final jsonResponse = await get('movie/$movieId/release_dates', queryParameters: queryParameters);
+  Future<MovieReleaseDatesResponse> getReleaseDates(
+    int movieId, {
+    Map<String, String>? queryParameters,
+  }) async {
+    final jsonResponse = await get(
+      'movie/$movieId/release_dates',
+      queryParameters: queryParameters,
+    );
     return MovieReleaseDatesResponse.fromJson(jsonResponse);
   }
 
@@ -257,7 +295,10 @@ class MoviesService extends BaseTmdbService {
       'language': ?language,
       ...?queryParameters,
     };
-    final jsonResponse = await get('movie/$movieId/reviews', queryParameters: params);
+    final jsonResponse = await get(
+      'movie/$movieId/reviews',
+      queryParameters: params,
+    );
     return TmdbResponsePage.fromJson(jsonResponse, TmdbReview.fromJson);
   }
 
@@ -273,12 +314,18 @@ class MoviesService extends BaseTmdbService {
       'language': ?language,
       ...?queryParameters,
     };
-    final jsonResponse = await get('movie/$movieId/similar', queryParameters: params);
+    final jsonResponse = await get(
+      'movie/$movieId/similar',
+      queryParameters: params,
+    );
     return TmdbResponsePage.fromJson(jsonResponse, MovieSummary.fromJson);
   }
 
   /// Get a list of translations that have been created for a movie.
-  Future<Map<String, dynamic>> getTranslations(int movieId, {Map<String, String>? queryParameters}) async {
+  Future<Map<String, dynamic>> getTranslations(
+    int movieId, {
+    Map<String, String>? queryParameters,
+  }) async {
     return get('movie/$movieId/translations', queryParameters: queryParameters);
   }
 
@@ -294,13 +341,22 @@ class MoviesService extends BaseTmdbService {
       'include_video_language': ?includeVideoLanguage,
       ...?queryParameters,
     };
-    final jsonResponse = await get('movie/$movieId/videos', queryParameters: params);
+    final jsonResponse = await get(
+      'movie/$movieId/videos',
+      queryParameters: params,
+    );
     return TmdbListResponse.fromJson(jsonResponse, TmdbVideo.fromJson);
   }
 
   /// Get a list of watch providers for a movie.
-  Future<TmdbWatchProvidersResponse> getWatchProviders(int movieId, {Map<String, String>? queryParameters}) async {
-    final jsonResponse = await get('movie/$movieId/watch/providers', queryParameters: queryParameters);
+  Future<TmdbWatchProvidersResponse> getWatchProviders(
+    int movieId, {
+    Map<String, String>? queryParameters,
+  }) async {
+    final jsonResponse = await get(
+      'movie/$movieId/watch/providers',
+      queryParameters: queryParameters,
+    );
     return TmdbWatchProvidersResponse.fromJson(jsonResponse);
   }
 
@@ -339,7 +395,10 @@ class MoviesService extends BaseTmdbService {
       'guest_session_id': ?guestSessionId,
       ...?queryParameters,
     };
-    final jsonResponse = await delete('movie/$movieId/rating', queryParameters: params);
+    final jsonResponse = await delete(
+      'movie/$movieId/rating',
+      queryParameters: params,
+    );
     return jsonResponse['success'] == true;
   }
 }

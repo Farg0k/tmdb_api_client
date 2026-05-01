@@ -30,9 +30,14 @@ class TvEpisodeGroupDetails {
       groupCount: json['group_count'] as int? ?? 0,
       id: json['id'] as String,
       name: json['name'] as String? ?? '',
-      network: json['network'] != null ? TmdbBusinessDetails.fromJson(json['network'] as Map<String, dynamic>) : null,
+      network: json['network'] != null
+          ? TmdbBusinessDetails.fromJson(
+              json['network'] as Map<String, dynamic>,
+            )
+          : null,
       type: json['type'] as int? ?? 0,
-      groups: (json['groups'] as List?)
+      groups:
+          (json['groups'] as List?)
               ?.map((i) => TvEpisodeGroup.fromJson(i as Map<String, dynamic>))
               .toList() ??
           [],
@@ -60,7 +65,8 @@ class TvEpisodeGroup {
       id: json['id'] as String,
       name: json['name'] as String? ?? '',
       order: json['order'] as int? ?? 0,
-      episodes: (json['episodes'] as List?)
+      episodes:
+          (json['episodes'] as List?)
               ?.map((i) => TvEpisodeSummary.fromJson(i as Map<String, dynamic>))
               .toList() ??
           [],

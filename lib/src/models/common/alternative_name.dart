@@ -3,10 +3,7 @@ class AlternativeName {
   final String name;
   final String type;
 
-  AlternativeName({
-    required this.name,
-    required this.type,
-  });
+  AlternativeName({required this.name, required this.type});
 
   factory AlternativeName.fromJson(Map<String, dynamic> json) {
     return AlternativeName(

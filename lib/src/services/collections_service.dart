@@ -11,11 +11,11 @@ class CollectionsService extends BaseTmdbService {
     String? language,
     Map<String, String>? queryParameters,
   }) async {
-    final params = {
-      'language': ?language,
-      ...?queryParameters,
-    };
-    final jsonResponse = await get('collection/$collectionId', queryParameters: params);
+    final params = {'language': ?language, ...?queryParameters};
+    final jsonResponse = await get(
+      'collection/$collectionId',
+      queryParameters: params,
+    );
     return CollectionDetails.fromJson(jsonResponse);
   }
 
@@ -31,7 +31,10 @@ class CollectionsService extends BaseTmdbService {
       'include_image_language': ?includeImageLanguage,
       ...?queryParameters,
     };
-    final jsonResponse = await get('collection/$collectionId/images', queryParameters: params);
+    final jsonResponse = await get(
+      'collection/$collectionId/images',
+      queryParameters: params,
+    );
     return CollectionImagesResponse.fromJson(jsonResponse);
   }
 
@@ -41,11 +44,11 @@ class CollectionsService extends BaseTmdbService {
     String? language,
     Map<String, String>? queryParameters,
   }) async {
-    final params = {
-      'language': ?language,
-      ...?queryParameters,
-    };
-    final jsonResponse = await get('collection/$collectionId/translations', queryParameters: params);
+    final params = {'language': ?language, ...?queryParameters};
+    final jsonResponse = await get(
+      'collection/$collectionId/translations',
+      queryParameters: params,
+    );
     return CollectionTranslationsResponse.fromJson(jsonResponse);
   }
 }

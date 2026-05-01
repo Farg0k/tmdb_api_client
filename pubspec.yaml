@@ -4,6 +4,12 @@ version: 1.0.0
 homepage: https://github.com/Farg0k/tmdb_api_client
 repository: https://github.com/Farg0k/tmdb_api_client
 issue_tracker: https://github.com/Farg0k/tmdb_api_client/issues
+topics:
+  - tmdb
+  - movie
+  - tv
+  - api
+  - client
 
 environment:
   sdk: ^3.8.0

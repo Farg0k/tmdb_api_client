@@ -13,7 +13,8 @@ class TmdbListResponse<T> {
   }) {
     return TmdbListResponse<T>(
       id: json['id'] as int? ?? 0,
-      results: (json[resultsKey] as List?)
+      results:
+          (json[resultsKey] as List?)
               ?.map((i) => fromJsonT(i as Map<String, dynamic>))
               .toList() ??
           [],

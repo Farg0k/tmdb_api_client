@@ -12,10 +12,7 @@ class ListsService extends BaseTmdbService {
     String? language,
     Map<String, String>? queryParameters,
   }) async {
-    final params = {
-      'language': ?language,
-      ...?queryParameters,
-    };
+    final params = {'language': ?language, ...?queryParameters};
     final jsonResponse = await post(
       'list',
       body: {
@@ -34,10 +31,7 @@ class ListsService extends BaseTmdbService {
     String? language,
     Map<String, String>? queryParameters,
   }) async {
-    final params = {
-      'language': ?language,
-      ...?queryParameters,
-    };
+    final params = {'language': ?language, ...?queryParameters};
     final jsonResponse = await get('list/$listId', queryParameters: params);
     return TmdbListDetails.fromJson(jsonResponse);
   }
@@ -48,11 +42,11 @@ class ListsService extends BaseTmdbService {
     int movieId, {
     Map<String, String>? queryParameters,
   }) async {
-    final params = {
-      'movie_id': movieId.toString(),
-      ...?queryParameters,
-    };
-    final jsonResponse = await get('list/$listId/item_status', queryParameters: params);
+    final params = {'movie_id': movieId.toString(), ...?queryParameters};
+    final jsonResponse = await get(
+      'list/$listId/item_status',
+      queryParameters: params,
+    );
     return jsonResponse['item_present'] == true;
   }
 
@@ -85,18 +79,27 @@ class ListsService extends BaseTmdbService {
   }
 
   /// Clear all items from a list.
-  Future<TmdbListOperationResponse> clear(String listId, {Map<String, String>? queryParameters}) async {
-    final params = {
-      'confirm': 'true',
-      ...?queryParameters,
-    };
-    final jsonResponse = await post('list/$listId/clear', queryParameters: params);
+  Future<TmdbListOperationResponse> clear(
+    String listId, {
+    Map<String, String>? queryParameters,
+  }) async {
+    final params = {'confirm': 'true', ...?queryParameters};
+    final jsonResponse = await post(
+      'list/$listId/clear',
+      queryParameters: params,
+    );
     return TmdbListOperationResponse.fromJson(jsonResponse);
   }
 
   /// Delete a list.
-  Future<TmdbListOperationResponse> deleteList(String listId, {Map<String, String>? queryParameters}) async {
-    final jsonResponse = await delete('list/$listId', queryParameters: queryParameters);
+  Future<TmdbListOperationResponse> deleteList(
+    String listId, {
+    Map<String, String>? queryParameters,
+  }) async {
+    final jsonResponse = await delete(
+      'list/$listId',
+      queryParameters: queryParameters,
+    );
     return TmdbListOperationResponse.fromJson(jsonResponse);
   }
 }

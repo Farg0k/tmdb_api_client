@@ -12,11 +12,11 @@ class WatchProvidersService extends BaseTmdbService {
     String? language,
     Map<String, String>? queryParameters,
   }) async {
-    final params = {
-      'language': ?language,
-      ...?queryParameters,
-    };
-    final jsonResponse = await get('watch/providers/regions', queryParameters: params);
+    final params = {'language': ?language, ...?queryParameters};
+    final jsonResponse = await get(
+      'watch/providers/regions',
+      queryParameters: params,
+    );
     return (jsonResponse['results'] as List)
         .map((i) => WatchProviderRegion.fromJson(i as Map<String, dynamic>))
         .toList();
@@ -33,7 +33,10 @@ class WatchProvidersService extends BaseTmdbService {
       'watch_region': ?watchRegion,
       ...?queryParameters,
     };
-    final jsonResponse = await get('watch/providers/movie', queryParameters: params);
+    final jsonResponse = await get(
+      'watch/providers/movie',
+      queryParameters: params,
+    );
     return TmdbListResponse.fromJson(jsonResponse, WatchProvider.fromJson);
   }
 
@@ -48,7 +51,10 @@ class WatchProvidersService extends BaseTmdbService {
       'watch_region': ?watchRegion,
       ...?queryParameters,
     };
-    final jsonResponse = await get('watch/providers/tv', queryParameters: params);
+    final jsonResponse = await get(
+      'watch/providers/tv',
+      queryParameters: params,
+    );
     return TmdbListResponse.fromJson(jsonResponse, WatchProvider.fromJson);
   }
 }

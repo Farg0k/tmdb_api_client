@@ -9,10 +9,12 @@ class AuthV4Service extends BaseV4Service {
     String? redirectTo,
     Map<String, String>? queryParameters,
   }) async {
-    final body = {
-      'redirect_to': ?redirectTo,
-    };
-    return post('auth/request_token', body: body, queryParameters: queryParameters);
+    final body = {'redirect_to': ?redirectTo};
+    return post(
+      'auth/request_token',
+      body: body,
+      queryParameters: queryParameters,
+    );
   }
 
   /// Create an access token (Bearer Token) from a validated request token.
@@ -20,16 +22,18 @@ class AuthV4Service extends BaseV4Service {
     String requestToken, {
     Map<String, String>? queryParameters,
   }) async {
-    final body = {
-      'request_token': requestToken,
-    };
-    final jsonResponse = await post('auth/access_token', body: body, queryParameters: queryParameters);
-    
+    final body = {'request_token': requestToken};
+    final jsonResponse = await post(
+      'auth/access_token',
+      body: body,
+      queryParameters: queryParameters,
+    );
+
     if (jsonResponse['access_token'] != null) {
       final newToken = jsonResponse['access_token'] as String;
       client.updateConfig(config.copyWith(accessTokenV4: newToken));
     }
-    
+
     return jsonResponse;
   }
 
@@ -38,15 +42,18 @@ class AuthV4Service extends BaseV4Service {
     String accessToken, {
     Map<String, String>? queryParameters,
   }) async {
-    final body = {
-      'access_token': accessToken,
-    };
-    final jsonResponse = await delete('auth/access_token', body: body, queryParameters: queryParameters);
-    
-    if (jsonResponse['success'] == true && config.accessTokenV4 == accessToken) {
+    final body = {'access_token': accessToken};
+    final jsonResponse = await delete(
+      'auth/access_token',
+      body: body,
+      queryParameters: queryParameters,
+    );
+
+    if (jsonResponse['success'] == true &&
+        config.accessTokenV4 == accessToken) {
       client.updateConfig(config.copyWith(accessTokenV4: null));
     }
-    
+
     return jsonResponse['success'] == true;
   }
 }

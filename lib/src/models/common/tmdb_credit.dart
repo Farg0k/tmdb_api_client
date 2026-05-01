@@ -102,11 +102,13 @@ class TmdbCredits {
   factory TmdbCredits.fromJson(Map<String, dynamic> json) {
     return TmdbCredits(
       id: json['id'] as int? ?? 0,
-      cast: (json['cast'] as List?)
+      cast:
+          (json['cast'] as List?)
               ?.map((i) => TmdbCast.fromJson(i as Map<String, dynamic>))
               .toList() ??
           [],
-      crew: (json['crew'] as List?)
+      crew:
+          (json['crew'] as List?)
               ?.map((i) => TmdbCrew.fromJson(i as Map<String, dynamic>))
               .toList() ??
           [],

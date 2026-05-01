@@ -25,7 +25,8 @@ class TvSeasonDetails {
   factory TvSeasonDetails.fromJson(Map<String, dynamic> json) {
     return TvSeasonDetails(
       airDate: json['air_date'] as String?,
-      episodes: (json['episodes'] as List?)
+      episodes:
+          (json['episodes'] as List?)
               ?.map((i) => TvEpisodeSummary.fromJson(i as Map<String, dynamic>))
               .toList() ??
           [],

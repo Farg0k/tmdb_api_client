@@ -24,7 +24,10 @@ class SearchService extends BaseTmdbService {
       if (page != null) 'page': page.toString(),
       ...?queryParameters,
     };
-    final jsonResponse = await get('search/collection', queryParameters: params);
+    final jsonResponse = await get(
+      'search/collection',
+      queryParameters: params,
+    );
     return TmdbResponsePage.fromJson(jsonResponse, CollectionSummary.fromJson);
   }
 
@@ -76,7 +79,8 @@ class SearchService extends BaseTmdbService {
       if (page != null) 'page': page.toString(),
       'region': ?region,
       if (year != null) 'year': year.toString(),
-      if (primaryReleaseYear != null) 'primary_release_year': primaryReleaseYear.toString(),
+      if (primaryReleaseYear != null)
+        'primary_release_year': primaryReleaseYear.toString(),
       ...?queryParameters,
     };
     final jsonResponse = await get('search/movie', queryParameters: params);
@@ -132,7 +136,8 @@ class SearchService extends BaseTmdbService {
   }) async {
     final params = {
       'query': query,
-      if (firstAirDateYear != null) 'first_air_date_year': firstAirDateYear.toString(),
+      if (firstAirDateYear != null)
+        'first_air_date_year': firstAirDateYear.toString(),
       if (includeAdult != null) 'include_adult': includeAdult.toString(),
       'language': ?language,
       if (page != null) 'page': page.toString(),

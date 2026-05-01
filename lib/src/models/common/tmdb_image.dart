@@ -49,15 +49,18 @@ class TmdbImagesResponse {
   factory TmdbImagesResponse.fromJson(Map<String, dynamic> json) {
     return TmdbImagesResponse(
       id: json['id'] as int? ?? 0,
-      backdrops: (json['backdrops'] as List?)
+      backdrops:
+          (json['backdrops'] as List?)
               ?.map((i) => TmdbImage.fromJson(i as Map<String, dynamic>))
               .toList() ??
           [],
-      logos: (json['logos'] as List?)
+      logos:
+          (json['logos'] as List?)
               ?.map((i) => TmdbImage.fromJson(i as Map<String, dynamic>))
               .toList() ??
           [],
-      posters: (json['posters'] as List?)
+      posters:
+          (json['posters'] as List?)
               ?.map((i) => TmdbImage.fromJson(i as Map<String, dynamic>))
               .toList() ??
           [],

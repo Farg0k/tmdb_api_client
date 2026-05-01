@@ -61,7 +61,8 @@ class DiscoverService extends BaseTmdbService {
       if (includeVideo != null) 'include_video': includeVideo.toString(),
       'language': ?language,
       if (page != null) 'page': page.toString(),
-      if (primaryReleaseYear != null) 'primary_release_year': primaryReleaseYear.toString(),
+      if (primaryReleaseYear != null)
+        'primary_release_year': primaryReleaseYear.toString(),
       'primary_release_date.gte': ?primaryReleaseDateGte,
       'primary_release_date.lte': ?primaryReleaseDateLte,
       'region': ?region,
@@ -81,7 +82,8 @@ class DiscoverService extends BaseTmdbService {
       'with_origin_country': ?withOriginCountry,
       'with_original_language': ?withOriginalLanguage,
       'with_people': ?withPeople,
-      if (withReleaseType != null) 'with_release_type': withReleaseType.toString(),
+      if (withReleaseType != null)
+        'with_release_type': withReleaseType.toString(),
       if (withRuntimeGte != null) 'with_runtime.gte': withRuntimeGte.toString(),
       if (withRuntimeLte != null) 'with_runtime.lte': withRuntimeLte.toString(),
       'with_watch_monetization_types': ?withWatchMonetizationTypes,
@@ -140,10 +142,12 @@ class DiscoverService extends BaseTmdbService {
       'certification': ?certification,
       'certification_country': ?certificationCountry,
       if (includeAdult != null) 'include_adult': includeAdult.toString(),
-      if (includeNullFirstAirDates != null) 'include_null_first_air_dates': includeNullFirstAirDates.toString(),
+      if (includeNullFirstAirDates != null)
+        'include_null_first_air_dates': includeNullFirstAirDates.toString(),
       'language': ?language,
       if (page != null) 'page': page.toString(),
-      if (firstAirDateYear != null) 'first_air_date_year': firstAirDateYear.toString(),
+      if (firstAirDateYear != null)
+        'first_air_date_year': firstAirDateYear.toString(),
       'first_air_date.gte': ?firstAirDateGte,
       'first_air_date.lte': ?firstAirDateLte,
       'air_date.gte': ?airDateGte,

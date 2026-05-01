@@ -35,7 +35,9 @@ class PersonDetails {
   factory PersonDetails.fromJson(Map<String, dynamic> json) {
     return PersonDetails(
       adult: json['adult'] as bool,
-      alsoKnownAs: (json['also_known_as'] as List?)?.map((e) => e as String).toList() ?? [],
+      alsoKnownAs:
+          (json['also_known_as'] as List?)?.map((e) => e as String).toList() ??
+          [],
       biography: json['biography'] as String? ?? '',
       birthday: json['birthday'] as String?,
       deathday: json['deathday'] as String?,

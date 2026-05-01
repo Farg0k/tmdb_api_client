@@ -39,9 +39,21 @@ class CountryWatchProviders {
   factory CountryWatchProviders.fromJson(Map<String, dynamic> json) {
     return CountryWatchProviders(
       link: json['link'] as String? ?? '',
-      buy: (json['buy'] as List?)?.map((i) => WatchProvider.fromJson(i as Map<String, dynamic>)).toList() ?? [],
-      flatrate: (json['flatrate'] as List?)?.map((i) => WatchProvider.fromJson(i as Map<String, dynamic>)).toList() ?? [],
-      rent: (json['rent'] as List?)?.map((i) => WatchProvider.fromJson(i as Map<String, dynamic>)).toList() ?? [],
+      buy:
+          (json['buy'] as List?)
+              ?.map((i) => WatchProvider.fromJson(i as Map<String, dynamic>))
+              .toList() ??
+          [],
+      flatrate:
+          (json['flatrate'] as List?)
+              ?.map((i) => WatchProvider.fromJson(i as Map<String, dynamic>))
+              .toList() ??
+          [],
+      rent:
+          (json['rent'] as List?)
+              ?.map((i) => WatchProvider.fromJson(i as Map<String, dynamic>))
+              .toList() ??
+          [],
     );
   }
 }
@@ -58,9 +70,14 @@ class TmdbWatchProvidersResponse {
     final mappedResults = <String, CountryWatchProviders>{};
 
     rawResults.forEach((country, data) {
-      mappedResults[country] = CountryWatchProviders.fromJson(data as Map<String, dynamic>);
+      mappedResults[country] = CountryWatchProviders.fromJson(
+        data as Map<String, dynamic>,
+      );
     });
 
-    return TmdbWatchProvidersResponse(id: json['id'] as int? ?? 0, results: mappedResults);
+    return TmdbWatchProvidersResponse(
+      id: json['id'] as int? ?? 0,
+      results: mappedResults,
+    );
   }
 }

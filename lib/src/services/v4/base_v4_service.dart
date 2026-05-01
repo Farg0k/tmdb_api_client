@@ -10,19 +10,38 @@ abstract class BaseV4Service {
 
   TmdbApiClientConfig get config => client.config;
 
-  Future<Map<String, dynamic>> get(String path, {Map<String, String>? queryParameters}) {
+  Future<Map<String, dynamic>> get(
+    String path, {
+    Map<String, String>? queryParameters,
+  }) {
     return connection.get(path, queryParameters: queryParameters);
   }
 
-  Future<Map<String, dynamic>> post(String path, {Map<String, dynamic>? body, Map<String, String>? queryParameters}) {
+  Future<Map<String, dynamic>> post(
+    String path, {
+    Map<String, dynamic>? body,
+    Map<String, String>? queryParameters,
+  }) {
     return connection.post(path, body: body, queryParameters: queryParameters);
   }
 
-  Future<Map<String, dynamic>> put(String path, {Map<String, dynamic>? body, Map<String, String>? queryParameters}) {
+  Future<Map<String, dynamic>> put(
+    String path, {
+    Map<String, dynamic>? body,
+    Map<String, String>? queryParameters,
+  }) {
     return connection.put(path, body: body, queryParameters: queryParameters);
   }
 
-  Future<Map<String, dynamic>> delete(String path, {Map<String, dynamic>? body, Map<String, String>? queryParameters}) {
-    return connection.delete(path, body: body, queryParameters: queryParameters);
+  Future<Map<String, dynamic>> delete(
+    String path, {
+    Map<String, dynamic>? body,
+    Map<String, String>? queryParameters,
+  }) {
+    return connection.delete(
+      path,
+      body: body,
+      queryParameters: queryParameters,
+    );
   }
 }

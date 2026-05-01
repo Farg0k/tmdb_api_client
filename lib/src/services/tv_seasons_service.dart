@@ -26,7 +26,10 @@ class TvSeasonsService extends BaseTmdbService {
       'append_to_response': ?appendToResponse,
       ...?queryParameters,
     };
-    final jsonResponse = await get('tv/$seriesId/season/$seasonNumber', queryParameters: params);
+    final jsonResponse = await get(
+      'tv/$seriesId/season/$seasonNumber',
+      queryParameters: params,
+    );
     return TvSeasonDetails.fromJson(jsonResponse);
   }
 
@@ -43,7 +46,10 @@ class TvSeasonsService extends BaseTmdbService {
       'guest_session_id': ?guestSessionId,
       ...?queryParameters,
     };
-    final jsonResponse = await get('tv/$seriesId/season/$seasonNumber/account_states', queryParameters: params);
+    final jsonResponse = await get(
+      'tv/$seriesId/season/$seasonNumber/account_states',
+      queryParameters: params,
+    );
     return TmdbListResponse.fromJson(jsonResponse, MediaAccountStates.fromJson);
   }
 
@@ -54,11 +60,11 @@ class TvSeasonsService extends BaseTmdbService {
     String? language,
     Map<String, String>? queryParameters,
   }) async {
-    final params = {
-      'language': ?language,
-      ...?queryParameters,
-    };
-    final jsonResponse = await get('tv/$seriesId/season/$seasonNumber/aggregate_credits', queryParameters: params);
+    final params = {'language': ?language, ...?queryParameters};
+    final jsonResponse = await get(
+      'tv/$seriesId/season/$seasonNumber/aggregate_credits',
+      queryParameters: params,
+    );
     return TvAggregateCredits.fromJson(jsonResponse);
   }
 
@@ -86,17 +92,24 @@ class TvSeasonsService extends BaseTmdbService {
     String? language,
     Map<String, String>? queryParameters,
   }) async {
-    final params = {
-      'language': ?language,
-      ...?queryParameters,
-    };
-    final jsonResponse = await get('tv/$seriesId/season/$seasonNumber/credits', queryParameters: params);
+    final params = {'language': ?language, ...?queryParameters};
+    final jsonResponse = await get(
+      'tv/$seriesId/season/$seasonNumber/credits',
+      queryParameters: params,
+    );
     return TmdbCredits.fromJson(jsonResponse);
   }
 
   /// Get the external ids for a TV season.
-  Future<TmdbExternalIds> getExternalIds(int seriesId, int seasonNumber, {Map<String, String>? queryParameters}) async {
-    final jsonResponse = await get('tv/$seriesId/season/$seasonNumber/external_ids', queryParameters: queryParameters);
+  Future<TmdbExternalIds> getExternalIds(
+    int seriesId,
+    int seasonNumber, {
+    Map<String, String>? queryParameters,
+  }) async {
+    final jsonResponse = await get(
+      'tv/$seriesId/season/$seasonNumber/external_ids',
+      queryParameters: queryParameters,
+    );
     return TmdbExternalIds.fromJson(jsonResponse);
   }
 
@@ -113,14 +126,28 @@ class TvSeasonsService extends BaseTmdbService {
       'include_image_language': ?includeImageLanguage,
       ...?queryParameters,
     };
-    final jsonResponse = await get('tv/$seriesId/season/$seasonNumber/images', queryParameters: params);
+    final jsonResponse = await get(
+      'tv/$seriesId/season/$seasonNumber/images',
+      queryParameters: params,
+    );
     return TmdbImagesResponse.fromJson(jsonResponse);
   }
 
   /// Get the translations for a TV season.
-  Future<TmdbListResponse<Map<String, dynamic>>> getTranslations(int seriesId, int seasonNumber, {Map<String, String>? queryParameters}) async {
-    final jsonResponse = await get('tv/$seriesId/season/$seasonNumber/translations', queryParameters: queryParameters);
-    return TmdbListResponse.fromJson(jsonResponse, (i) => i, resultsKey: 'translations');
+  Future<TmdbListResponse<Map<String, dynamic>>> getTranslations(
+    int seriesId,
+    int seasonNumber, {
+    Map<String, String>? queryParameters,
+  }) async {
+    final jsonResponse = await get(
+      'tv/$seriesId/season/$seasonNumber/translations',
+      queryParameters: queryParameters,
+    );
+    return TmdbListResponse.fromJson(
+      jsonResponse,
+      (i) => i,
+      resultsKey: 'translations',
+    );
   }
 
   /// Get the videos for a TV season.
@@ -136,7 +163,10 @@ class TvSeasonsService extends BaseTmdbService {
       'include_video_language': ?includeVideoLanguage,
       ...?queryParameters,
     };
-    final jsonResponse = await get('tv/$seriesId/season/$seasonNumber/videos', queryParameters: params);
+    final jsonResponse = await get(
+      'tv/$seriesId/season/$seasonNumber/videos',
+      queryParameters: params,
+    );
     return TmdbListResponse.fromJson(jsonResponse, TmdbVideo.fromJson);
   }
 
@@ -147,11 +177,11 @@ class TvSeasonsService extends BaseTmdbService {
     String? language,
     Map<String, String>? queryParameters,
   }) async {
-    final params = {
-      'language': ?language,
-      ...?queryParameters,
-    };
-    final jsonResponse = await get('tv/$seriesId/season/$seasonNumber/watch/providers', queryParameters: params);
+    final params = {'language': ?language, ...?queryParameters};
+    final jsonResponse = await get(
+      'tv/$seriesId/season/$seasonNumber/watch/providers',
+      queryParameters: params,
+    );
     return TmdbWatchProvidersResponse.fromJson(jsonResponse);
   }
 }

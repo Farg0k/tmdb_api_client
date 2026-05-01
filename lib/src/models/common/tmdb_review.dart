@@ -21,7 +21,9 @@ class TmdbReview {
   factory TmdbReview.fromJson(Map<String, dynamic> json) {
     return TmdbReview(
       author: json['author'] as String? ?? '',
-      authorDetails: TmdbReviewAuthorDetails.fromJson(json['author_details'] as Map<String, dynamic>),
+      authorDetails: TmdbReviewAuthorDetails.fromJson(
+        json['author_details'] as Map<String, dynamic>,
+      ),
       content: json['content'] as String? ?? '',
       createdAt: json['created_at'] as String? ?? '',
       id: json['id'] as String? ?? '',
@@ -49,7 +51,9 @@ class TmdbReviewAuthorDetails {
       name: json['name'] as String? ?? '',
       username: json['username'] as String? ?? '',
       avatarPath: json['avatar_path'] as String?,
-      rating: json['rating'] != null ? (json['rating'] as num).toDouble() : null,
+      rating: json['rating'] != null
+          ? (json['rating'] as num).toDouble()
+          : null,
     );
   }
 }

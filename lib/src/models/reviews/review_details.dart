@@ -31,7 +31,9 @@ class ReviewDetails {
   factory ReviewDetails.fromJson(Map<String, dynamic> json) {
     return ReviewDetails(
       author: json['author'] as String? ?? '',
-      authorDetails: TmdbReviewAuthorDetails.fromJson(json['author_details'] as Map<String, dynamic>),
+      authorDetails: TmdbReviewAuthorDetails.fromJson(
+        json['author_details'] as Map<String, dynamic>,
+      ),
       content: json['content'] as String? ?? '',
       createdAt: json['created_at'] as String? ?? '',
       id: json['id'] as String? ?? '',

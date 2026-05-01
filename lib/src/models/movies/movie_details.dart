@@ -65,7 +65,8 @@ class MovieDetails {
       backdropPath: json['backdrop_path'] as String?,
       belongsToCollection: json['belongs_to_collection'],
       budget: json['budget'] as int? ?? 0,
-      genres: (json['genres'] as List?)
+      genres:
+          (json['genres'] as List?)
               ?.map((i) => Genre.fromJson(i as Map<String, dynamic>))
               .toList() ??
           [],
@@ -77,18 +78,21 @@ class MovieDetails {
       overview: json['overview'] as String? ?? '',
       popularity: (json['popularity'] as num?)?.toDouble() ?? 0.0,
       posterPath: json['poster_path'] as String?,
-      productionCompanies: (json['production_companies'] as List?)
+      productionCompanies:
+          (json['production_companies'] as List?)
               ?.map((i) => TmdbCompany.fromJson(i as Map<String, dynamic>))
               .toList() ??
           [],
-      productionCountries: (json['production_countries'] as List?)
+      productionCountries:
+          (json['production_countries'] as List?)
               ?.map((i) => TmdbCountry.fromJson(i as Map<String, dynamic>))
               .toList() ??
           [],
       releaseDate: json['release_date'] as String? ?? '',
       revenue: json['revenue'] as int? ?? 0,
       runtime: json['runtime'] as int?,
-      spokenLanguages: (json['spoken_languages'] as List?)
+      spokenLanguages:
+          (json['spoken_languages'] as List?)
               ?.map((i) => TmdbLanguage.fromJson(i as Map<String, dynamic>))
               .toList() ??
           [],

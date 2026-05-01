@@ -14,8 +14,8 @@ class TmdbApiConnectionV4 {
   TmdbApiConnectionV4({
     required TmdbApiClientConfig config,
     http.Client? httpClient,
-  })  : _config = config,
-        _httpClient = httpClient ?? http.Client();
+  }) : _config = config,
+       _httpClient = httpClient ?? http.Client();
 
   TmdbApiClientConfig get config => _config;
 
@@ -24,16 +24,17 @@ class TmdbApiConnectionV4 {
   }
 
   Map<String, String> get _headers {
-    final headers = {
-      'Content-Type': 'application/json',
-    };
+    final headers = {'Content-Type': 'application/json'};
     if (_config.accessTokenV4 != null) {
       headers['Authorization'] = 'Bearer ${_config.accessTokenV4}';
     }
     return headers;
   }
 
-  Future<Map<String, dynamic>> get(String path, {Map<String, String>? queryParameters}) async {
+  Future<Map<String, dynamic>> get(
+    String path, {
+    Map<String, String>? queryParameters,
+  }) async {
     final params = {
       if (_config.language.isNotEmpty) 'language': _config.language,
       ...?queryParameters,
@@ -51,8 +52,16 @@ class TmdbApiConnectionV4 {
     }
   }
 
-  Future<Map<String, dynamic>> post(String path, {Map<String, dynamic>? body, Map<String, String>? queryParameters}) async {
-    final uri = Uri.https(_kTmdbBaseUrl, '$_kApiVersion/$path', queryParameters);
+  Future<Map<String, dynamic>> post(
+    String path, {
+    Map<String, dynamic>? body,
+    Map<String, String>? queryParameters,
+  }) async {
+    final uri = Uri.https(
+      _kTmdbBaseUrl,
+      '$_kApiVersion/$path',
+      queryParameters,
+    );
 
     try {
       final response = await _httpClient.post(
@@ -68,8 +77,16 @@ class TmdbApiConnectionV4 {
     }
   }
 
-  Future<Map<String, dynamic>> put(String path, {Map<String, dynamic>? body, Map<String, String>? queryParameters}) async {
-    final uri = Uri.https(_kTmdbBaseUrl, '$_kApiVersion/$path', queryParameters);
+  Future<Map<String, dynamic>> put(
+    String path, {
+    Map<String, dynamic>? body,
+    Map<String, String>? queryParameters,
+  }) async {
+    final uri = Uri.https(
+      _kTmdbBaseUrl,
+      '$_kApiVersion/$path',
+      queryParameters,
+    );
 
     try {
       final response = await _httpClient.put(
@@ -85,8 +102,16 @@ class TmdbApiConnectionV4 {
     }
   }
 
-  Future<Map<String, dynamic>> delete(String path, {Map<String, dynamic>? body, Map<String, String>? queryParameters}) async {
-    final uri = Uri.https(_kTmdbBaseUrl, '$_kApiVersion/$path', queryParameters);
+  Future<Map<String, dynamic>> delete(
+    String path, {
+    Map<String, dynamic>? body,
+    Map<String, String>? queryParameters,
+  }) async {
+    final uri = Uri.https(
+      _kTmdbBaseUrl,
+      '$_kApiVersion/$path',
+      queryParameters,
+    );
 
     try {
       final response = await _httpClient.delete(
@@ -104,7 +129,9 @@ class TmdbApiConnectionV4 {
 
   Map<String, dynamic> _processResponse(http.Response response) {
     final dynamic body = json.decode(response.body);
-    final Map<String, dynamic> jsonBody = (body is List) ? {'results': body} : body as Map<String, dynamic>;
+    final Map<String, dynamic> jsonBody = (body is List)
+        ? {'results': body}
+        : body as Map<String, dynamic>;
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
       return jsonBody;

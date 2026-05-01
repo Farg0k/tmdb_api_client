@@ -115,7 +115,10 @@ class TvService extends BaseTmdbService {
       'guest_session_id': ?guestSessionId,
       ...?queryParameters,
     };
-    final jsonResponse = await get('tv/$seriesId/account_states', queryParameters: params);
+    final jsonResponse = await get(
+      'tv/$seriesId/account_states',
+      queryParameters: params,
+    );
     return MediaAccountStates.fromJson(jsonResponse);
   }
 
@@ -125,18 +128,28 @@ class TvService extends BaseTmdbService {
     String? language,
     Map<String, String>? queryParameters,
   }) async {
-    final params = {
-      'language': ?language,
-      ...?queryParameters,
-    };
-    final jsonResponse = await get('tv/$seriesId/aggregate_credits', queryParameters: params);
+    final params = {'language': ?language, ...?queryParameters};
+    final jsonResponse = await get(
+      'tv/$seriesId/aggregate_credits',
+      queryParameters: params,
+    );
     return TvAggregateCredits.fromJson(jsonResponse);
   }
 
   /// Get all of the alternative titles for a TV series.
-  Future<TmdbListResponse<AlternativeTitle>> getAlternativeTitles(int seriesId, {Map<String, String>? queryParameters}) async {
-    final jsonResponse = await get('tv/$seriesId/alternative_titles', queryParameters: queryParameters);
-    return TmdbListResponse.fromJson(jsonResponse, AlternativeTitle.fromJson, resultsKey: 'results');
+  Future<TmdbListResponse<AlternativeTitle>> getAlternativeTitles(
+    int seriesId, {
+    Map<String, String>? queryParameters,
+  }) async {
+    final jsonResponse = await get(
+      'tv/$seriesId/alternative_titles',
+      queryParameters: queryParameters,
+    );
+    return TmdbListResponse.fromJson(
+      jsonResponse,
+      AlternativeTitle.fromJson,
+      resultsKey: 'results',
+    );
   }
 
   /// Get the changes for a TV series.
@@ -157,8 +170,14 @@ class TvService extends BaseTmdbService {
   }
 
   /// Get the list of content ratings for a TV series.
-  Future<TmdbListResponse<TvContentRating>> getContentRatings(int seriesId, {Map<String, String>? queryParameters}) async {
-    final jsonResponse = await get('tv/$seriesId/content_ratings', queryParameters: queryParameters);
+  Future<TmdbListResponse<TvContentRating>> getContentRatings(
+    int seriesId, {
+    Map<String, String>? queryParameters,
+  }) async {
+    final jsonResponse = await get(
+      'tv/$seriesId/content_ratings',
+      queryParameters: queryParameters,
+    );
     return TmdbListResponse.fromJson(jsonResponse, TvContentRating.fromJson);
   }
 
@@ -168,23 +187,35 @@ class TvService extends BaseTmdbService {
     String? language,
     Map<String, String>? queryParameters,
   }) async {
-    final params = {
-      'language': ?language,
-      ...?queryParameters,
-    };
-    final jsonResponse = await get('tv/$seriesId/credits', queryParameters: params);
+    final params = {'language': ?language, ...?queryParameters};
+    final jsonResponse = await get(
+      'tv/$seriesId/credits',
+      queryParameters: params,
+    );
     return TmdbCredits.fromJson(jsonResponse);
   }
 
   /// Get all of the episode groups for a TV series.
-  Future<TmdbListResponse<Map<String, dynamic>>> getEpisodeGroups(int seriesId, {Map<String, String>? queryParameters}) async {
-    final jsonResponse = await get('tv/$seriesId/episode_groups', queryParameters: queryParameters);
+  Future<TmdbListResponse<Map<String, dynamic>>> getEpisodeGroups(
+    int seriesId, {
+    Map<String, String>? queryParameters,
+  }) async {
+    final jsonResponse = await get(
+      'tv/$seriesId/episode_groups',
+      queryParameters: queryParameters,
+    );
     return TmdbListResponse.fromJson(jsonResponse, (i) => i);
   }
 
   /// Get the external ids for a TV series.
-  Future<TmdbExternalIds> getExternalIds(int seriesId, {Map<String, String>? queryParameters}) async {
-    final jsonResponse = await get('tv/$seriesId/external_ids', queryParameters: queryParameters);
+  Future<TmdbExternalIds> getExternalIds(
+    int seriesId, {
+    Map<String, String>? queryParameters,
+  }) async {
+    final jsonResponse = await get(
+      'tv/$seriesId/external_ids',
+      queryParameters: queryParameters,
+    );
     return TmdbExternalIds.fromJson(jsonResponse);
   }
 
@@ -200,13 +231,22 @@ class TvService extends BaseTmdbService {
       'include_image_language': ?includeImageLanguage,
       ...?queryParameters,
     };
-    final jsonResponse = await get('tv/$seriesId/images', queryParameters: params);
+    final jsonResponse = await get(
+      'tv/$seriesId/images',
+      queryParameters: params,
+    );
     return TmdbImagesResponse.fromJson(jsonResponse);
   }
 
   /// Get the keywords for a TV series.
-  Future<TmdbListResponse<Keyword>> getKeywords(int seriesId, {Map<String, String>? queryParameters}) async {
-    final jsonResponse = await get('tv/$seriesId/keywords', queryParameters: queryParameters);
+  Future<TmdbListResponse<Keyword>> getKeywords(
+    int seriesId, {
+    Map<String, String>? queryParameters,
+  }) async {
+    final jsonResponse = await get(
+      'tv/$seriesId/keywords',
+      queryParameters: queryParameters,
+    );
     return TmdbListResponse.fromJson(jsonResponse, Keyword.fromJson);
   }
 
@@ -215,10 +255,7 @@ class TvService extends BaseTmdbService {
     String? language,
     Map<String, String>? queryParameters,
   }) async {
-    final params = {
-      'language': ?language,
-      ...?queryParameters,
-    };
+    final params = {'language': ?language, ...?queryParameters};
     final jsonResponse = await get('tv/latest', queryParameters: params);
     return TvDetails.fromJson(jsonResponse);
   }
@@ -235,7 +272,10 @@ class TvService extends BaseTmdbService {
       'language': ?language,
       ...?queryParameters,
     };
-    final jsonResponse = await get('tv/$seriesId/lists', queryParameters: params);
+    final jsonResponse = await get(
+      'tv/$seriesId/lists',
+      queryParameters: params,
+    );
     return TmdbResponsePage.fromJson(jsonResponse, (i) => i);
   }
 
@@ -251,7 +291,10 @@ class TvService extends BaseTmdbService {
       'language': ?language,
       ...?queryParameters,
     };
-    final jsonResponse = await get('tv/$seriesId/recommendations', queryParameters: params);
+    final jsonResponse = await get(
+      'tv/$seriesId/recommendations',
+      queryParameters: params,
+    );
     return TmdbResponsePage.fromJson(jsonResponse, TvSummary.fromJson);
   }
 
@@ -267,13 +310,22 @@ class TvService extends BaseTmdbService {
       'language': ?language,
       ...?queryParameters,
     };
-    final jsonResponse = await get('tv/$seriesId/reviews', queryParameters: params);
+    final jsonResponse = await get(
+      'tv/$seriesId/reviews',
+      queryParameters: params,
+    );
     return TmdbResponsePage.fromJson(jsonResponse, TmdbReview.fromJson);
   }
 
   /// Get theatrical screenings info.
-  Future<TvScreenedTheatricallyResponse> getScreenedTheatrically(int seriesId, {Map<String, String>? queryParameters}) async {
-    final jsonResponse = await get('tv/$seriesId/screened_theatrically', queryParameters: queryParameters);
+  Future<TvScreenedTheatricallyResponse> getScreenedTheatrically(
+    int seriesId, {
+    Map<String, String>? queryParameters,
+  }) async {
+    final jsonResponse = await get(
+      'tv/$seriesId/screened_theatrically',
+      queryParameters: queryParameters,
+    );
     return TvScreenedTheatricallyResponse.fromJson(jsonResponse);
   }
 
@@ -289,14 +341,27 @@ class TvService extends BaseTmdbService {
       'language': ?language,
       ...?queryParameters,
     };
-    final jsonResponse = await get('tv/$seriesId/similar', queryParameters: params);
+    final jsonResponse = await get(
+      'tv/$seriesId/similar',
+      queryParameters: params,
+    );
     return TmdbResponsePage.fromJson(jsonResponse, TvSummary.fromJson);
   }
 
   /// Get the translations for a TV series.
-  Future<TmdbListResponse<Map<String, dynamic>>> getTranslations(int seriesId, {Map<String, String>? queryParameters}) async {
-    final jsonResponse = await get('tv/$seriesId/translations', queryParameters: queryParameters);
-    return TmdbListResponse.fromJson(jsonResponse, (i) => i, resultsKey: 'translations');
+  Future<TmdbListResponse<Map<String, dynamic>>> getTranslations(
+    int seriesId, {
+    Map<String, String>? queryParameters,
+  }) async {
+    final jsonResponse = await get(
+      'tv/$seriesId/translations',
+      queryParameters: queryParameters,
+    );
+    return TmdbListResponse.fromJson(
+      jsonResponse,
+      (i) => i,
+      resultsKey: 'translations',
+    );
   }
 
   /// Get the videos for a TV series.
@@ -311,13 +376,22 @@ class TvService extends BaseTmdbService {
       'include_video_language': ?includeVideoLanguage,
       ...?queryParameters,
     };
-    final jsonResponse = await get('tv/$seriesId/videos', queryParameters: params);
+    final jsonResponse = await get(
+      'tv/$seriesId/videos',
+      queryParameters: params,
+    );
     return TmdbListResponse.fromJson(jsonResponse, TmdbVideo.fromJson);
   }
 
   /// Get the watch providers for a TV series.
-  Future<TmdbWatchProvidersResponse> getWatchProviders(int seriesId, {Map<String, String>? queryParameters}) async {
-    final jsonResponse = await get('tv/$seriesId/watch/providers', queryParameters: queryParameters);
+  Future<TmdbWatchProvidersResponse> getWatchProviders(
+    int seriesId, {
+    Map<String, String>? queryParameters,
+  }) async {
+    final jsonResponse = await get(
+      'tv/$seriesId/watch/providers',
+      queryParameters: queryParameters,
+    );
     return TmdbWatchProvidersResponse.fromJson(jsonResponse);
   }
 
@@ -354,7 +428,10 @@ class TvService extends BaseTmdbService {
       'guest_session_id': ?guestSessionId,
       ...?queryParameters,
     };
-    final jsonResponse = await delete('tv/$seriesId/rating', queryParameters: params);
+    final jsonResponse = await delete(
+      'tv/$seriesId/rating',
+      queryParameters: params,
+    );
     return jsonResponse['success'] == true;
   }
 }

@@ -35,7 +35,9 @@ class ReleaseDateDetails {
   factory ReleaseDateDetails.fromJson(Map<String, dynamic> json) {
     return ReleaseDateDetails(
       certification: json['certification'] as String? ?? '',
-      descriptors: (json['descriptors'] as List?)?.map((e) => e as String).toList() ?? [],
+      descriptors:
+          (json['descriptors'] as List?)?.map((e) => e as String).toList() ??
+          [],
       iso_639_1: json['iso_639_1'] as String? ?? '',
       note: json['note'] as String? ?? '',
       releaseDate: json['release_date'] as String,

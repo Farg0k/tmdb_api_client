@@ -28,7 +28,10 @@ class TvScreenedTheatricallyResponse {
     return TvScreenedTheatricallyResponse(
       id: json['id'] as int,
       results: (json['results'] as List)
-          .map((i) => TvScreenedTheatricallyEntry.fromJson(i as Map<String, dynamic>))
+          .map(
+            (i) =>
+                TvScreenedTheatricallyEntry.fromJson(i as Map<String, dynamic>),
+          )
           .toList(),
     );
   }

@@ -69,8 +69,14 @@ class ListsV4Service extends BaseV4Service {
   }
 
   /// Delete a v4 list.
-  Future<TmdbListV4OperationResponse> deleteList(int listId, {Map<String, String>? queryParameters}) async {
-    final jsonResponse = await delete('list/$listId', queryParameters: queryParameters);
+  Future<TmdbListV4OperationResponse> deleteList(
+    int listId, {
+    Map<String, String>? queryParameters,
+  }) async {
+    final jsonResponse = await delete(
+      'list/$listId',
+      queryParameters: queryParameters,
+    );
     return TmdbListV4OperationResponse.fromJson(jsonResponse);
   }
 

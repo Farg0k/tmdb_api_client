@@ -57,8 +57,11 @@ class PersonTaggedImagesResponse {
     return PersonTaggedImagesResponse(
       id: json['id'] as int? ?? 0,
       page: json['page'] as int? ?? 1,
-      results: (json['results'] as List?)
-              ?.map((i) => PersonTaggedImage.fromJson(i as Map<String, dynamic>))
+      results:
+          (json['results'] as List?)
+              ?.map(
+                (i) => PersonTaggedImage.fromJson(i as Map<String, dynamic>),
+              )
               .toList() ??
           [],
       totalPages: json['total_pages'] as int? ?? 0,

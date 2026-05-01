@@ -6,8 +6,14 @@ class ReviewsService extends BaseTmdbService {
   ReviewsService(super.client);
 
   /// Retrieve the details of a specific review.
-  Future<ReviewDetails> getDetails(String reviewId, {Map<String, String>? queryParameters}) async {
-    final jsonResponse = await get('review/$reviewId', queryParameters: queryParameters);
+  Future<ReviewDetails> getDetails(
+    String reviewId, {
+    Map<String, String>? queryParameters,
+  }) async {
+    final jsonResponse = await get(
+      'review/$reviewId',
+      queryParameters: queryParameters,
+    );
     return ReviewDetails.fromJson(jsonResponse);
   }
 }

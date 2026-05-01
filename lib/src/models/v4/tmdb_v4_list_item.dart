@@ -6,11 +6,7 @@ class TmdbListV4Item {
   final String mediaType;
   final String? comment;
 
-  TmdbListV4Item({
-    required this.media,
-    required this.mediaType,
-    this.comment,
-  });
+  TmdbListV4Item({required this.media, required this.mediaType, this.comment});
 
   factory TmdbListV4Item.fromJson(Map<String, dynamic> json) {
     final type = json['media_type'] as String;

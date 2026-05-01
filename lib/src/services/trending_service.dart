@@ -13,11 +13,11 @@ class TrendingService extends BaseTmdbService {
     String? language,
     Map<String, String>? queryParameters,
   }) async {
-    final params = {
-      'language': ?language,
-      ...?queryParameters,
-    };
-    final jsonResponse = await get('trending/all/${timeWindow.value}', queryParameters: params);
+    final params = {'language': ?language, ...?queryParameters};
+    final jsonResponse = await get(
+      'trending/all/${timeWindow.value}',
+      queryParameters: params,
+    );
     return TmdbResponsePage.fromJson(jsonResponse, (i) => i);
   }
 
@@ -27,11 +27,11 @@ class TrendingService extends BaseTmdbService {
     String? language,
     Map<String, String>? queryParameters,
   }) async {
-    final params = {
-      'language': ?language,
-      ...?queryParameters,
-    };
-    final jsonResponse = await get('trending/movie/${timeWindow.value}', queryParameters: params);
+    final params = {'language': ?language, ...?queryParameters};
+    final jsonResponse = await get(
+      'trending/movie/${timeWindow.value}',
+      queryParameters: params,
+    );
     return TmdbResponsePage.fromJson(jsonResponse, MovieSummary.fromJson);
   }
 
@@ -41,11 +41,11 @@ class TrendingService extends BaseTmdbService {
     String? language,
     Map<String, String>? queryParameters,
   }) async {
-    final params = {
-      'language': ?language,
-      ...?queryParameters,
-    };
-    final jsonResponse = await get('trending/tv/${timeWindow.value}', queryParameters: params);
+    final params = {'language': ?language, ...?queryParameters};
+    final jsonResponse = await get(
+      'trending/tv/${timeWindow.value}',
+      queryParameters: params,
+    );
     return TmdbResponsePage.fromJson(jsonResponse, TvSummary.fromJson);
   }
 
@@ -55,11 +55,11 @@ class TrendingService extends BaseTmdbService {
     String? language,
     Map<String, String>? queryParameters,
   }) async {
-    final params = {
-      'language': ?language,
-      ...?queryParameters,
-    };
-    final jsonResponse = await get('trending/person/${timeWindow.value}', queryParameters: params);
+    final params = {'language': ?language, ...?queryParameters};
+    final jsonResponse = await get(
+      'trending/person/${timeWindow.value}',
+      queryParameters: params,
+    );
     return TmdbResponsePage.fromJson(jsonResponse, PersonSummary.fromJson);
   }
 }

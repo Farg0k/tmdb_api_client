@@ -3,7 +3,8 @@
 class TmdbApiClientConfig {
   final String apiKey; // Your personal API Key from TMDB.
   final String language; // Preferred language (e.g., 'en-US', 'uk-UA').
-  final String? sessionId; // (Optional) User-specific session ID for authenticated requests.
+  final String?
+  sessionId; // (Optional) User-specific session ID for authenticated requests.
   final String? accessTokenV4; // (Optional) V4 Access Token (Bearer Token).
 
   TmdbApiClientConfig({

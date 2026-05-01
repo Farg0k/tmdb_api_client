@@ -6,7 +6,9 @@ class AccountService extends BaseTmdbService {
   AccountService(super.client);
 
   /// 1. Fetches the details of the currently authenticated user's account.
-  Future<AccountDetails> getDetails({Map<String, String>? queryParameters}) async {
+  Future<AccountDetails> getDetails({
+    Map<String, String>? queryParameters,
+  }) async {
     if (config.sessionId == null) {
       throw TmdbApiException(
         'Authentication required. Please create a user session first to fetch account details.',
@@ -73,7 +75,10 @@ class AccountService extends BaseTmdbService {
       'language': ?language,
       ...?queryParameters,
     };
-    final jsonResponse = await get('account/$accountId/favorite/movies', queryParameters: params);
+    final jsonResponse = await get(
+      'account/$accountId/favorite/movies',
+      queryParameters: params,
+    );
     return TmdbResponsePage.fromJson(jsonResponse, MovieSummary.fromJson);
   }
 
@@ -91,7 +96,10 @@ class AccountService extends BaseTmdbService {
       'language': ?language,
       ...?queryParameters,
     };
-    final jsonResponse = await get('account/$accountId/favorite/tv', queryParameters: params);
+    final jsonResponse = await get(
+      'account/$accountId/favorite/tv',
+      queryParameters: params,
+    );
     return TmdbResponsePage.fromJson(jsonResponse, TvSummary.fromJson);
   }
 
@@ -109,7 +117,10 @@ class AccountService extends BaseTmdbService {
       'language': ?language,
       ...?queryParameters,
     };
-    final jsonResponse = await get('account/$accountId/watchlist/movies', queryParameters: params);
+    final jsonResponse = await get(
+      'account/$accountId/watchlist/movies',
+      queryParameters: params,
+    );
     return TmdbResponsePage.fromJson(jsonResponse, MovieSummary.fromJson);
   }
 
@@ -127,7 +138,10 @@ class AccountService extends BaseTmdbService {
       'language': ?language,
       ...?queryParameters,
     };
-    final jsonResponse = await get('account/$accountId/watchlist/tv', queryParameters: params);
+    final jsonResponse = await get(
+      'account/$accountId/watchlist/tv',
+      queryParameters: params,
+    );
     return TmdbResponsePage.fromJson(jsonResponse, TvSummary.fromJson);
   }
 
@@ -145,7 +159,10 @@ class AccountService extends BaseTmdbService {
       'language': ?language,
       ...?queryParameters,
     };
-    final jsonResponse = await get('account/$accountId/rated/movies', queryParameters: params);
+    final jsonResponse = await get(
+      'account/$accountId/rated/movies',
+      queryParameters: params,
+    );
     return TmdbResponsePage.fromJson(jsonResponse, MovieSummary.fromJson);
   }
 
@@ -163,7 +180,10 @@ class AccountService extends BaseTmdbService {
       'language': ?language,
       ...?queryParameters,
     };
-    final jsonResponse = await get('account/$accountId/rated/tv', queryParameters: params);
+    final jsonResponse = await get(
+      'account/$accountId/rated/tv',
+      queryParameters: params,
+    );
     return TmdbResponsePage.fromJson(jsonResponse, TvSummary.fromJson);
   }
 
@@ -181,7 +201,10 @@ class AccountService extends BaseTmdbService {
       'language': ?language,
       ...?queryParameters,
     };
-    final jsonResponse = await get('account/$accountId/rated/tv/episodes', queryParameters: params);
+    final jsonResponse = await get(
+      'account/$accountId/rated/tv/episodes',
+      queryParameters: params,
+    );
     return TmdbResponsePage.fromJson(jsonResponse, TvEpisodeSummary.fromJson);
   }
 
@@ -197,7 +220,10 @@ class AccountService extends BaseTmdbService {
       'language': ?language,
       ...?queryParameters,
     };
-    final jsonResponse = await get('account/$accountId/lists', queryParameters: params);
+    final jsonResponse = await get(
+      'account/$accountId/lists',
+      queryParameters: params,
+    );
     return TmdbResponsePage.fromJson(jsonResponse, TmdbListV4Summary.fromJson);
   }
 }

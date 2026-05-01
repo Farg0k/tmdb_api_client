@@ -11,10 +11,7 @@ class CreditsService extends BaseTmdbService {
     String? language,
     Map<String, String>? queryParameters,
   }) async {
-    final params = {
-      'language': ?language,
-      ...?queryParameters,
-    };
+    final params = {'language': ?language, ...?queryParameters};
     final jsonResponse = await get('credit/$creditId', queryParameters: params);
     return CreditDetails.fromJson(jsonResponse);
   }

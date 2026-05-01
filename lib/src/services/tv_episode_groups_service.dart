@@ -13,11 +13,11 @@ class TvEpisodeGroupsService extends BaseTmdbService {
     String? language,
     Map<String, String>? queryParameters,
   }) async {
-    final params = {
-      'language': ?language,
-      ...?queryParameters,
-    };
-    final jsonResponse = await get('tv/episode_group/$groupId', queryParameters: params);
+    final params = {'language': ?language, ...?queryParameters};
+    final jsonResponse = await get(
+      'tv/episode_group/$groupId',
+      queryParameters: params,
+    );
     return TvEpisodeGroupDetails.fromJson(jsonResponse);
   }
 }

@@ -70,25 +70,37 @@ class PeopleService extends BaseTmdbService {
     String? language,
     Map<String, String>? queryParameters,
   }) async {
-    final params = {
-      'language': ?language,
-      ...?queryParameters,
-    };
-    final jsonResponse = personId != 0 
-        ? await get('person/$personId/combined_credits', queryParameters: params)
+    final params = {'language': ?language, ...?queryParameters};
+    final jsonResponse = personId != 0
+        ? await get(
+            'person/$personId/combined_credits',
+            queryParameters: params,
+          )
         : <String, dynamic>{};
     return TmdbCredits.fromJson(jsonResponse);
   }
 
   /// Get the external ids for a person.
-  Future<TmdbExternalIds> getExternalIds(int personId, {Map<String, String>? queryParameters}) async {
-    final jsonResponse = await get('person/$personId/external_ids', queryParameters: queryParameters);
+  Future<TmdbExternalIds> getExternalIds(
+    int personId, {
+    Map<String, String>? queryParameters,
+  }) async {
+    final jsonResponse = await get(
+      'person/$personId/external_ids',
+      queryParameters: queryParameters,
+    );
     return TmdbExternalIds.fromJson(jsonResponse);
   }
 
   /// Get the images for a person.
-  Future<TmdbImagesResponse> getImages(int personId, {Map<String, String>? queryParameters}) async {
-    final jsonResponse = await get('person/$personId/images', queryParameters: queryParameters);
+  Future<TmdbImagesResponse> getImages(
+    int personId, {
+    Map<String, String>? queryParameters,
+  }) async {
+    final jsonResponse = await get(
+      'person/$personId/images',
+      queryParameters: queryParameters,
+    );
     return TmdbImagesResponse.fromJson(jsonResponse);
   }
 
@@ -97,10 +109,7 @@ class PeopleService extends BaseTmdbService {
     String? language,
     Map<String, String>? queryParameters,
   }) async {
-    final params = {
-      'language': ?language,
-      ...?queryParameters,
-    };
+    final params = {'language': ?language, ...?queryParameters};
     final jsonResponse = await get('person/latest', queryParameters: params);
     return PersonDetails.fromJson(jsonResponse);
   }
@@ -111,11 +120,11 @@ class PeopleService extends BaseTmdbService {
     String? language,
     Map<String, String>? queryParameters,
   }) async {
-    final params = {
-      'language': ?language,
-      ...?queryParameters,
-    };
-    final jsonResponse = await get('person/$personId/movie_credits', queryParameters: params);
+    final params = {'language': ?language, ...?queryParameters};
+    final jsonResponse = await get(
+      'person/$personId/movie_credits',
+      queryParameters: params,
+    );
     return TmdbCredits.fromJson(jsonResponse);
   }
 
@@ -125,11 +134,11 @@ class PeopleService extends BaseTmdbService {
     String? language,
     Map<String, String>? queryParameters,
   }) async {
-    final params = {
-      'language': ?language,
-      ...?queryParameters,
-    };
-    final jsonResponse = await get('person/$personId/tv_credits', queryParameters: params);
+    final params = {'language': ?language, ...?queryParameters};
+    final jsonResponse = await get(
+      'person/$personId/tv_credits',
+      queryParameters: params,
+    );
     return TmdbCredits.fromJson(jsonResponse);
   }
 
@@ -145,13 +154,26 @@ class PeopleService extends BaseTmdbService {
       'language': ?language,
       ...?queryParameters,
     };
-    final jsonResponse = await get('person/$personId/tagged_images', queryParameters: params);
+    final jsonResponse = await get(
+      'person/$personId/tagged_images',
+      queryParameters: params,
+    );
     return PersonTaggedImagesResponse.fromJson(jsonResponse);
   }
 
   /// Get the translations for a person.
-  Future<TmdbListResponse<Map<String, dynamic>>> getTranslations(int personId, {Map<String, String>? queryParameters}) async {
-    final jsonResponse = await get('person/$personId/translations', queryParameters: queryParameters);
-    return TmdbListResponse.fromJson(jsonResponse, (i) => i, resultsKey: 'translations');
+  Future<TmdbListResponse<Map<String, dynamic>>> getTranslations(
+    int personId, {
+    Map<String, String>? queryParameters,
+  }) async {
+    final jsonResponse = await get(
+      'person/$personId/translations',
+      queryParameters: queryParameters,
+    );
+    return TmdbListResponse.fromJson(
+      jsonResponse,
+      (i) => i,
+      resultsKey: 'translations',
+    );
   }
 }

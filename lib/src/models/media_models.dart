@@ -47,7 +47,9 @@ class MovieSummary extends MediaSummary {
       backdropPath: json['backdrop_path'] as String?,
       voteAverage: (json['vote_average'] as num).toDouble(),
       voteCount: json['vote_count'] as int,
-      rating: json['rating'] != null ? (json['rating'] as num).toDouble() : null,
+      rating: json['rating'] != null
+          ? (json['rating'] as num).toDouble()
+          : null,
       popularity: (json['popularity'] as num?)?.toDouble() ?? 0.0,
       title: json['title'] as String,
       releaseDate: json['release_date'] as String? ?? '',
@@ -81,7 +83,9 @@ class TvSummary extends MediaSummary {
       backdropPath: json['backdrop_path'] as String?,
       voteAverage: (json['vote_average'] as num).toDouble(),
       voteCount: json['vote_count'] as int,
-      rating: json['rating'] != null ? (json['rating'] as num).toDouble() : null,
+      rating: json['rating'] != null
+          ? (json['rating'] as num).toDouble()
+          : null,
       popularity: (json['popularity'] as num?)?.toDouble() ?? 0.0,
       name: json['name'] as String,
       firstAirDate: json['first_air_date'] as String? ?? '',
@@ -109,7 +113,9 @@ class TmdbResponsePage<T> {
   ) {
     return TmdbResponsePage<T>(
       page: json['page'] as int,
-      results: (json['results'] as List).map((i) => fromJsonT(i as Map<String, dynamic>)).toList(),
+      results: (json['results'] as List)
+          .map((i) => fromJsonT(i as Map<String, dynamic>))
+          .toList(),
       totalPages: json['total_pages'] as int,
       totalResults: json['total_results'] as int,
     );

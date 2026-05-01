@@ -3,10 +3,7 @@ class ChangeEntry {
   final int id;
   final bool adult;
 
-  ChangeEntry({
-    required this.id,
-    required this.adult,
-  });
+  ChangeEntry({required this.id, required this.adult});
 
   factory ChangeEntry.fromJson(Map<String, dynamic> json) {
     return ChangeEntry(

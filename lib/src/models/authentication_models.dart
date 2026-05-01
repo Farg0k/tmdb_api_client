@@ -17,8 +17,11 @@ class RequestToken {
   factory RequestToken.fromJson(Map<String, dynamic> json) {
     return RequestToken(
       success: json['success'] as bool, // Cast 'success' field to boolean.
-      expiresAt: json['expires_at'] as String, // Cast 'expires_at' field to string.
-      requestToken: json['request_token'] as String, // Cast 'request_token' field to string.
+      expiresAt:
+          json['expires_at'] as String, // Cast 'expires_at' field to string.
+      requestToken:
+          json['request_token']
+              as String, // Cast 'request_token' field to string.
     );
   }
 }
@@ -30,16 +33,14 @@ class Session {
   final String sessionId; // The unique ID for the user's authenticated session.
 
   /// Constructor for [Session].
-  Session({
-    required this.success,
-    required this.sessionId,
-  });
+  Session({required this.success, required this.sessionId});
 
   /// Factory constructor to create a [Session] instance from a JSON map.
   factory Session.fromJson(Map<String, dynamic> json) {
     return Session(
       success: json['success'] as bool, // Cast 'success' field to boolean.
-      sessionId: json['session_id'] as String, // Cast 'session_id' field to string.
+      sessionId:
+          json['session_id'] as String, // Cast 'session_id' field to string.
     );
   }
 }
@@ -63,8 +64,11 @@ class GuestSession {
   factory GuestSession.fromJson(Map<String, dynamic> json) {
     return GuestSession(
       success: json['success'] as bool, // Cast 'success' field to boolean.
-      guestSessionId: json['guest_session_id'] as String, // Cast 'guest_session_id' field to string.
-      expiresAt: json['expires_at'] as String, // Cast 'expires_at' field to string.
+      guestSessionId:
+          json['guest_session_id']
+              as String, // Cast 'guest_session_id' field to string.
+      expiresAt:
+          json['expires_at'] as String, // Cast 'expires_at' field to string.
     );
   }
 }

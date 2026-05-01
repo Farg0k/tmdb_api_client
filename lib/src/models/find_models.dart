@@ -19,11 +19,13 @@ class FindResponse {
 
   factory FindResponse.fromJson(Map<String, dynamic> json) {
     return FindResponse(
-      movieResults: (json['movie_results'] as List?)
+      movieResults:
+          (json['movie_results'] as List?)
               ?.map((i) => MovieSummary.fromJson(i as Map<String, dynamic>))
               .toList() ??
           [],
-      tvResults: (json['tv_results'] as List?)
+      tvResults:
+          (json['tv_results'] as List?)
               ?.map((i) => TvSummary.fromJson(i as Map<String, dynamic>))
               .toList() ??
           [],

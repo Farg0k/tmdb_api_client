@@ -4,11 +4,7 @@ class TmdbLanguage {
   final String name;
   final String? englishName;
 
-  TmdbLanguage({
-    required this.iso_639_1,
-    required this.name,
-    this.englishName,
-  });
+  TmdbLanguage({required this.iso_639_1, required this.name, this.englishName});
 
   factory TmdbLanguage.fromJson(Map<String, dynamic> json) {
     return TmdbLanguage(

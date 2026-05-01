@@ -62,7 +62,9 @@ class TvEpisodeSummary {
           ?.map((i) => TmdbCast.fromJson(i as Map<String, dynamic>))
           .toList(),
       order: json['order'] as int?,
-      rating: json['rating'] != null ? (json['rating'] as num).toDouble() : null,
+      rating: json['rating'] != null
+          ? (json['rating'] as num).toDouble()
+          : null,
     );
   }
 }

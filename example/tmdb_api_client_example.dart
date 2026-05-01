@@ -36,7 +36,9 @@ void main() async {
 
     log.info('Select authentication method:');
     log.info('1. Standard (via web browser approval)');
-    log.info('2. Login (via username and password - NOT RECOMMENDED for production)');
+    log.info(
+      '2. Login (via username and password - NOT RECOMMENDED for production)',
+    );
     stdout.write('Enter your choice (1 or 2): ');
     final choice = stdin.readLineSync();
 
@@ -59,23 +61,30 @@ void main() async {
       );
 
       log.info('Creating session...');
-      session = await tmdbClient.authentication.createSession(requestToken.requestToken);
+      session = await tmdbClient.authentication.createSession(
+        requestToken.requestToken,
+      );
     } else {
       final requestToken = await tmdbClient.authentication.createRequestToken();
       log.info('Request Token: ${requestToken.requestToken}');
 
-      final approveUrl = 'https://www.themoviedb.org/authenticate/${requestToken.requestToken}';
+      final approveUrl =
+          'https://www.themoviedb.org/authenticate/${requestToken.requestToken}';
       log.info('Open this link to approve the token: $approveUrl');
       log.info('Press Enter AFTER approving in your browser...');
       stdin.readLineSync();
 
-      session = await tmdbClient.authentication.createSession(requestToken.requestToken);
+      session = await tmdbClient.authentication.createSession(
+        requestToken.requestToken,
+      );
     }
 
     log.info('Session created: ${session.sessionId}');
 
     final account = await tmdbClient.account.getDetails();
-    log.info('Account Details: ID: ${account.id}, Username: ${account.username}');
+    log.info(
+      'Account Details: ID: ${account.id}, Username: ${account.username}',
+    );
 
     final accountId = account.id;
 
@@ -88,14 +97,17 @@ void main() async {
     );
     log.info('Favorite status: ${favSuccess ? "Success" : "Failure"}');
 
-    final favoriteMovies = await tmdbClient.account.getFavoriteMovies(accountId: accountId);
+    final favoriteMovies = await tmdbClient.account.getFavoriteMovies(
+      accountId: accountId,
+    );
     log.info('Movies found: ${favoriteMovies.totalResults}');
     for (var movie in favoriteMovies.results.take(3)) {
       log.info(' - ${movie.title} (Rating: ${movie.voteAverage})');
     }
 
     log.info('Working with Certifications...');
-    final certifications = await tmdbClient.certifications.getMovieCertifications();
+    final certifications = await tmdbClient.certifications
+        .getMovieCertifications();
     final usCerts = certifications.certifications['US'];
     if (usCerts != null) {
       log.info('US Movie Certifications (Top 5):');
@@ -141,14 +153,19 @@ void main() async {
 
     log.info('Working with Find...');
     const imdbId = 'tt0137523';
-    final findResults = await tmdbClient.find.byExternalId(imdbId, externalSource: ExternalSource.imdbId);
+    final findResults = await tmdbClient.find.byExternalId(
+      imdbId,
+      externalSource: ExternalSource.imdbId,
+    );
     if (findResults.movieResults.isNotEmpty) {
       log.info('Found Movie: ${findResults.movieResults.first.title}');
     }
 
     log.info('Working with Genres...');
     final movieGenres = await tmdbClient.genres.getMovieList();
-    log.info('Sample genres: ${movieGenres.genres.take(3).map((e) => e.name).join(', ')}');
+    log.info(
+      'Sample genres: ${movieGenres.genres.take(3).map((e) => e.name).join(', ')}',
+    );
 
     log.info('Working with Guest Sessions...');
     final guestSession = await tmdbClient.authentication.createGuestSession();
@@ -177,7 +194,9 @@ void main() async {
     final movieDetails = await tmdbClient.movies.getDetails(movieId);
     log.info('Movie: ${movieDetails.title}');
     final movieCredits = await tmdbClient.movies.getCredits(movieId);
-    log.info('Cast: ${movieCredits.cast.take(3).map((e) => e.name).join(', ')}');
+    log.info(
+      'Cast: ${movieCredits.cast.take(3).map((e) => e.name).join(', ')}',
+    );
 
     log.info('Working with Networks...');
     const networkId = 49;
@@ -211,10 +230,16 @@ void main() async {
     log.info('Working with TV Seasons...');
     const seriesId = 100088;
     final seasonDetails = await tmdbClient.tvSeasons.getDetails(seriesId, 1);
-    log.info('Season: ${seasonDetails.name}, Episodes: ${seasonDetails.episodes.length}');
+    log.info(
+      'Season: ${seasonDetails.name}, Episodes: ${seasonDetails.episodes.length}',
+    );
 
     log.info('Working with TV Episodes...');
-    final episodeDetails = await tmdbClient.tvEpisodes.getDetails(seriesId, 1, 1);
+    final episodeDetails = await tmdbClient.tvEpisodes.getDetails(
+      seriesId,
+      1,
+      1,
+    );
     log.info('Episode: ${episodeDetails.name}');
 
     if (config.accessTokenV4 != null) {
@@ -228,7 +253,6 @@ void main() async {
       await tmdbClient.authentication.deleteSession(session.sessionId);
       log.info('Session deleted.');
     }
-
   } on TmdbApiException catch (e) {
     log.severe('API Error: ${e.message} (Status: ${e.statusCode})');
   } on TmdbNetworkException catch (e) {

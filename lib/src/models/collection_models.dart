@@ -149,7 +149,10 @@ class CollectionTranslationsResponse {
     return CollectionTranslationsResponse(
       id: json['id'] as int,
       translations: (json['translations'] as List)
-          .map((item) => CollectionTranslation.fromJson(item as Map<String, dynamic>))
+          .map(
+            (item) =>
+                CollectionTranslation.fromJson(item as Map<String, dynamic>),
+          )
           .toList(),
     );
   }

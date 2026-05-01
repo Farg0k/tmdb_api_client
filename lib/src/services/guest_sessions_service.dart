@@ -18,7 +18,10 @@ class GuestSessionsService extends BaseTmdbService {
       'sort_by': ?sortBy,
       ...?queryParameters,
     };
-    final jsonResponse = await get('guest_session/$guestSessionId/rated/movies', queryParameters: params);
+    final jsonResponse = await get(
+      'guest_session/$guestSessionId/rated/movies',
+      queryParameters: params,
+    );
     return TmdbResponsePage.fromJson(jsonResponse, MovieSummary.fromJson);
   }
 
@@ -34,7 +37,10 @@ class GuestSessionsService extends BaseTmdbService {
       'sort_by': ?sortBy,
       ...?queryParameters,
     };
-    final jsonResponse = await get('guest_session/$guestSessionId/rated/tv', queryParameters: params);
+    final jsonResponse = await get(
+      'guest_session/$guestSessionId/rated/tv',
+      queryParameters: params,
+    );
     return TmdbResponsePage.fromJson(jsonResponse, TvSummary.fromJson);
   }
 
@@ -50,7 +56,10 @@ class GuestSessionsService extends BaseTmdbService {
       'sort_by': ?sortBy,
       ...?queryParameters,
     };
-    final jsonResponse = await get('guest_session/$guestSessionId/rated/tv/episodes', queryParameters: params);
+    final jsonResponse = await get(
+      'guest_session/$guestSessionId/rated/tv/episodes',
+      queryParameters: params,
+    );
     return TmdbResponsePage.fromJson(jsonResponse, TvEpisodeSummary.fromJson);
   }
 }

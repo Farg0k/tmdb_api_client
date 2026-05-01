@@ -7,8 +7,14 @@ class KeywordsService extends BaseTmdbService {
   KeywordsService(super.client);
 
   /// Get the metadata for a specific keyword.
-  Future<Keyword> getDetails(int keywordId, {Map<String, String>? queryParameters}) async {
-    final jsonResponse = await get('keyword/$keywordId', queryParameters: queryParameters);
+  Future<Keyword> getDetails(
+    int keywordId, {
+    Map<String, String>? queryParameters,
+  }) async {
+    final jsonResponse = await get(
+      'keyword/$keywordId',
+      queryParameters: queryParameters,
+    );
     return Keyword.fromJson(jsonResponse);
   }
 
@@ -24,7 +30,10 @@ class KeywordsService extends BaseTmdbService {
       'language': ?language,
       ...?queryParameters,
     };
-    final jsonResponse = await get('keyword/$keywordId/movies', queryParameters: params);
+    final jsonResponse = await get(
+      'keyword/$keywordId/movies',
+      queryParameters: params,
+    );
     return TmdbResponsePage.fromJson(jsonResponse, MovieSummary.fromJson);
   }
 }

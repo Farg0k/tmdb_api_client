@@ -5,6 +5,7 @@ import '../utils/tmdb_api_exception.dart'; // Needs exception classes.
 
 /// Base URL for The Movie Database (TMDB) API.
 const String _kTmdbBaseUrl = 'api.themoviedb.org';
+
 /// API Version currently being used.
 const String _kApiVersion = '3';
 
@@ -13,7 +14,8 @@ const String _kApiVersion = '3';
 /// like the API key and session ID, and handling the raw HTTP responses and errors.
 ///
 /// This class acts as the direct communication interface with the TMDB API.
-class TmdbApiConnection { // <--- Renamed class
+class TmdbApiConnection {
+  // <--- Renamed class
   final http.Client _httpClient; // The underlying HTTP client instance.
   TmdbApiClientConfig _config; // The current configuration, can be updated.
 
@@ -25,7 +27,7 @@ class TmdbApiConnection { // <--- Renamed class
     required TmdbApiClientConfig config,
     http.Client? httpClient,
   }) : _config = config,
-        _httpClient = httpClient ?? http.Client();
+       _httpClient = httpClient ?? http.Client();
 
   /// Gets the current configuration.
   TmdbApiClientConfig get config => _config;
@@ -45,7 +47,10 @@ class TmdbApiConnection { // <--- Renamed class
   /// Returns a [Future] that resolves to a `Map<String, dynamic>`
   /// representing the JSON response body.
   /// Throws [TmdbApiException] for API-specific errors or [TmdbNetworkException] for network issues.
-  Future<Map<String, dynamic>> get(String path, {Map<String, String>? queryParameters}) async {
+  Future<Map<String, dynamic>> get(
+    String path, {
+    Map<String, String>? queryParameters,
+  }) async {
     final Map<String, String> finalQueryParameters = {
       'api_key': _config.apiKey,
       'language': _config.language,
@@ -81,7 +86,11 @@ class TmdbApiConnection { // <--- Renamed class
   /// Returns a [Future] that resolves to a `Map<String, dynamic>`
   /// representing the JSON response body.
   /// Throws [TmdbApiException] for API-specific errors or [TmdbNetworkException] for network issues.
-  Future<Map<String, dynamic>> post(String path, {Map<String, dynamic>? body, Map<String, String>? queryParameters}) async {
+  Future<Map<String, dynamic>> post(
+    String path, {
+    Map<String, dynamic>? body,
+    Map<String, String>? queryParameters,
+  }) async {
     final Map<String, String> finalQueryParameters = {
       'api_key': _config.apiKey,
       ...?queryParameters,
@@ -119,7 +128,11 @@ class TmdbApiConnection { // <--- Renamed class
   /// Returns a [Future] that resolves to a `Map<String, dynamic>`
   /// representing the JSON response body.
   /// Throws [TmdbApiException] for API-specific errors or [TmdbNetworkException] for network issues.
-  Future<Map<String, dynamic>> delete(String path, {Map<String, dynamic>? body, Map<String, String>? queryParameters}) async {
+  Future<Map<String, dynamic>> delete(
+    String path, {
+    Map<String, dynamic>? body,
+    Map<String, String>? queryParameters,
+  }) async {
     final Map<String, String> finalQueryParameters = {
       'api_key': _config.apiKey,
       ...?queryParameters,

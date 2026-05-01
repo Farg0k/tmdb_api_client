@@ -71,15 +71,9 @@ class PersonCredit {
   final int id;
   final String name;
 
-  PersonCredit({
-    required this.id,
-    required this.name,
-  });
+  PersonCredit({required this.id, required this.name});
 
   factory PersonCredit.fromJson(Map<String, dynamic> json) {
-    return PersonCredit(
-      id: json['id'] as int,
-      name: json['name'] as String,
-    );
+    return PersonCredit(id: json['id'] as int, name: json['name'] as String);
   }
 }

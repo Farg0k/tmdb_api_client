@@ -16,7 +16,10 @@ class AccountV4Service extends BaseV4Service {
       if (page != null) 'page': page.toString(),
       ...?queryParameters,
     };
-    final jsonResponse = await get('account/$accountId/lists', queryParameters: params);
+    final jsonResponse = await get(
+      'account/$accountId/lists',
+      queryParameters: params,
+    );
     return TmdbAccountV4ListsResponse.fromJson(jsonResponse);
   }
 
@@ -32,7 +35,10 @@ class AccountV4Service extends BaseV4Service {
       'language': ?language,
       ...?queryParameters,
     };
-    final jsonResponse = await get('account/$accountId/movie/favorites', queryParameters: params);
+    final jsonResponse = await get(
+      'account/$accountId/movie/favorites',
+      queryParameters: params,
+    );
     return TmdbResponsePage.fromJson(jsonResponse, MovieSummary.fromJson);
   }
 
@@ -48,7 +54,10 @@ class AccountV4Service extends BaseV4Service {
       'language': ?language,
       ...?queryParameters,
     };
-    final jsonResponse = await get('account/$accountId/tv/favorites', queryParameters: params);
+    final jsonResponse = await get(
+      'account/$accountId/tv/favorites',
+      queryParameters: params,
+    );
     return TmdbResponsePage.fromJson(jsonResponse, TvSummary.fromJson);
   }
 
@@ -64,7 +73,10 @@ class AccountV4Service extends BaseV4Service {
       'language': ?language,
       ...?queryParameters,
     };
-    final jsonResponse = await get('account/$accountId/movie/recommendations', queryParameters: params);
+    final jsonResponse = await get(
+      'account/$accountId/movie/recommendations',
+      queryParameters: params,
+    );
     return TmdbResponsePage.fromJson(jsonResponse, MovieSummary.fromJson);
   }
 
@@ -80,7 +92,10 @@ class AccountV4Service extends BaseV4Service {
       'language': ?language,
       ...?queryParameters,
     };
-    final jsonResponse = await get('account/$accountId/tv/recommendations', queryParameters: params);
+    final jsonResponse = await get(
+      'account/$accountId/tv/recommendations',
+      queryParameters: params,
+    );
     return TmdbResponsePage.fromJson(jsonResponse, TvSummary.fromJson);
   }
 
@@ -96,7 +111,10 @@ class AccountV4Service extends BaseV4Service {
       'language': ?language,
       ...?queryParameters,
     };
-    final jsonResponse = await get('account/$accountId/movie/watchlist', queryParameters: params);
+    final jsonResponse = await get(
+      'account/$accountId/movie/watchlist',
+      queryParameters: params,
+    );
     return TmdbResponsePage.fromJson(jsonResponse, MovieSummary.fromJson);
   }
 
@@ -112,7 +130,10 @@ class AccountV4Service extends BaseV4Service {
       'language': ?language,
       ...?queryParameters,
     };
-    final jsonResponse = await get('account/$accountId/tv/watchlist', queryParameters: params);
+    final jsonResponse = await get(
+      'account/$accountId/tv/watchlist',
+      queryParameters: params,
+    );
     return TmdbResponsePage.fromJson(jsonResponse, TvSummary.fromJson);
   }
 }
