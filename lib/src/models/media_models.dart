@@ -7,6 +7,7 @@ abstract class MediaSummary {
   final double voteAverage;
   final int voteCount;
   final double? rating; // Added for rated content
+  final double popularity; // Added for lists
 
   MediaSummary({
     required this.id,
@@ -16,6 +17,7 @@ abstract class MediaSummary {
     required this.voteAverage,
     required this.voteCount,
     this.rating,
+    required this.popularity,
   });
 }
 
@@ -32,6 +34,7 @@ class MovieSummary extends MediaSummary {
     required super.voteAverage,
     required super.voteCount,
     super.rating,
+    required super.popularity,
     required this.title,
     required this.releaseDate,
   });
@@ -45,6 +48,7 @@ class MovieSummary extends MediaSummary {
       voteAverage: (json['vote_average'] as num).toDouble(),
       voteCount: json['vote_count'] as int,
       rating: json['rating'] != null ? (json['rating'] as num).toDouble() : null,
+      popularity: (json['popularity'] as num?)?.toDouble() ?? 0.0,
       title: json['title'] as String,
       releaseDate: json['release_date'] as String? ?? '',
     );
@@ -64,6 +68,7 @@ class TvSummary extends MediaSummary {
     required super.voteAverage,
     required super.voteCount,
     super.rating,
+    required super.popularity,
     required this.name,
     required this.firstAirDate,
   });
@@ -77,6 +82,7 @@ class TvSummary extends MediaSummary {
       voteAverage: (json['vote_average'] as num).toDouble(),
       voteCount: json['vote_count'] as int,
       rating: json['rating'] != null ? (json['rating'] as num).toDouble() : null,
+      popularity: (json['popularity'] as num?)?.toDouble() ?? 0.0,
       name: json['name'] as String,
       firstAirDate: json['first_air_date'] as String? ?? '',
     );

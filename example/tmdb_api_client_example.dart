@@ -405,7 +405,20 @@ void main() async {
     print('Media: ${review.mediaTitle}');
     print('Content snippet: ${review.content.substring(0, 100)}...');
 
-    // 24. Delete session
+    // 24. Demonstrate TrendingService
+    print('\n--- Working with Trending ---');
+    print('Fetching daily trending movies...');
+    final trendingMovies = await tmdbClient.trending.getMovies(TimeWindow.day);
+    print('Trending movies found: ${trendingMovies.totalResults}');
+    for (var movie in trendingMovies.results.take(3)) {
+      print(' - ${movie.title} (Popularity: ${movie.popularity})');
+    }
+
+    print('\nFetching weekly trending people...');
+    final trendingPeople = await tmdbClient.trending.getPeople(TimeWindow.week);
+    print('Trending people found: ${trendingPeople.totalResults}');
+
+    // 25. Delete session
     print('\n--- Cleaning Up ---');
     await tmdbClient.authentication.deleteSession(session.sessionId);
     print('✅ Session deleted.');
