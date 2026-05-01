@@ -2,6 +2,7 @@ import 'package:http/http.dart' as http; // Alias 'http' for the HTTP client lib
 
 // Core components - the actual HTTP communication layer.
 import 'src/core/tmdb_api_connection.dart'; // <--- NEW: Import the API connection class.
+import 'src/core/tmdb_api_connection_v4.dart';
 
 // Models - data structures for configuration, authentication, and account details.
 import 'src/models/tmdb_api_client_config.dart';
@@ -32,6 +33,10 @@ import 'src/services/tv_seasons_service.dart';
 import 'src/services/tv_episode_groups_service.dart';
 import 'src/services/watch_providers_service.dart';
 import 'src/services/tv_episodes_service.dart';
+
+// V4 Services
+import 'src/services/v4/lists_v4_service.dart';
+import 'src/services/v4/account_v4_service.dart';
 
 // Exports for the public API of the package.
 // This makes these classes/exceptions directly accessible when importing 'package:tmdb_api_client/tmdb_api_client.dart'.
@@ -93,24 +98,19 @@ export 'src/models/tv/seasons/tv_season_account_states.dart';
 export 'src/models/tv/seasons/tv_season_external_ids.dart';
 export 'src/models/tv/episode_groups/tv_episode_group_details.dart';
 export 'src/models/tv/episodes/tv_episode_account_states.dart';
+export 'src/models/v4/tmdb_v4_list_models.dart';
+export 'src/services/v4/lists_v4_service.dart' show TmdbV4InputItem;
 export 'src/models/reviews/review_details.dart';
 export 'src/models/trending_models.dart';
 export 'src/utils/tmdb_api_exception.dart';
 
 
 /// [TmdbApiClient] serves as the central "orchestrator" for interacting with the TMDB API.
-/// It manages the client's configuration and provides access to specific API services
-/// (like authentication, account details, etc.).
-///
-/// It does NOT directly perform HTTP requests; instead, it delegates this task
-/// to an internal [TmdbApiConnection] instance.
+/// It manages the client's configuration and provides access to specific API services.
 class TmdbApiClient {
-  // The core component responsible for executing actual HTTP requests.
-  // This is initialized once and shared with all services.
   final TmdbApiConnection _apiConnection;
+  final TmdbApiConnectionV4 _apiConnectionV4;
 
-  // Public getters to access the different services.
-  // 'late final' ensures they are initialized once in the constructor.
   late final AuthenticationService authentication;
   late final AccountService account;
   late final CertificationsService certifications;
@@ -137,17 +137,14 @@ class TmdbApiClient {
   late final WatchProvidersService watchProviders;
   late final TvEpisodesService tvEpisodes;
 
-  /// Constructor for [TmdbApiClient].
-  ///
-  /// [config] is the initial configuration for the API client (e.g., API key, language).
-  /// [httpClient] can be optionally provided for testing purposes (e.g., a MockClient),
-  /// and will be passed to the internal [TmdbApiConnection].
+  /// Access to TMDB API v4 services.
+  late final TmdbV4 v4;
+
   TmdbApiClient({
     required TmdbApiClientConfig config,
     http.Client? httpClient,
-  }) : _apiConnection = TmdbApiConnection(config: config, httpClient: httpClient) { // <--- UPDATED: Use TmdbApiConnection
-    // Initialize all currently included services, passing them this client instance.
-    // Services need a reference to TmdbApiClient to access the _apiConnection and its config.
+  })  : _apiConnection = TmdbApiConnection(config: config, httpClient: httpClient),
+        _apiConnectionV4 = TmdbApiConnectionV4(config: config, httpClient: httpClient) {
     authentication = AuthenticationService(this);
     account = AccountService(this);
     certifications = CertificationsService(this);
@@ -173,39 +170,42 @@ class TmdbApiClient {
     tvEpisodeGroups = TvEpisodeGroupsService(this);
     watchProviders = WatchProvidersService(this);
     tvEpisodes = TvEpisodesService(this);
+
+    v4 = TmdbV4(this, _apiConnectionV4);
   }
 
-  /// Public getter to access the current configuration of the client.
-  /// This configuration is held and managed by the internal [TmdbApiConnection].
   TmdbApiClientConfig get config => _apiConnection.config;
 
-  /// Allows updating the client's configuration.
-  /// This method delegates the update to the internal [TmdbApiConnection],
-  /// ensuring all subsequent requests use the updated configuration (e.g., new sessionId).
   void updateConfig(TmdbApiClientConfig newConfig) {
     _apiConnection.updateConfig(newConfig);
+    _apiConnectionV4.updateConfig(newConfig);
   }
 
-  /// Internal helper to execute GET requests via the API connection.
   Future<Map<String, dynamic>> get(String path, {Map<String, String>? queryParameters}) {
     return _apiConnection.get(path, queryParameters: queryParameters);
   }
 
-  /// Internal helper to execute POST requests via the API connection.
   Future<Map<String, dynamic>> post(String path, {Map<String, dynamic>? body, Map<String, String>? queryParameters}) {
     return _apiConnection.post(path, body: body, queryParameters: queryParameters);
   }
 
-  /// Internal helper to execute DELETE requests via the API connection.
   Future<Map<String, dynamic>> delete(String path, {Map<String, dynamic>? body, Map<String, String>? queryParameters}) {
     return _apiConnection.delete(path, body: body, queryParameters: queryParameters);
   }
 
-  /// Closes the underlying HTTP client managed by the API connection.
-  ///
-  /// It's crucial to call this method when the [TmdbApiClient] instance is no longer
-  /// needed to release system resources.
   void close() {
     _apiConnection.close();
+    _apiConnectionV4.close();
+  }
+}
+
+/// [TmdbV4] groups all TMDB API v4 services.
+class TmdbV4 {
+  late final ListsV4Service lists;
+  late final AccountV4Service account;
+
+  TmdbV4(TmdbApiClient client, TmdbApiConnectionV4 connection) {
+    lists = ListsV4Service(client, connection);
+    account = AccountV4Service(client, connection);
   }
 }

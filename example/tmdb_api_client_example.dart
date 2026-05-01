@@ -521,11 +521,43 @@ void main() async {
       print(' - ${cast.name} as $roles (${cast.totalEpisodeCount} episodes)');
     }
 
-    // 29. Delete session
+    // 30. Demonstrate TMDB API v4 (if access token provided)
+    if (config.accessTokenV4 != null) {
+      print('\n--- Working with TMDB API v4 (Lists) ---');
+      print('Creating a new v4 list...');
+      final v4List = await tmdbClient.v4.lists.create(
+        name: 'My v4 Collection',
+        description: 'Testing mass operations and comments.',
+      );
+      if (v4List.success) {
+        print('✅ v4 List created with ID: ${v4List.id}');
+
+        print('Adding multiple items with comments...');
+        await tmdbClient.v4.lists.addItems(v4List.id, [
+          TmdbV4InputItem(mediaId: 550, mediaType: 'movie', comment: 'Great classic!'),
+          TmdbV4InputItem(mediaId: 27205, mediaType: 'movie', comment: 'Mind-bending.'),
+        ]);
+
+        print('Fetching v4 list details...');
+        final details = await tmdbClient.v4.lists.getDetails(v4List.id);
+        print('Items in v4 list: ${details.totalResults}');
+        for (var item in details.results) {
+          print(' - ${item.mediaType}: ${item.comment}');
+        }
+
+        print('Deleting v4 list...');
+        await tmdbClient.v4.lists.deleteList(v4List.id);
+        print('✅ v4 List deleted.');
+      }
+    } else {
+      print('\nℹ️ Skip TMDB API v4 demo (accessTokenV4 not provided in config).');
+    }
+
+    // 31. Delete session
     print('\n--- Cleaning Up ---');
     await tmdbClient.authentication.deleteSession(session.sessionId);
     print('✅ Session deleted.');
-
+  
   } on TmdbApiException catch (e) {
     print('🛑 API Error: ${e.message} (Status: ${e.statusCode})');
   } on TmdbNetworkException catch (e) {
