@@ -342,7 +342,19 @@ void main() async {
     final nowPlaying = await tmdbClient.movies.getNowPlaying();
     print('Movies now playing: ${nowPlaying.totalResults}');
 
-    // 19. Demonstrate MoviesService (Details & Credits)
+    // 19. Demonstrate NetworksService
+    print('\n--- Working with Networks ---');
+    const networkId = 49; // HBO
+    print('Fetching details for HBO (ID: $networkId)...');
+    final network = await tmdbClient.networks.getDetails(networkId);
+    print('Network Name: ${network.name}');
+    print('Headquarters: ${network.headquarters}');
+
+    print('\nFetching logos for the network...');
+    final networkLogos = await tmdbClient.networks.getLogos(networkId);
+    print('Logos found: ${networkLogos.logos.length}');
+
+    // 20. Demonstrate MoviesService (Details & Credits)
     print('\n--- Working with Movie Details ---');
     const movieId = 550; // Fight Club
     print('Fetching details for Fight Club (ID: $movieId)...');
@@ -359,7 +371,7 @@ void main() async {
       print(' - ${cast.name} as ${cast.character}');
     }
 
-    // 20. Delete session
+    // 21. Delete session
     print('\n--- Cleaning Up ---');
     await tmdbClient.authentication.deleteSession(session.sessionId);
     print('✅ Session deleted.');
