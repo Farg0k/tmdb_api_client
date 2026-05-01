@@ -342,7 +342,24 @@ void main() async {
     final nowPlaying = await tmdbClient.movies.getNowPlaying();
     print('Movies now playing: ${nowPlaying.totalResults}');
 
-    // 19. Delete session
+    // 19. Demonstrate MoviesService (Details & Credits)
+    print('\n--- Working with Movie Details ---');
+    const movieId = 550; // Fight Club
+    print('Fetching details for Fight Club (ID: $movieId)...');
+    final movieDetails = await tmdbClient.movies.getDetails(movieId);
+    print('Title: ${movieDetails.title}');
+    print('Tagline: ${movieDetails.tagline}');
+    print('Runtime: ${movieDetails.runtime} minutes');
+    print('Genres: ${movieDetails.genres.map((g) => g.name).join(', ')}');
+
+    print('\nFetching credits for Fight Club...');
+    final movieCredits = await tmdbClient.movies.getCredits(movieId);
+    print('Cast members: ${movieCredits.cast.length}');
+    for (var cast in movieCredits.cast.take(5)) {
+      print(' - ${cast.name} as ${cast.character}');
+    }
+
+    // 20. Delete session
     print('\n--- Cleaning Up ---');
     await tmdbClient.authentication.deleteSession(session.sessionId);
     print('✅ Session deleted.');

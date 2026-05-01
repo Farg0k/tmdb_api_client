@@ -39,6 +39,17 @@ export 'src/models/find_models.dart';
 export 'src/models/genre_models.dart';
 export 'src/models/keyword_models.dart';
 export 'src/models/list_models.dart';
+export 'src/models/movies/movie_details.dart';
+export 'src/models/movies/movie_account_states.dart';
+export 'src/models/movies/movie_credits.dart';
+export 'src/models/movies/movie_videos.dart';
+export 'src/models/movies/movie_reviews.dart';
+export 'src/models/movies/movie_external_ids.dart';
+export 'src/models/movies/movie_release_dates.dart';
+export 'src/models/movies/movie_alternative_titles.dart';
+export 'src/models/movies/movie_images.dart';
+export 'src/models/movies/movie_keywords.dart';
+export 'src/models/movies/movie_watch_providers.dart';
 export 'src/utils/tmdb_api_exception.dart';
 
 
