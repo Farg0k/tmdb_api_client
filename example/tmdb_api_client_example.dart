@@ -430,7 +430,23 @@ void main() async {
       print('First group: ${groupDetails.groups.first.name} (${groupDetails.groups.first.episodes.length} episodes)');
     }
 
-    // 26. Demonstrate SearchService
+    // 26. Demonstrate WatchProvidersService
+    print('\n--- Working with Watch Providers ---');
+    print('Fetching available regions for watch providers...');
+    final regions = await tmdbClient.watchProviders.getAvailableRegions();
+    print('Supported regions found: ${regions.length}');
+    if (regions.any((r) => r.iso_3166_1 == 'UA')) {
+      print('✅ Ukraine (UA) is supported!');
+    }
+
+    print('\nFetching movie providers for US...');
+    final movieProviders = await tmdbClient.watchProviders.getMovieProviders(watchRegion: 'US');
+    print('Movie providers in US: ${movieProviders.results.length}');
+    for (var provider in movieProviders.results.take(3)) {
+      print(' - ${provider.providerName}');
+    }
+
+    // 27. Demonstrate SearchService
     print('\n--- Working with Search ---');
     print('Searching for "Batman" movies...');
     final movieSearch = await tmdbClient.search.movie(query: 'Batman', year: 2022);
