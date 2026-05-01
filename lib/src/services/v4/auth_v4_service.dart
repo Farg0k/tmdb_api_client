@@ -10,11 +10,11 @@ class AuthV4Service extends BaseV4Service {
     Map<String, String>? queryParameters,
   }) async {
     final body = {'redirect_to': ?redirectTo};
-    return post(
+    return (await post(
       'auth/request_token',
       body: body,
       queryParameters: queryParameters,
-    );
+    ) as Map<String, dynamic>);
   }
 
   /// Create an access token (Bearer Token) from a validated request token.

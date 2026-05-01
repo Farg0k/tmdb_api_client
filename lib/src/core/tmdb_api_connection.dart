@@ -44,7 +44,7 @@ class TmdbApiConnection {
   /// [path] is the API endpoint path (e.g., 'authentication/token/new').
   /// [queryParameters] are optional key-value pairs for the URL query string.
   ///
-  /// Returns a [Future] that resolves to a `Map<String, dynamic>`
+  /// Returns a [Future] that resolves to a `dynamic` (usually `Map<String, dynamic>` or `List<dynamic>`)
   /// representing the JSON response body.
   /// Throws [TmdbApiException] for API-specific errors or [TmdbNetworkException] for network issues.
   Future<dynamic> get(
@@ -83,10 +83,10 @@ class TmdbApiConnection {
   /// [body] is the optional request body, which will be JSON encoded.
   /// [queryParameters] are optional key-value pairs for the URL query string.
   ///
-  /// Returns a [Future] that resolves to a `Map<String, dynamic>`
+  /// Returns a [Future] that resolves to a `dynamic`
   /// representing the JSON response body.
   /// Throws [TmdbApiException] for API-specific errors or [TmdbNetworkException] for network issues.
-  Future<Map<String, dynamic>> post(
+  Future<dynamic> post(
     String path, {
     Map<String, dynamic>? body,
     Map<String, String>? queryParameters,
@@ -125,10 +125,10 @@ class TmdbApiConnection {
   /// [body] is the optional request body, which will be JSON encoded.
   /// [queryParameters] are optional key-value pairs for the URL query string.
   ///
-  /// Returns a [Future] that resolves to a `Map<String, dynamic>`
+  /// Returns a [Future] that resolves to a `dynamic`
   /// representing the JSON response body.
   /// Throws [TmdbApiException] for API-specific errors or [TmdbNetworkException] for network issues.
-  Future<Map<String, dynamic>> delete(
+  Future<dynamic> delete(
     String path, {
     Map<String, dynamic>? body,
     Map<String, String>? queryParameters,

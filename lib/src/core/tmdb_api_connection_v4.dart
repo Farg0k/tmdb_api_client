@@ -31,7 +31,7 @@ class TmdbApiConnectionV4 {
     return headers;
   }
 
-  Future<Map<String, dynamic>> get(
+  Future<dynamic> get(
     String path, {
     Map<String, String>? queryParameters,
   }) async {
@@ -52,7 +52,7 @@ class TmdbApiConnectionV4 {
     }
   }
 
-  Future<Map<String, dynamic>> post(
+  Future<dynamic> post(
     String path, {
     Map<String, dynamic>? body,
     Map<String, String>? queryParameters,
@@ -77,7 +77,7 @@ class TmdbApiConnectionV4 {
     }
   }
 
-  Future<Map<String, dynamic>> put(
+  Future<dynamic> put(
     String path, {
     Map<String, dynamic>? body,
     Map<String, String>? queryParameters,
@@ -102,7 +102,7 @@ class TmdbApiConnectionV4 {
     }
   }
 
-  Future<Map<String, dynamic>> delete(
+  Future<dynamic> delete(
     String path, {
     Map<String, dynamic>? body,
     Map<String, String>? queryParameters,
@@ -127,19 +127,19 @@ class TmdbApiConnectionV4 {
     }
   }
 
-  Map<String, dynamic> _processResponse(http.Response response) {
-    final dynamic body = json.decode(response.body);
-    final Map<String, dynamic> jsonBody = (body is List)
-        ? {'results': body}
-        : body as Map<String, dynamic>;
+  dynamic _processResponse(http.Response response) {
+    final dynamic jsonBody = json.decode(response.body);
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
       return jsonBody;
     } else {
+      final Map<String, dynamic> errorMap = (jsonBody is Map<String, dynamic>)
+          ? jsonBody
+          : {'status_message': 'Unknown error'};
       throw TmdbApiException(
-        jsonBody['status_message'] as String? ?? 'Unknown API error',
+        errorMap['status_message'] as String? ?? 'Unknown API error',
         statusCode: response.statusCode,
-        errorCode: jsonBody['status_code'] as int?,
+        errorCode: errorMap['status_code'] as int?,
       );
     }
   }

@@ -239,7 +239,7 @@ class TmdbApiClient {
   }
 
   /// Performs a low-level GET request to the TMDB API v3.
-  Future<Map<String, dynamic>> get(
+  Future<dynamic> get(
     String path, {
     Map<String, String>? queryParameters,
   }) {
@@ -247,7 +247,7 @@ class TmdbApiClient {
   }
 
   /// Performs a low-level POST request to the TMDB API v3.
-  Future<Map<String, dynamic>> post(
+  Future<dynamic> post(
     String path, {
     Map<String, dynamic>? body,
     Map<String, String>? queryParameters,
@@ -260,7 +260,7 @@ class TmdbApiClient {
   }
 
   /// Performs a low-level DELETE request to the TMDB API v3.
-  Future<Map<String, dynamic>> delete(
+  Future<dynamic> delete(
     String path, {
     Map<String, dynamic>? body,
     Map<String, String>? queryParameters,

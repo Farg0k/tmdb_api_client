@@ -61,7 +61,7 @@ class PeopleService extends BaseTmdbService {
       'end_date': ?endDate,
       ...?queryParameters,
     };
-    return get('person/$personId/changes', queryParameters: params);
+    return (await get('person/$personId/changes', queryParameters: params) as Map<String, dynamic>);
   }
 
   /// Get the combined movie and TV credits for a person.

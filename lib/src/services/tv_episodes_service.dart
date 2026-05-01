@@ -67,7 +67,7 @@ class TvEpisodesService extends BaseTmdbService {
       'end_date': ?endDate,
       ...?queryParameters,
     };
-    return get('tv/episode/$episodeId/changes', queryParameters: params);
+    return (await get('tv/episode/$episodeId/changes', queryParameters: params) as Map<String, dynamic>);
   }
 
   /// Get the credits for a TV episode.

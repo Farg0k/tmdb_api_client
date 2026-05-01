@@ -25,7 +25,7 @@ abstract class BaseTmdbService {
   BaseTmdbService(this._client); // <--- Constructor now takes TmdbApiClient.
 
   /// Delegates a GET request to the internal [TmdbApiConnection] via the main client.
-  Future<Map<String, dynamic>> get(
+  Future<dynamic> get(
     String path, {
     Map<String, String>? queryParameters,
   }) {
@@ -33,7 +33,7 @@ abstract class BaseTmdbService {
   }
 
   /// Delegates a POST request to the internal [TmdbApiConnection] via the main client.
-  Future<Map<String, dynamic>> post(
+  Future<dynamic> post(
     String path, {
     Map<String, dynamic>? body,
     Map<String, String>? queryParameters,
@@ -42,7 +42,7 @@ abstract class BaseTmdbService {
   }
 
   /// Delegates a DELETE request to the internal [TmdbApiConnection] via the main client.
-  Future<Map<String, dynamic>> delete(
+  Future<dynamic> delete(
     String path, {
     Map<String, dynamic>? body,
     Map<String, String>? queryParameters,
