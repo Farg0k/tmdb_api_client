@@ -1,13 +1,13 @@
-import 'package:http/http.dart' as http; // Alias 'http' for the HTTP client library.
+import 'package:http/http.dart' as http;
 
-// Core components - the actual HTTP communication layer.
-import 'src/core/tmdb_api_connection.dart'; // <--- NEW: Import the API connection class.
+// Core components
+import 'src/core/tmdb_api_connection.dart';
 import 'src/core/tmdb_api_connection_v4.dart';
 
-// Models - data structures for configuration, authentication, and account details.
+// Models
 import 'src/models/tmdb_api_client_config.dart';
 
-// Services - high-level interfaces for specific API functionalities.
+// Services
 import 'src/services/authentication_service.dart';
 import 'src/services/account_service.dart';
 import 'src/services/certifications_service.dart';
@@ -37,9 +37,9 @@ import 'src/services/tv_episodes_service.dart';
 // V4 Services
 import 'src/services/v4/lists_v4_service.dart';
 import 'src/services/v4/account_v4_service.dart';
+import 'src/services/v4/auth_v4_service.dart';
 
-// Exports for the public API of the package.
-// This makes these classes/exceptions directly accessible when importing 'package:tmdb_api_client/tmdb_api_client.dart'.
+// Exports
 export 'src/models/tmdb_api_client_config.dart';
 export 'src/models/authentication_models.dart';
 export 'src/models/account_models.dart';
@@ -49,7 +49,6 @@ export 'src/models/change_models.dart';
 export 'src/models/collection_models.dart';
 export 'src/models/collections/collection_summary.dart';
 export 'src/models/company_models.dart';
-export 'src/models/companies/company_summary.dart';
 export 'src/models/configuration_models.dart';
 export 'src/models/credit_models.dart';
 export 'src/models/find_models.dart';
@@ -57,56 +56,39 @@ export 'src/models/genre_models.dart';
 export 'src/models/keyword_models.dart';
 export 'src/models/list_models.dart';
 export 'src/models/movies/movie_details.dart';
-export 'src/models/movies/movie_account_states.dart';
-export 'src/models/movies/movie_credits.dart';
-export 'src/models/movies/movie_videos.dart';
-export 'src/models/movies/movie_reviews.dart';
-export 'src/models/movies/movie_external_ids.dart';
 export 'src/models/movies/movie_release_dates.dart';
-export 'src/models/movies/movie_alternative_titles.dart';
-export 'src/models/movies/movie_images.dart';
-export 'src/models/movies/movie_keywords.dart';
-export 'src/models/movies/movie_watch_providers.dart';
 export 'src/models/networks/network_details.dart';
-export 'src/models/networks/network_alternative_names.dart';
-export 'src/models/networks/network_logos.dart';
 export 'src/models/people/person_summary.dart';
 export 'src/models/people/person_details.dart';
-export 'src/models/people/person_credits.dart';
-export 'src/models/people/person_external_ids.dart';
-export 'src/models/people/person_images.dart';
 export 'src/models/people/person_tagged_images.dart';
-export 'src/models/people/person_translations.dart';
 export 'src/models/tv/tv_details.dart';
-export 'src/models/tv/tv_account_states.dart';
 export 'src/models/tv/tv_aggregate_credits.dart';
-export 'src/models/tv/tv_alternative_titles.dart';
 export 'src/models/tv/tv_content_ratings.dart';
-export 'src/models/tv/tv_credits.dart';
-export 'src/models/tv/tv_episode_groups.dart';
-export 'src/models/tv/tv_external_ids.dart';
-export 'src/models/tv/tv_images.dart';
-export 'src/models/tv/tv_keywords.dart';
-export 'src/models/tv/tv_reviews.dart';
 export 'src/models/tv/tv_screened_theatrically.dart';
-export 'src/models/tv/tv_translations.dart';
-export 'src/models/tv/tv_videos.dart';
-export 'src/models/tv/tv_watch_providers.dart';
 export 'src/models/tv/tv_episode_summary.dart';
+export 'src/models/tv/tv_season_summary.dart';
 export 'src/models/tv/seasons/tv_season_details.dart';
-export 'src/models/tv/seasons/tv_season_account_states.dart';
-export 'src/models/tv/seasons/tv_season_external_ids.dart';
 export 'src/models/tv/episode_groups/tv_episode_group_details.dart';
-export 'src/models/tv/episodes/tv_episode_account_states.dart';
 export 'src/models/v4/tmdb_v4_list_models.dart';
+export 'src/models/common/media_account_states.dart';
+export 'src/models/common/alternative_title.dart';
+export 'src/models/common/tmdb_external_ids.dart';
+export 'src/models/common/tmdb_list_response.dart';
+export 'src/models/common/tmdb_video.dart';
+export 'src/models/common/tmdb_image.dart';
+export 'src/models/common/tmdb_review.dart';
+export 'src/models/common/tmdb_logo.dart';
+export 'src/models/common/tmdb_company.dart';
+export 'src/models/common/tmdb_country.dart';
+export 'src/models/common/tmdb_language.dart';
+export 'src/models/common/tmdb_credit.dart';
+export 'src/models/common/tmdb_timezone.dart';
+export 'src/models/common/tmdb_watch_provider.dart';
 export 'src/services/v4/lists_v4_service.dart' show TmdbV4InputItem;
 export 'src/models/reviews/review_details.dart';
 export 'src/models/trending_models.dart';
 export 'src/utils/tmdb_api_exception.dart';
 
-
-/// [TmdbApiClient] serves as the central "orchestrator" for interacting with the TMDB API.
-/// It manages the client's configuration and provides access to specific API services.
 class TmdbApiClient {
   final TmdbApiConnection _apiConnection;
   final TmdbApiConnectionV4 _apiConnectionV4;
@@ -137,7 +119,6 @@ class TmdbApiClient {
   late final WatchProvidersService watchProviders;
   late final TvEpisodesService tvEpisodes;
 
-  /// Access to TMDB API v4 services.
   late final TmdbV4 v4;
 
   TmdbApiClient({
@@ -199,13 +180,14 @@ class TmdbApiClient {
   }
 }
 
-/// [TmdbV4] groups all TMDB API v4 services.
 class TmdbV4 {
   late final ListsV4Service lists;
   late final AccountV4Service account;
+  late final AuthV4Service auth;
 
   TmdbV4(TmdbApiClient client, TmdbApiConnectionV4 connection) {
     lists = ListsV4Service(client, connection);
     account = AccountV4Service(client, connection);
+    auth = AuthV4Service(client, connection);
   }
 }

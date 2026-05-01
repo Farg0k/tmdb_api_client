@@ -1,7 +1,8 @@
 import 'base_tmdb_service.dart';
 import '../models/networks/network_details.dart';
-import '../models/networks/network_alternative_names.dart';
-import '../models/networks/network_logos.dart';
+import '../models/company_models.dart';
+import '../models/common/tmdb_logo.dart';
+import '../models/common/tmdb_list_response.dart';
 
 /// [NetworksService] handles API interactions related to TV networks on TMDB.
 class NetworksService extends BaseTmdbService {
@@ -14,14 +15,14 @@ class NetworksService extends BaseTmdbService {
   }
 
   /// Get the alternative names of a TV network.
-  Future<NetworkAlternativeNamesResponse> getAlternativeNames(int networkId, {Map<String, String>? queryParameters}) async {
+  Future<TmdbListResponse<AlternativeName>> getAlternativeNames(int networkId, {Map<String, String>? queryParameters}) async {
     final jsonResponse = await get('network/$networkId/alternative_names', queryParameters: queryParameters);
-    return NetworkAlternativeNamesResponse.fromJson(jsonResponse);
+    return TmdbListResponse.fromJson(jsonResponse, AlternativeName.fromJson);
   }
 
   /// Get the logos of a TV network.
-  Future<NetworkLogosResponse> getLogos(int networkId, {Map<String, String>? queryParameters}) async {
+  Future<TmdbListResponse<TmdbLogo>> getLogos(int networkId, {Map<String, String>? queryParameters}) async {
     final jsonResponse = await get('network/$networkId/images', queryParameters: queryParameters);
-    return NetworkLogosResponse.fromJson(jsonResponse);
+    return TmdbListResponse.fromJson(jsonResponse, TmdbLogo.fromJson, resultsKey: 'logos');
   }
 }

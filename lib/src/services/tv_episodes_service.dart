@@ -1,19 +1,17 @@
 import 'base_tmdb_service.dart';
 import '../models/tv/tv_episode_summary.dart';
-import '../models/tv/episodes/tv_episode_account_states.dart';
-import '../models/tv/tv_credits.dart';
-import '../models/tv/tv_external_ids.dart';
-import '../models/tv/tv_images.dart';
-import '../models/tv/tv_videos.dart';
-import '../models/tv/tv_translations.dart';
+import '../models/common/media_account_states.dart';
+import '../models/common/tmdb_external_ids.dart';
+import '../models/common/tmdb_list_response.dart';
+import '../models/common/tmdb_video.dart';
+import '../models/common/tmdb_image.dart';
+import '../models/common/tmdb_credit.dart';
 
 /// [TvEpisodesService] handles API interactions related to TV episodes on TMDB.
 class TvEpisodesService extends BaseTmdbService {
   TvEpisodesService(super.client);
 
   /// Get the details of a TV episode.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /tv/{series_id}/season/{season_number}/episode/{episode_number}`.
   Future<TvEpisodeSummary> getDetails(
     int seriesId,
     int seasonNumber,
@@ -32,9 +30,7 @@ class TvEpisodesService extends BaseTmdbService {
   }
 
   /// Get the user rating status for a specific TV episode.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /tv/{series_id}/season/{season_number}/episode/{episode_number}/account_states`.
-  Future<TvEpisodeAccountStates> getAccountStates(
+  Future<MediaAccountStates> getAccountStates(
     int seriesId,
     int seasonNumber,
     int episodeNumber, {
@@ -48,12 +44,10 @@ class TvEpisodesService extends BaseTmdbService {
       ...?queryParameters,
     };
     final jsonResponse = await get('tv/$seriesId/season/$seasonNumber/episode/$episodeNumber/account_states', queryParameters: params);
-    return TvEpisodeAccountStates.fromJson(jsonResponse);
+    return MediaAccountStates.fromJson(jsonResponse);
   }
 
   /// Get the changes for a TV episode.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /tv/episode/{episode_id}/changes`.
   Future<Map<String, dynamic>> getChanges(
     int episodeId, {
     String? startDate,
@@ -70,10 +64,8 @@ class TvEpisodesService extends BaseTmdbService {
     return get('tv/episode/$episodeId/changes', queryParameters: params);
   }
 
-  /// Get the credits (cast, crew and guest stars) for a TV episode.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /tv/{series_id}/season/{season_number}/episode/{episode_number}/credits`.
-  Future<TvCredits> getCredits(
+  /// Get the credits for a TV episode.
+  Future<TmdbCredits> getCredits(
     int seriesId,
     int seasonNumber,
     int episodeNumber, {
@@ -85,21 +77,17 @@ class TvEpisodesService extends BaseTmdbService {
       ...?queryParameters,
     };
     final jsonResponse = await get('tv/$seriesId/season/$seasonNumber/episode/$episodeNumber/credits', queryParameters: params);
-    return TvCredits.fromJson(jsonResponse);
+    return TmdbCredits.fromJson(jsonResponse);
   }
 
   /// Get the external ids for a TV episode.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /tv/{series_id}/season/{season_number}/episode/{episode_number}/external_ids`.
-  Future<TvExternalIds> getExternalIds(int seriesId, int seasonNumber, int episodeNumber, {Map<String, String>? queryParameters}) async {
+  Future<TmdbExternalIds> getExternalIds(int seriesId, int seasonNumber, int episodeNumber, {Map<String, String>? queryParameters}) async {
     final jsonResponse = await get('tv/$seriesId/season/$seasonNumber/episode/$episodeNumber/external_ids', queryParameters: queryParameters);
-    return TvExternalIds.fromJson(jsonResponse);
+    return TmdbExternalIds.fromJson(jsonResponse);
   }
 
   /// Get the images that belong to a TV episode.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /tv/{series_id}/season/{season_number}/episode/{episode_number}/images`.
-  Future<TvImagesResponse> getImages(
+  Future<TmdbImagesResponse> getImages(
     int seriesId,
     int seasonNumber,
     int episodeNumber, {
@@ -113,21 +101,17 @@ class TvEpisodesService extends BaseTmdbService {
       ...?queryParameters,
     };
     final jsonResponse = await get('tv/$seriesId/season/$seasonNumber/episode/$episodeNumber/images', queryParameters: params);
-    return TvImagesResponse.fromJson(jsonResponse);
+    return TmdbImagesResponse.fromJson(jsonResponse);
   }
 
   /// Get the translations for a TV episode.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /tv/{series_id}/season/{season_number}/episode/{episode_number}/translations`.
-  Future<TvTranslationsResponse> getTranslations(int seriesId, int seasonNumber, int episodeNumber, {Map<String, String>? queryParameters}) async {
+  Future<TmdbListResponse<Map<String, dynamic>>> getTranslations(int seriesId, int seasonNumber, int episodeNumber, {Map<String, String>? queryParameters}) async {
     final jsonResponse = await get('tv/$seriesId/season/$seasonNumber/episode/$episodeNumber/translations', queryParameters: queryParameters);
-    return TvTranslationsResponse.fromJson(jsonResponse);
+    return TmdbListResponse.fromJson(jsonResponse, (i) => i, resultsKey: 'translations');
   }
 
-  /// Get the videos that have been added to a TV episode.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /tv/{series_id}/season/{season_number}/episode/{episode_number}/videos`.
-  Future<TvVideosResponse> getVideos(
+  /// Get the videos for a TV episode.
+  Future<TmdbListResponse<TmdbVideo>> getVideos(
     int seriesId,
     int seasonNumber,
     int episodeNumber, {
@@ -141,12 +125,10 @@ class TvEpisodesService extends BaseTmdbService {
       ...?queryParameters,
     };
     final jsonResponse = await get('tv/$seriesId/season/$seasonNumber/episode/$episodeNumber/videos', queryParameters: params);
-    return TvVideosResponse.fromJson(jsonResponse);
+    return TmdbListResponse.fromJson(jsonResponse, TmdbVideo.fromJson);
   }
 
   /// Rate a TV episode.
-  ///
-  /// Corresponds to the TMDB API endpoint: `POST /tv/{series_id}/season/{season_number}/episode/{episode_number}/rating`.
   Future<bool> addRating(
     int seriesId,
     int seasonNumber,
@@ -169,9 +151,7 @@ class TvEpisodesService extends BaseTmdbService {
     return jsonResponse['success'] == true;
   }
 
-  /// Delete a rating for a TV episode.
-  ///
-  /// Corresponds to the TMDB API endpoint: `DELETE /tv/{series_id}/season/{season_number}/episode/{episode_number}/rating`.
+  /// Delete a rating.
   Future<bool> deleteRating(
     int seriesId,
     int seasonNumber,

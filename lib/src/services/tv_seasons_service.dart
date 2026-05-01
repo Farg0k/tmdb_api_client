@@ -1,13 +1,13 @@
 import 'base_tmdb_service.dart';
+import '../models/common/media_account_states.dart';
+import '../models/common/tmdb_external_ids.dart';
+import '../models/common/tmdb_list_response.dart';
+import '../models/common/tmdb_image.dart';
+import '../models/common/tmdb_video.dart';
+import '../models/common/tmdb_credit.dart';
+import '../models/common/tmdb_watch_provider.dart';
 import '../models/tv/seasons/tv_season_details.dart';
-import '../models/tv/seasons/tv_season_account_states.dart';
-import '../models/tv/seasons/tv_season_external_ids.dart';
-import '../models/tv/tv_credits.dart';
 import '../models/tv/tv_aggregate_credits.dart';
-import '../models/tv/tv_images.dart';
-import '../models/tv/tv_videos.dart';
-import '../models/tv/tv_translations.dart';
-import '../models/tv/tv_watch_providers.dart';
 
 /// [TvSeasonsService] handles API interactions related to TV seasons on TMDB.
 class TvSeasonsService extends BaseTmdbService {
@@ -31,7 +31,7 @@ class TvSeasonsService extends BaseTmdbService {
   }
 
   /// Get the user rating status for all episodes in a season.
-  Future<TvSeasonAccountStates> getAccountStates(
+  Future<TmdbListResponse<MediaAccountStates>> getAccountStates(
     int seriesId,
     int seasonNumber, {
     String? sessionId,
@@ -44,7 +44,7 @@ class TvSeasonsService extends BaseTmdbService {
       ...?queryParameters,
     };
     final jsonResponse = await get('tv/$seriesId/season/$seasonNumber/account_states', queryParameters: params);
-    return TvSeasonAccountStates.fromJson(jsonResponse);
+    return TmdbListResponse.fromJson(jsonResponse, MediaAccountStates.fromJson);
   }
 
   /// Get the aggregate credits for a TV season.
@@ -79,8 +79,8 @@ class TvSeasonsService extends BaseTmdbService {
     return get('tv/season/$seasonId/changes', queryParameters: params);
   }
 
-  /// Get the credits (cast and crew) for a TV season.
-  Future<TvCredits> getCredits(
+  /// Get the credits for a TV season.
+  Future<TmdbCredits> getCredits(
     int seriesId,
     int seasonNumber, {
     String? language,
@@ -91,17 +91,17 @@ class TvSeasonsService extends BaseTmdbService {
       ...?queryParameters,
     };
     final jsonResponse = await get('tv/$seriesId/season/$seasonNumber/credits', queryParameters: params);
-    return TvCredits.fromJson(jsonResponse);
+    return TmdbCredits.fromJson(jsonResponse);
   }
 
   /// Get the external ids for a TV season.
-  Future<TvSeasonExternalIds> getExternalIds(int seriesId, int seasonNumber, {Map<String, String>? queryParameters}) async {
+  Future<TmdbExternalIds> getExternalIds(int seriesId, int seasonNumber, {Map<String, String>? queryParameters}) async {
     final jsonResponse = await get('tv/$seriesId/season/$seasonNumber/external_ids', queryParameters: queryParameters);
-    return TvSeasonExternalIds.fromJson(jsonResponse);
+    return TmdbExternalIds.fromJson(jsonResponse);
   }
 
-  /// Get the images that belong to a TV season.
-  Future<TvImagesResponse> getImages(
+  /// Get the images for a TV season.
+  Future<TmdbImagesResponse> getImages(
     int seriesId,
     int seasonNumber, {
     String? language,
@@ -114,17 +114,17 @@ class TvSeasonsService extends BaseTmdbService {
       ...?queryParameters,
     };
     final jsonResponse = await get('tv/$seriesId/season/$seasonNumber/images', queryParameters: params);
-    return TvImagesResponse.fromJson(jsonResponse);
+    return TmdbImagesResponse.fromJson(jsonResponse);
   }
 
   /// Get the translations for a TV season.
-  Future<TvTranslationsResponse> getTranslations(int seriesId, int seasonNumber, {Map<String, String>? queryParameters}) async {
+  Future<TmdbListResponse<Map<String, dynamic>>> getTranslations(int seriesId, int seasonNumber, {Map<String, String>? queryParameters}) async {
     final jsonResponse = await get('tv/$seriesId/season/$seasonNumber/translations', queryParameters: queryParameters);
-    return TvTranslationsResponse.fromJson(jsonResponse);
+    return TmdbListResponse.fromJson(jsonResponse, (i) => i, resultsKey: 'translations');
   }
 
-  /// Get the videos that have been added to a TV season.
-  Future<TvVideosResponse> getVideos(
+  /// Get the videos for a TV season.
+  Future<TmdbListResponse<TmdbVideo>> getVideos(
     int seriesId,
     int seasonNumber, {
     String? language,
@@ -137,11 +137,11 @@ class TvSeasonsService extends BaseTmdbService {
       ...?queryParameters,
     };
     final jsonResponse = await get('tv/$seriesId/season/$seasonNumber/videos', queryParameters: params);
-    return TvVideosResponse.fromJson(jsonResponse);
+    return TmdbListResponse.fromJson(jsonResponse, TmdbVideo.fromJson);
   }
 
-  /// Get a list of watch providers for a TV season.
-  Future<TvWatchProvidersResponse> getWatchProviders(
+  /// Get the watch providers for a TV season.
+  Future<TmdbWatchProvidersResponse> getWatchProviders(
     int seriesId,
     int seasonNumber, {
     String? language,
@@ -152,6 +152,6 @@ class TvSeasonsService extends BaseTmdbService {
       ...?queryParameters,
     };
     final jsonResponse = await get('tv/$seriesId/season/$seasonNumber/watch/providers', queryParameters: params);
-    return TvWatchProvidersResponse.fromJson(jsonResponse);
+    return TmdbWatchProvidersResponse.fromJson(jsonResponse);
   }
 }

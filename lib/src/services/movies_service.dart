@@ -1,16 +1,17 @@
 import 'base_tmdb_service.dart';
 import '../models/media_models.dart';
+import '../models/common/media_account_states.dart';
+import '../models/common/alternative_title.dart';
+import '../models/common/tmdb_external_ids.dart';
+import '../models/common/tmdb_list_response.dart';
+import '../models/common/tmdb_video.dart';
+import '../models/common/tmdb_image.dart';
+import '../models/common/tmdb_review.dart';
+import '../models/common/tmdb_credit.dart';
+import '../models/common/tmdb_watch_provider.dart';
 import '../models/movies/movie_details.dart';
-import '../models/movies/movie_account_states.dart';
-import '../models/movies/movie_credits.dart';
-import '../models/movies/movie_videos.dart';
-import '../models/movies/movie_reviews.dart';
-import '../models/movies/movie_external_ids.dart';
 import '../models/movies/movie_release_dates.dart';
-import '../models/movies/movie_alternative_titles.dart';
-import '../models/movies/movie_images.dart';
-import '../models/movies/movie_keywords.dart';
-import '../models/movies/movie_watch_providers.dart';
+import '../models/keyword_models.dart';
 
 /// [MoviesService] handles API interactions related to movies on TMDB.
 class MoviesService extends BaseTmdbService {
@@ -19,8 +20,6 @@ class MoviesService extends BaseTmdbService {
   /// --- Movie Lists ---
 
   /// Get a list of movies that are currently in theatres.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /movie/now_playing`.
   Future<TmdbResponsePage<MovieSummary>> getNowPlaying({
     int? page,
     String? language,
@@ -38,8 +37,6 @@ class MoviesService extends BaseTmdbService {
   }
 
   /// Get a list of the current popular movies on TMDB.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /movie/popular`.
   Future<TmdbResponsePage<MovieSummary>> getPopular({
     int? page,
     String? language,
@@ -57,8 +54,6 @@ class MoviesService extends BaseTmdbService {
   }
 
   /// Get the top rated movies on TMDB.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /movie/top_rated`.
   Future<TmdbResponsePage<MovieSummary>> getTopRated({
     int? page,
     String? language,
@@ -76,8 +71,6 @@ class MoviesService extends BaseTmdbService {
   }
 
   /// Get a list of upcoming movies in theatres.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /movie/upcoming`.
   Future<TmdbResponsePage<MovieSummary>> getUpcoming({
     int? page,
     String? language,
@@ -97,8 +90,6 @@ class MoviesService extends BaseTmdbService {
   /// --- Movie Details & Info ---
 
   /// Get the primary information about a movie.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /movie/{movie_id}`.
   Future<MovieDetails> getDetails(
     int movieId, {
     String? language,
@@ -115,9 +106,7 @@ class MoviesService extends BaseTmdbService {
   }
 
   /// Get the user rating and status for a specific movie.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /movie/{movie_id}/account_states`.
-  Future<MovieAccountStates> getAccountStates(
+  Future<MediaAccountStates> getAccountStates(
     int movieId, {
     String? sessionId,
     String? guestSessionId,
@@ -129,13 +118,11 @@ class MoviesService extends BaseTmdbService {
       ...?queryParameters,
     };
     final jsonResponse = await get('movie/$movieId/account_states', queryParameters: params);
-    return MovieAccountStates.fromJson(jsonResponse);
+    return MediaAccountStates.fromJson(jsonResponse);
   }
 
   /// Get all of the alternative titles for a movie.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /movie/{movie_id}/alternative_titles`.
-  Future<MovieAlternativeTitlesResponse> getAlternativeTitles(
+  Future<TmdbListResponse<AlternativeTitle>> getAlternativeTitles(
     int movieId, {
     String? country,
     Map<String, String>? queryParameters,
@@ -145,12 +132,10 @@ class MoviesService extends BaseTmdbService {
       ...?queryParameters,
     };
     final jsonResponse = await get('movie/$movieId/alternative_titles', queryParameters: params);
-    return MovieAlternativeTitlesResponse.fromJson(jsonResponse);
+    return TmdbListResponse.fromJson(jsonResponse, AlternativeTitle.fromJson, resultsKey: 'titles');
   }
 
   /// Get the changes for a movie.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /movie/{movie_id}/changes`.
   Future<Map<String, dynamic>> getChanges(
     int movieId, {
     String? startDate,
@@ -168,9 +153,7 @@ class MoviesService extends BaseTmdbService {
   }
 
   /// Get the cast and crew for a movie.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /movie/{movie_id}/credits`.
-  Future<MovieCredits> getCredits(
+  Future<TmdbCredits> getCredits(
     int movieId, {
     String? language,
     Map<String, String>? queryParameters,
@@ -180,20 +163,17 @@ class MoviesService extends BaseTmdbService {
       ...?queryParameters,
     };
     final jsonResponse = await get('movie/$movieId/credits', queryParameters: params);
-    return MovieCredits.fromJson(jsonResponse);
+    return TmdbCredits.fromJson(jsonResponse);
   }
 
   /// Get the external ids for a movie.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /movie/{movie_id}/external_ids`.
-  Future<MovieExternalIds> getExternalIds(int movieId, {Map<String, String>? queryParameters}) async {
-    return MovieExternalIds.fromJson(await get('movie/$movieId/external_ids', queryParameters: queryParameters));
+  Future<TmdbExternalIds> getExternalIds(int movieId, {Map<String, String>? queryParameters}) async {
+    final jsonResponse = await get('movie/$movieId/external_ids', queryParameters: queryParameters);
+    return TmdbExternalIds.fromJson(jsonResponse);
   }
 
   /// Get the images that belong to a movie.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /movie/{movie_id}/images`.
-  Future<MovieImagesResponse> getImages(
+  Future<TmdbImagesResponse> getImages(
     int movieId, {
     String? language,
     String? includeImageLanguage,
@@ -205,20 +185,16 @@ class MoviesService extends BaseTmdbService {
       ...?queryParameters,
     };
     final jsonResponse = await get('movie/$movieId/images', queryParameters: params);
-    return MovieImagesResponse.fromJson(jsonResponse);
+    return TmdbImagesResponse.fromJson(jsonResponse);
   }
 
   /// Get the keywords that have been added to a movie.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /movie/{movie_id}/keywords`.
-  Future<MovieKeywordsResponse> getKeywords(int movieId, {Map<String, String>? queryParameters}) async {
+  Future<TmdbListResponse<Keyword>> getKeywords(int movieId, {Map<String, String>? queryParameters}) async {
     final jsonResponse = await get('movie/$movieId/keywords', queryParameters: queryParameters);
-    return MovieKeywordsResponse.fromJson(jsonResponse);
+    return TmdbListResponse.fromJson(jsonResponse, Keyword.fromJson, resultsKey: 'keywords');
   }
 
   /// Get the most newly created movie ID.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /movie/latest`.
   Future<MovieDetails> getLatest({
     String? language,
     Map<String, String>? queryParameters,
@@ -232,8 +208,6 @@ class MoviesService extends BaseTmdbService {
   }
 
   /// Get the lists that a movie has been added to.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /movie/{movie_id}/lists`.
   Future<TmdbResponsePage<Map<String, dynamic>>> getLists(
     int movieId, {
     int? page,
@@ -250,8 +224,6 @@ class MoviesService extends BaseTmdbService {
   }
 
   /// Get a list of recommended movies for a movie.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /movie/{movie_id}/recommendations`.
   Future<TmdbResponsePage<MovieSummary>> getRecommendations(
     int movieId, {
     int? page,
@@ -268,17 +240,13 @@ class MoviesService extends BaseTmdbService {
   }
 
   /// Get the release date and certification information by country for a movie.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /movie/{movie_id}/release_dates`.
   Future<MovieReleaseDatesResponse> getReleaseDates(int movieId, {Map<String, String>? queryParameters}) async {
     final jsonResponse = await get('movie/$movieId/release_dates', queryParameters: queryParameters);
     return MovieReleaseDatesResponse.fromJson(jsonResponse);
   }
 
   /// Get the user reviews for a movie.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /movie/{movie_id}/reviews`.
-  Future<MovieReviewsResponse> getReviews(
+  Future<TmdbResponsePage<TmdbReview>> getReviews(
     int movieId, {
     int? page,
     String? language,
@@ -290,12 +258,10 @@ class MoviesService extends BaseTmdbService {
       ...?queryParameters,
     };
     final jsonResponse = await get('movie/$movieId/reviews', queryParameters: params);
-    return MovieReviewsResponse.fromJson(jsonResponse);
+    return TmdbResponsePage.fromJson(jsonResponse, TmdbReview.fromJson);
   }
 
   /// Get a list of similar movies.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /movie/{movie_id}/similar`.
   Future<TmdbResponsePage<MovieSummary>> getSimilar(
     int movieId, {
     int? page,
@@ -312,16 +278,12 @@ class MoviesService extends BaseTmdbService {
   }
 
   /// Get a list of translations that have been created for a movie.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /movie/{movie_id}/translations`.
   Future<Map<String, dynamic>> getTranslations(int movieId, {Map<String, String>? queryParameters}) async {
     return get('movie/$movieId/translations', queryParameters: queryParameters);
   }
 
   /// Get the videos that have been added to a movie.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /movie/{movie_id}/videos`.
-  Future<MovieVideosResponse> getVideos(
+  Future<TmdbListResponse<TmdbVideo>> getVideos(
     int movieId, {
     String? language,
     String? includeVideoLanguage,
@@ -333,22 +295,18 @@ class MoviesService extends BaseTmdbService {
       ...?queryParameters,
     };
     final jsonResponse = await get('movie/$movieId/videos', queryParameters: params);
-    return MovieVideosResponse.fromJson(jsonResponse);
+    return TmdbListResponse.fromJson(jsonResponse, TmdbVideo.fromJson);
   }
 
   /// Get a list of watch providers for a movie.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /movie/{movie_id}/watch/providers`.
-  Future<MovieWatchProvidersResponse> getWatchProviders(int movieId, {Map<String, String>? queryParameters}) async {
+  Future<TmdbWatchProvidersResponse> getWatchProviders(int movieId, {Map<String, String>? queryParameters}) async {
     final jsonResponse = await get('movie/$movieId/watch/providers', queryParameters: queryParameters);
-    return MovieWatchProvidersResponse.fromJson(jsonResponse);
+    return TmdbWatchProvidersResponse.fromJson(jsonResponse);
   }
 
   /// --- Movie Actions ---
 
   /// Rate a movie.
-  ///
-  /// Corresponds to the TMDB API endpoint: `POST /movie/{movie_id}/rating`.
   Future<bool> addRating(
     int movieId,
     double rating, {
@@ -370,8 +328,6 @@ class MoviesService extends BaseTmdbService {
   }
 
   /// Delete a rating for a movie.
-  ///
-  /// Corresponds to the TMDB API endpoint: `DELETE /movie/{movie_id}/rating`.
   Future<bool> deleteRating(
     int movieId, {
     String? sessionId,

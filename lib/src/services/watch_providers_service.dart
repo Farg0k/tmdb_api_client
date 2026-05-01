@@ -1,14 +1,13 @@
 import 'base_tmdb_service.dart';
+import '../models/common/tmdb_watch_provider.dart';
 import '../models/watch_providers/watch_provider_region.dart';
-import '../models/watch_providers/watch_providers_response.dart';
+import '../models/common/tmdb_list_response.dart';
 
 /// [WatchProvidersService] handles API interactions related to streaming and rental providers on TMDB.
 class WatchProvidersService extends BaseTmdbService {
   WatchProvidersService(super.client);
 
   /// Get the list of the countries we have watch provider (streaming, rent, buy) data for.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /watch/providers/regions`.
   Future<List<WatchProviderRegion>> getAvailableRegions({
     String? language,
     Map<String, String>? queryParameters,
@@ -24,9 +23,7 @@ class WatchProvidersService extends BaseTmdbService {
   }
 
   /// Get the list of streaming providers we have for movies.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /watch/providers/movie`.
-  Future<WatchProvidersResponse> getMovieProviders({
+  Future<TmdbListResponse<WatchProvider>> getMovieProviders({
     String? language,
     String? watchRegion,
     Map<String, String>? queryParameters,
@@ -37,13 +34,11 @@ class WatchProvidersService extends BaseTmdbService {
       ...?queryParameters,
     };
     final jsonResponse = await get('watch/providers/movie', queryParameters: params);
-    return WatchProvidersResponse.fromJson(jsonResponse);
+    return TmdbListResponse.fromJson(jsonResponse, WatchProvider.fromJson);
   }
 
   /// Get the list of streaming providers we have for TV shows.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /watch/providers/tv`.
-  Future<WatchProvidersResponse> getTvProviders({
+  Future<TmdbListResponse<WatchProvider>> getTvProviders({
     String? language,
     String? watchRegion,
     Map<String, String>? queryParameters,
@@ -54,6 +49,6 @@ class WatchProvidersService extends BaseTmdbService {
       ...?queryParameters,
     };
     final jsonResponse = await get('watch/providers/tv', queryParameters: params);
-    return WatchProvidersResponse.fromJson(jsonResponse);
+    return TmdbListResponse.fromJson(jsonResponse, WatchProvider.fromJson);
   }
 }

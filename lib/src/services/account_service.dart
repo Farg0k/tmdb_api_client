@@ -186,7 +186,7 @@ class AccountService extends BaseTmdbService {
   }
 
   /// 11. Get the list of custom lists created by the user.
-  Future<Map<String, dynamic>> getLists({
+  Future<TmdbResponsePage<TmdbListV4Summary>> getLists({
     required int accountId,
     int? page,
     String? language,
@@ -197,6 +197,7 @@ class AccountService extends BaseTmdbService {
       'language': ?language,
       ...?queryParameters,
     };
-    return get('account/$accountId/lists', queryParameters: params);
+    final jsonResponse = await get('account/$accountId/lists', queryParameters: params);
+    return TmdbResponsePage.fromJson(jsonResponse, TmdbListV4Summary.fromJson);
   }
 }

@@ -1,4 +1,7 @@
 import 'base_tmdb_service.dart';
+import '../models/common/tmdb_country.dart';
+import '../models/common/tmdb_language.dart';
+import '../models/common/tmdb_timezone.dart';
 import '../models/configuration_models.dart';
 
 /// [ConfigurationService] handles API interactions related to TMDB system configuration.

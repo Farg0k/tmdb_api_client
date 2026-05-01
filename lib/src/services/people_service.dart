@@ -2,11 +2,11 @@ import 'base_tmdb_service.dart';
 import '../models/media_models.dart';
 import '../models/people/person_summary.dart';
 import '../models/people/person_details.dart';
-import '../models/people/person_credits.dart';
-import '../models/people/person_external_ids.dart';
-import '../models/people/person_images.dart';
+import '../models/common/tmdb_image.dart';
 import '../models/people/person_tagged_images.dart';
-import '../models/people/person_translations.dart';
+import '../models/common/tmdb_external_ids.dart';
+import '../models/common/tmdb_credit.dart';
+import '../models/common/tmdb_list_response.dart';
 
 /// [PeopleService] handles API interactions related to people on TMDB.
 class PeopleService extends BaseTmdbService {
@@ -15,8 +15,6 @@ class PeopleService extends BaseTmdbService {
   /// --- People Lists ---
 
   /// Get a list of people ordered by popularity.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /person/popular`.
   Future<TmdbResponsePage<PersonSummary>> getPopular({
     int? page,
     String? language,
@@ -34,8 +32,6 @@ class PeopleService extends BaseTmdbService {
   /// --- Person Details & Info ---
 
   /// Get the primary information about a person.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /person/{person_id}`.
   Future<PersonDetails> getDetails(
     int personId, {
     String? language,
@@ -52,8 +48,6 @@ class PeopleService extends BaseTmdbService {
   }
 
   /// Get the changes for a person.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /person/{person_id}/changes`.
   Future<Map<String, dynamic>> getChanges(
     int personId, {
     String? startDate,
@@ -71,9 +65,7 @@ class PeopleService extends BaseTmdbService {
   }
 
   /// Get the combined movie and TV credits for a person.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /person/{person_id}/combined_credits`.
-  Future<PersonCredits> getCombinedCredits(
+  Future<TmdbCredits> getCombinedCredits(
     int personId, {
     String? language,
     Map<String, String>? queryParameters,
@@ -82,29 +74,25 @@ class PeopleService extends BaseTmdbService {
       'language': ?language,
       ...?queryParameters,
     };
-    final jsonResponse = await get('person/$personId/combined_credits', queryParameters: params);
-    return PersonCredits.fromJson(jsonResponse);
+    final jsonResponse = personId != 0 
+        ? await get('person/$personId/combined_credits', queryParameters: params)
+        : <String, dynamic>{};
+    return TmdbCredits.fromJson(jsonResponse);
   }
 
   /// Get the external ids for a person.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /person/{person_id}/external_ids`.
-  Future<PersonExternalIds> getExternalIds(int personId, {Map<String, String>? queryParameters}) async {
+  Future<TmdbExternalIds> getExternalIds(int personId, {Map<String, String>? queryParameters}) async {
     final jsonResponse = await get('person/$personId/external_ids', queryParameters: queryParameters);
-    return PersonExternalIds.fromJson(jsonResponse);
+    return TmdbExternalIds.fromJson(jsonResponse);
   }
 
   /// Get the images for a person.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /person/{person_id}/images`.
-  Future<PersonImagesResponse> getImages(int personId, {Map<String, String>? queryParameters}) async {
+  Future<TmdbImagesResponse> getImages(int personId, {Map<String, String>? queryParameters}) async {
     final jsonResponse = await get('person/$personId/images', queryParameters: queryParameters);
-    return PersonImagesResponse.fromJson(jsonResponse);
+    return TmdbImagesResponse.fromJson(jsonResponse);
   }
 
   /// Get the most newly created person ID.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /person/latest`.
   Future<PersonDetails> getLatest({
     String? language,
     Map<String, String>? queryParameters,
@@ -118,9 +106,7 @@ class PeopleService extends BaseTmdbService {
   }
 
   /// Get the movie credits for a person.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /person/{person_id}/movie_credits`.
-  Future<PersonCredits> getMovieCredits(
+  Future<TmdbCredits> getMovieCredits(
     int personId, {
     String? language,
     Map<String, String>? queryParameters,
@@ -130,13 +116,11 @@ class PeopleService extends BaseTmdbService {
       ...?queryParameters,
     };
     final jsonResponse = await get('person/$personId/movie_credits', queryParameters: params);
-    return PersonCredits.fromJson(jsonResponse);
+    return TmdbCredits.fromJson(jsonResponse);
   }
 
   /// Get the TV credits for a person.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /person/{person_id}/tv_credits`.
-  Future<PersonCredits> getTvCredits(
+  Future<TmdbCredits> getTvCredits(
     int personId, {
     String? language,
     Map<String, String>? queryParameters,
@@ -146,12 +130,10 @@ class PeopleService extends BaseTmdbService {
       ...?queryParameters,
     };
     final jsonResponse = await get('person/$personId/tv_credits', queryParameters: params);
-    return PersonCredits.fromJson(jsonResponse);
+    return TmdbCredits.fromJson(jsonResponse);
   }
 
   /// Get the images that have been tagged with a specific person.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /person/{person_id}/tagged_images`.
   Future<PersonTaggedImagesResponse> getTaggedImages(
     int personId, {
     int? page,
@@ -168,10 +150,8 @@ class PeopleService extends BaseTmdbService {
   }
 
   /// Get the translations for a person.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /person/{person_id}/translations`.
-  Future<PersonTranslationsResponse> getTranslations(int personId, {Map<String, String>? queryParameters}) async {
+  Future<TmdbListResponse<Map<String, dynamic>>> getTranslations(int personId, {Map<String, String>? queryParameters}) async {
     final jsonResponse = await get('person/$personId/translations', queryParameters: queryParameters);
-    return PersonTranslationsResponse.fromJson(jsonResponse);
+    return TmdbListResponse.fromJson(jsonResponse, (i) => i, resultsKey: 'translations');
   }
 }

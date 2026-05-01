@@ -1,7 +1,7 @@
-import 'person_images.dart';
+import '../common/tmdb_image.dart';
 
 /// [PersonTaggedImage] represents an image of a person that is tagged with media info.
-class PersonTaggedImage extends PersonImage {
+class PersonTaggedImage extends TmdbImage {
   final String id;
   final String imageType;
   final dynamic media; // Can be MovieSummary or TvSummary data
@@ -23,17 +23,17 @@ class PersonTaggedImage extends PersonImage {
 
   factory PersonTaggedImage.fromJson(Map<String, dynamic> json) {
     return PersonTaggedImage(
-      aspectRatio: (json['aspect_ratio'] as num).toDouble(),
-      height: json['height'] as int,
+      aspectRatio: (json['aspect_ratio'] as num?)?.toDouble() ?? 0.0,
+      height: json['height'] as int? ?? 0,
       iso_639_1: json['iso_639_1'] as String?,
-      filePath: json['file_path'] as String,
-      voteAverage: (json['vote_average'] as num).toDouble(),
-      voteCount: json['vote_count'] as int,
-      width: json['width'] as int,
-      id: json['id'] as String,
-      imageType: json['image_type'] as String,
+      filePath: json['file_path'] as String? ?? '',
+      voteAverage: (json['vote_average'] as num?)?.toDouble() ?? 0.0,
+      voteCount: json['vote_count'] as int? ?? 0,
+      width: json['width'] as int? ?? 0,
+      id: json['id'] as String? ?? '',
+      imageType: json['image_type'] as String? ?? '',
       media: json['media'],
-      mediaType: json['media_type'] as String,
+      mediaType: json['media_type'] as String? ?? '',
     );
   }
 }
@@ -55,13 +55,14 @@ class PersonTaggedImagesResponse {
 
   factory PersonTaggedImagesResponse.fromJson(Map<String, dynamic> json) {
     return PersonTaggedImagesResponse(
-      id: json['id'] as int,
-      page: json['page'] as int,
-      results: (json['results'] as List)
-          .map((i) => PersonTaggedImage.fromJson(i as Map<String, dynamic>))
-          .toList(),
-      totalPages: json['total_pages'] as int,
-      totalResults: json['total_results'] as int,
+      id: json['id'] as int? ?? 0,
+      page: json['page'] as int? ?? 1,
+      results: (json['results'] as List?)
+              ?.map((i) => PersonTaggedImage.fromJson(i as Map<String, dynamic>))
+              .toList() ??
+          [],
+      totalPages: json['total_pages'] as int? ?? 0,
+      totalResults: json['total_results'] as int? ?? 0,
     );
   }
 }

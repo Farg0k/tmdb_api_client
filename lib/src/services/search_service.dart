@@ -2,7 +2,7 @@ import 'base_tmdb_service.dart';
 import '../models/media_models.dart';
 import '../models/people/person_summary.dart';
 import '../models/collections/collection_summary.dart';
-import '../models/companies/company_summary.dart';
+import '../models/common/tmdb_company.dart';
 import '../models/keyword_models.dart';
 
 /// [SearchService] handles API interactions related to searching TMDB.
@@ -29,7 +29,7 @@ class SearchService extends BaseTmdbService {
   }
 
   /// Search for companies.
-  Future<TmdbResponsePage<CompanySummary>> company({
+  Future<TmdbResponsePage<TmdbCompany>> company({
     required String query,
     int? page,
     Map<String, String>? queryParameters,
@@ -40,7 +40,7 @@ class SearchService extends BaseTmdbService {
       ...?queryParameters,
     };
     final jsonResponse = await get('search/company', queryParameters: params);
-    return TmdbResponsePage.fromJson(jsonResponse, CompanySummary.fromJson);
+    return TmdbResponsePage.fromJson(jsonResponse, TmdbCompany.fromJson);
   }
 
   /// Search for keywords.
