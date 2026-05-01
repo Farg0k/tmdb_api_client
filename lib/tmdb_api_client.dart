@@ -28,6 +28,7 @@ import 'src/services/reviews_service.dart';
 import 'src/services/trending_service.dart';
 import 'src/services/search_service.dart';
 import 'src/services/tv_service.dart';
+import 'src/services/tv_seasons_service.dart';
 
 // Exports for the public API of the package.
 // This makes these classes/exceptions directly accessible when importing 'package:tmdb_api_client/tmdb_api_client.dart'.
@@ -83,6 +84,9 @@ export 'src/models/tv/tv_screened_theatrically.dart';
 export 'src/models/tv/tv_translations.dart';
 export 'src/models/tv/tv_videos.dart';
 export 'src/models/tv/tv_watch_providers.dart';
+export 'src/models/tv/seasons/tv_season_details.dart';
+export 'src/models/tv/seasons/tv_season_account_states.dart';
+export 'src/models/tv/seasons/tv_season_external_ids.dart';
 export 'src/models/reviews/review_details.dart';
 export 'src/models/trending_models.dart';
 export 'src/utils/tmdb_api_exception.dart';
@@ -122,6 +126,7 @@ class TmdbApiClient {
   late final TrendingService trending;
   late final SearchService search;
   late final TvService tv;
+  late final TvSeasonsService tvSeasons;
 
   /// Constructor for [TmdbApiClient].
   ///
@@ -155,6 +160,7 @@ class TmdbApiClient {
     trending = TrendingService(this);
     search = SearchService(this);
     tv = TvService(this);
+    tvSeasons = TvSeasonsService(this);
   }
 
   /// Public getter to access the current configuration of the client.

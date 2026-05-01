@@ -447,7 +447,23 @@ void main() async {
     final airingToday = await tmdbClient.tv.getAiringToday();
     print('TV shows airing today: ${airingToday.totalResults}');
 
-    // 27. Demonstrate TvService (Details & Credits)
+    // 27. Demonstrate TvSeasonsService (TV Seasons)
+    print('\n--- Working with TV Seasons ---');
+    const seriesIdForSeason = 100088; // The Last of Us
+    const seasonNumber = 1;
+    print('Fetching details for "The Last of Us" Season $seasonNumber...');
+    final seasonDetails = await tmdbClient.tvSeasons.getDetails(seriesIdForSeason, seasonNumber);
+    print('Season Name: ${seasonDetails.name}');
+    print('Episodes: ${seasonDetails.episodes.length}');
+    for (var episode in seasonDetails.episodes.take(3)) {
+      print(' - Ep ${episode.episodeNumber}: ${episode.name}');
+    }
+
+    print('\nFetching external IDs for the season...');
+    final seasonExternalIds = await tmdbClient.tvSeasons.getExternalIds(seriesIdForSeason, seasonNumber);
+    print('TVDB ID: ${seasonExternalIds.tvdbId}');
+
+    // 28. Demonstrate TvService (Details & Credits)
     print('\n--- Working with TV Series Details ---');
     const seriesId = 100088; // The Last of Us
     print('Fetching details for "The Last of Us" (ID: $seriesId)...');
@@ -465,7 +481,7 @@ void main() async {
       print(' - ${cast.name} as $roles (${cast.totalEpisodeCount} episodes)');
     }
 
-    // 28. Delete session
+    // 29. Delete session
     print('\n--- Cleaning Up ---');
     await tmdbClient.authentication.deleteSession(session.sessionId);
     print('✅ Session deleted.');
