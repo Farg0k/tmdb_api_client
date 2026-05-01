@@ -76,3 +76,40 @@ enum TvContentType {
   final String value;
   const TvContentType(this.value);
 }
+
+/// Sort options for account-related lists (Favorites, Watchlist, Ratings).
+enum AccountSortBy {
+  createdAtAsc('created_at.asc'),
+  createdAtDesc('created_at.desc');
+
+  final String value;
+  const AccountSortBy(this.value);
+}
+
+/// Sort options for v4 lists.
+enum ListSortByV4 {
+  originalOrderAsc('original_order.asc'),
+  originalOrderDesc('original_order.desc'),
+  voteAverageAsc('vote_average.asc'),
+  voteAverageDesc('vote_average.desc'),
+  primaryReleaseDateAsc('primary_release_date.asc'),
+  primaryReleaseDateDesc('primary_release_date.desc'),
+  titleAsc('title.asc'),
+  titleDesc('title.desc');
+
+  final String value;
+  const ListSortByV4(this.value);
+}
+
+/// Status of a TV show for discovery filtering.
+enum TvStatus {
+  returningSeries('0'),
+  planned('1'),
+  inProduction('2'),
+  ended('3'),
+  cancelled('4'),
+  pilot('5');
+
+  final String value;
+  const TvStatus(this.value);
+}

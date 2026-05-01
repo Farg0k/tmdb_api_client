@@ -99,6 +99,7 @@ void main() async {
 
     final favoriteMovies = await tmdbClient.account.getFavoriteMovies(
       accountId: accountId,
+      sortBy: AccountSortBy.createdAtDesc,
     );
     log.info('Movies found: ${favoriteMovies.totalResults}');
     for (var movie in favoriteMovies.results.take(3)) {
@@ -147,7 +148,7 @@ void main() async {
     log.info('Working with Discover...');
     final discoveredMovies = await tmdbClient.discover.movie(
       primaryReleaseYear: 2023,
-      sortBy: 'vote_average.desc',
+      sortBy: MovieSortBy.voteAverageDesc,
     );
     log.info('Movies discovered: ${discoveredMovies.totalResults}');
 

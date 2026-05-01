@@ -65,13 +65,13 @@ class AccountService extends BaseTmdbService {
   Future<TmdbResponsePage<MovieSummary>> getFavoriteMovies({
     required int accountId,
     int? page,
-    String? sortBy,
+    AccountSortBy? sortBy,
     String? language,
     Map<String, String>? queryParameters,
   }) async {
     final params = {
       if (page != null) 'page': page.toString(),
-      'sort_by': ?sortBy,
+      'sort_by': ?sortBy?.value,
       'language': ?language,
       ...?queryParameters,
     };
@@ -86,13 +86,13 @@ class AccountService extends BaseTmdbService {
   Future<TmdbResponsePage<TvSummary>> getFavoriteTvShows({
     required int accountId,
     int? page,
-    String? sortBy,
+    AccountSortBy? sortBy,
     String? language,
     Map<String, String>? queryParameters,
   }) async {
     final params = {
       if (page != null) 'page': page.toString(),
-      'sort_by': ?sortBy,
+      'sort_by': ?sortBy?.value,
       'language': ?language,
       ...?queryParameters,
     };
@@ -107,13 +107,13 @@ class AccountService extends BaseTmdbService {
   Future<TmdbResponsePage<MovieSummary>> getWatchlistMovies({
     required int accountId,
     int? page,
-    String? sortBy,
+    AccountSortBy? sortBy,
     String? language,
     Map<String, String>? queryParameters,
   }) async {
     final params = {
       if (page != null) 'page': page.toString(),
-      'sort_by': ?sortBy,
+      'sort_by': ?sortBy?.value,
       'language': ?language,
       ...?queryParameters,
     };
@@ -128,13 +128,13 @@ class AccountService extends BaseTmdbService {
   Future<TmdbResponsePage<TvSummary>> getWatchlistTvShows({
     required int accountId,
     int? page,
-    String? sortBy,
+    AccountSortBy? sortBy,
     String? language,
     Map<String, String>? queryParameters,
   }) async {
     final params = {
       if (page != null) 'page': page.toString(),
-      'sort_by': ?sortBy,
+      'sort_by': ?sortBy?.value,
       'language': ?language,
       ...?queryParameters,
     };
@@ -149,13 +149,13 @@ class AccountService extends BaseTmdbService {
   Future<TmdbResponsePage<MovieSummary>> getRatedMovies({
     required int accountId,
     int? page,
-    String? sortBy,
+    AccountSortBy? sortBy,
     String? language,
     Map<String, String>? queryParameters,
   }) async {
     final params = {
       if (page != null) 'page': page.toString(),
-      'sort_by': ?sortBy,
+      'sort_by': ?sortBy?.value,
       'language': ?language,
       ...?queryParameters,
     };
@@ -170,13 +170,13 @@ class AccountService extends BaseTmdbService {
   Future<TmdbResponsePage<TvSummary>> getRatedTvShows({
     required int accountId,
     int? page,
-    String? sortBy,
+    AccountSortBy? sortBy,
     String? language,
     Map<String, String>? queryParameters,
   }) async {
     final params = {
       if (page != null) 'page': page.toString(),
-      'sort_by': ?sortBy,
+      'sort_by': ?sortBy?.value,
       'language': ?language,
       ...?queryParameters,
     };
@@ -191,13 +191,13 @@ class AccountService extends BaseTmdbService {
   Future<TmdbResponsePage<TvEpisodeSummary>> getRatedTvEpisodes({
     required int accountId,
     int? page,
-    String? sortBy,
+    AccountSortBy? sortBy,
     String? language,
     Map<String, String>? queryParameters,
   }) async {
     final params = {
       if (page != null) 'page': page.toString(),
-      'sort_by': ?sortBy,
+      'sort_by': ?sortBy?.value,
       'language': ?language,
       ...?queryParameters,
     };

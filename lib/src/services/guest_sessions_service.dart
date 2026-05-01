@@ -1,6 +1,7 @@
 import 'base_tmdb_service.dart';
 import '../models/media_models.dart';
 import '../models/tv/tv_episode_summary.dart';
+import '../models/enums.dart';
 
 /// [GuestSessionsService] handles API interactions related to guest sessions.
 class GuestSessionsService extends BaseTmdbService {
@@ -10,12 +11,12 @@ class GuestSessionsService extends BaseTmdbService {
   Future<TmdbResponsePage<MovieSummary>> getRatedMovies(
     String guestSessionId, {
     String? language,
-    String? sortBy,
+    AccountSortBy? sortBy,
     Map<String, String>? queryParameters,
   }) async {
     final params = {
       'language': ?language,
-      'sort_by': ?sortBy,
+      'sort_by': ?sortBy?.value,
       ...?queryParameters,
     };
     final jsonResponse = await get(
@@ -29,12 +30,12 @@ class GuestSessionsService extends BaseTmdbService {
   Future<TmdbResponsePage<TvSummary>> getRatedTvShows(
     String guestSessionId, {
     String? language,
-    String? sortBy,
+    AccountSortBy? sortBy,
     Map<String, String>? queryParameters,
   }) async {
     final params = {
       'language': ?language,
-      'sort_by': ?sortBy,
+      'sort_by': ?sortBy?.value,
       ...?queryParameters,
     };
     final jsonResponse = await get(
@@ -48,12 +49,12 @@ class GuestSessionsService extends BaseTmdbService {
   Future<TmdbResponsePage<TvEpisodeSummary>> getRatedTvEpisodes(
     String guestSessionId, {
     String? language,
-    String? sortBy,
+    AccountSortBy? sortBy,
     Map<String, String>? queryParameters,
   }) async {
     final params = {
       'language': ?language,
-      'sort_by': ?sortBy,
+      'sort_by': ?sortBy?.value,
       ...?queryParameters,
     };
     final jsonResponse = await get(

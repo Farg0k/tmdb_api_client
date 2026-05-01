@@ -2,6 +2,8 @@ import 'base_v4_service.dart';
 import '../../models/v4/tmdb_v4_list_details.dart';
 import '../../models/v4/tmdb_v4_list_create_response.dart';
 import '../../models/v4/tmdb_v4_list_operation_response.dart';
+import '../../models/enums.dart';
+import '../../models/media_models.dart';
 
 /// [ListsV4Service] handles API interactions for TMDB v4 Lists.
 class ListsV4Service extends BaseV4Service {
@@ -52,7 +54,7 @@ class ListsV4Service extends BaseV4Service {
     String? name,
     String? description,
     bool? public,
-    String? sortBy,
+    ListSortByV4? sortBy,
     Map<String, String>? queryParameters,
   }) async {
     final jsonResponse = await put(
@@ -61,7 +63,7 @@ class ListsV4Service extends BaseV4Service {
         'name': ?name,
         'description': ?description,
         'public': ?public,
-        'sort_by': ?sortBy,
+        'sort_by': ?sortBy?.value,
       },
       queryParameters: queryParameters,
     );
@@ -126,12 +128,12 @@ class ListsV4Service extends BaseV4Service {
   Future<Map<String, dynamic>> checkItemStatus(
     int listId, {
     required int mediaId,
-    required String mediaType,
+    required MediaType mediaType,
     Map<String, String>? queryParameters,
   }) async {
     final params = {
       'media_id': mediaId.toString(),
-      'media_type': mediaType,
+      'media_type': mediaType.value,
       ...?queryParameters,
     };
     return get('list/$listId/item_status', queryParameters: params);
@@ -141,7 +143,7 @@ class ListsV4Service extends BaseV4Service {
 /// [TmdbV4InputItem] represents an item to be added/updated in a v4 list.
 class TmdbV4InputItem {
   final int mediaId;
-  final String mediaType;
+  final MediaType mediaType;
   final String? comment;
 
   TmdbV4InputItem({
@@ -153,7 +155,7 @@ class TmdbV4InputItem {
   Map<String, dynamic> toJson() {
     return {
       'media_id': mediaId,
-      'media_type': mediaType,
+      'media_type': mediaType.value,
       if (comment != null) 'comment': comment,
     };
   }
