@@ -1,5 +1,6 @@
 import 'base_tmdb_service.dart';
 import '../models/media_models.dart';
+import '../models/enums.dart';
 
 /// [DiscoverService] handles API interactions for the TMDB Discover endpoints.
 ///
@@ -12,9 +13,9 @@ class DiscoverService extends BaseTmdbService {
   ///
   /// Corresponds to the TMDB API endpoint: `GET /discover/movie`.
   Future<TmdbResponsePage<MovieSummary>> movie({
-    String? certification,
-    String? certificationGte,
-    String? certificationLte,
+    CertificationLevel? certification,
+    CertificationLevel? certificationGte,
+    CertificationLevel? certificationLte,
     String? certificationCountry,
     bool? includeAdult,
     bool? includeVideo,
@@ -26,7 +27,7 @@ class DiscoverService extends BaseTmdbService {
     String? region,
     String? releaseDateGte,
     String? releaseDateLte,
-    String? sortBy,
+    MovieSortBy? sortBy,
     double? voteAverageGte,
     double? voteAverageLte,
     double? voteCountGte,
@@ -40,10 +41,10 @@ class DiscoverService extends BaseTmdbService {
     String? withOriginCountry,
     String? withOriginalLanguage,
     String? withPeople,
-    int? withReleaseType,
+    ReleaseType? withReleaseType,
     int? withRuntimeGte,
     int? withRuntimeLte,
-    String? withWatchMonetizationTypes,
+    WatchProviderType? withWatchMonetizationTypes,
     String? withWatchProviders,
     String? withoutCompanies,
     String? withoutGenres,
@@ -53,9 +54,9 @@ class DiscoverService extends BaseTmdbService {
     Map<String, String>? queryParameters,
   }) async {
     final Map<String, String> params = {
-      'certification': ?certification,
-      'certification.gte': ?certificationGte,
-      'certification.lte': ?certificationLte,
+      'certification': ?certification?.value,
+      'certification.gte': ?certificationGte?.value,
+      'certification.lte': ?certificationLte?.value,
       'certification_country': ?certificationCountry,
       if (includeAdult != null) 'include_adult': includeAdult.toString(),
       if (includeVideo != null) 'include_video': includeVideo.toString(),
@@ -68,7 +69,7 @@ class DiscoverService extends BaseTmdbService {
       'region': ?region,
       'release_date.gte': ?releaseDateGte,
       'release_date.lte': ?releaseDateLte,
-      'sort_by': ?sortBy,
+      'sort_by': ?sortBy?.value,
       if (voteAverageGte != null) 'vote_average.gte': voteAverageGte.toString(),
       if (voteAverageLte != null) 'vote_average.lte': voteAverageLte.toString(),
       if (voteCountGte != null) 'vote_count.gte': voteCountGte.toString(),
@@ -82,11 +83,10 @@ class DiscoverService extends BaseTmdbService {
       'with_origin_country': ?withOriginCountry,
       'with_original_language': ?withOriginalLanguage,
       'with_people': ?withPeople,
-      if (withReleaseType != null)
-        'with_release_type': withReleaseType.toString(),
+      'with_release_type': ?withReleaseType?.value,
       if (withRuntimeGte != null) 'with_runtime.gte': withRuntimeGte.toString(),
       if (withRuntimeLte != null) 'with_runtime.lte': withRuntimeLte.toString(),
-      'with_watch_monetization_types': ?withWatchMonetizationTypes,
+      'with_watch_monetization_types': ?withWatchMonetizationTypes?.value,
       'with_watch_providers': ?withWatchProviders,
       'without_companies': ?withoutCompanies,
       'without_genres': ?withoutGenres,
@@ -103,7 +103,7 @@ class DiscoverService extends BaseTmdbService {
   ///
   /// Corresponds to the TMDB API endpoint: `GET /discover/tv`.
   Future<TmdbResponsePage<TvSummary>> tv({
-    String? certification,
+    CertificationLevel? certification,
     String? certificationCountry,
     bool? includeAdult,
     bool? includeNullFirstAirDates,
@@ -114,7 +114,7 @@ class DiscoverService extends BaseTmdbService {
     String? firstAirDateLte,
     String? airDateGte,
     String? airDateLte,
-    String? sortBy,
+    TvSortBy? sortBy,
     double? voteAverageGte,
     double? voteAverageLte,
     double? voteCountGte,
@@ -129,8 +129,8 @@ class DiscoverService extends BaseTmdbService {
     int? withRuntimeGte,
     int? withRuntimeLte,
     String? withStatus,
-    int? withType,
-    String? withWatchMonetizationTypes,
+    TvContentType? withType,
+    WatchProviderType? withWatchMonetizationTypes,
     String? withWatchProviders,
     String? withoutCompanies,
     String? withoutGenres,
@@ -139,7 +139,7 @@ class DiscoverService extends BaseTmdbService {
     Map<String, String>? queryParameters,
   }) async {
     final Map<String, String> params = {
-      'certification': ?certification,
+      'certification': ?certification?.value,
       'certification_country': ?certificationCountry,
       if (includeAdult != null) 'include_adult': includeAdult.toString(),
       if (includeNullFirstAirDates != null)
@@ -152,7 +152,7 @@ class DiscoverService extends BaseTmdbService {
       'first_air_date.lte': ?firstAirDateLte,
       'air_date.gte': ?airDateGte,
       'air_date.lte': ?airDateLte,
-      'sort_by': ?sortBy,
+      'sort_by': ?sortBy?.value,
       if (voteAverageGte != null) 'vote_average.gte': voteAverageGte.toString(),
       if (voteAverageLte != null) 'vote_average.lte': voteAverageLte.toString(),
       if (voteCountGte != null) 'vote_count.gte': voteCountGte.toString(),
@@ -167,8 +167,8 @@ class DiscoverService extends BaseTmdbService {
       if (withRuntimeGte != null) 'with_runtime.gte': withRuntimeGte.toString(),
       if (withRuntimeLte != null) 'with_runtime.lte': withRuntimeLte.toString(),
       'with_status': ?withStatus,
-      if (withType != null) 'with_type': withType.toString(),
-      'with_watch_monetization_types': ?withWatchMonetizationTypes,
+      'with_type': ?withType?.value,
+      'with_watch_monetization_types': ?withWatchMonetizationTypes?.value,
       'with_watch_providers': ?withWatchProviders,
       'without_companies': ?withoutCompanies,
       'without_genres': ?withoutGenres,

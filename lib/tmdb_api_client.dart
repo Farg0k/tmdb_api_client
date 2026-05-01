@@ -45,6 +45,7 @@ export 'src/models/authentication_models.dart';
 export 'src/models/account_models.dart';
 export 'src/models/media_models.dart';
 export 'src/models/certification_models.dart';
+export 'src/models/enums.dart';
 export 'src/models/change_models.dart';
 export 'src/models/collection_models.dart';
 export 'src/models/collections/collection_summary.dart';
