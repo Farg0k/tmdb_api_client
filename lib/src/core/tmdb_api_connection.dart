@@ -165,9 +165,9 @@ class TmdbApiConnection {
   ///
   /// If the status code indicates success (2xx), it decodes the JSON body.
   /// Otherwise, it throws a [TmdbApiException] with details from the error response.
-  Map<String, dynamic> _processResponse(http.Response response) {
+  dynamic _processResponse(http.Response response) {
     if (response.statusCode >= 200 && response.statusCode < 300) {
-      return json.decode(response.body) as Map<String, dynamic>;
+      return json.decode(response.body);
     } else {
       final errorBody = json.decode(response.body);
       throw TmdbApiException(
