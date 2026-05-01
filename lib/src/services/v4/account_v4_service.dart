@@ -1,6 +1,6 @@
 import 'base_v4_service.dart';
 import '../../models/media_models.dart';
-import '../../models/v4/tmdb_v4_list_models.dart';
+import '../../models/v4/tmdb_v4_account_lists_response.dart';
 
 /// [AccountV4Service] handles API interactions for TMDB v4 account-specific endpoints.
 class AccountV4Service extends BaseV4Service {

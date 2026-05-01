@@ -1,5 +1,7 @@
 import 'base_v4_service.dart';
-import '../../models/v4/tmdb_v4_list_models.dart';
+import '../../models/v4/tmdb_v4_list_details.dart';
+import '../../models/v4/tmdb_v4_list_create_response.dart';
+import '../../models/v4/tmdb_v4_list_operation_response.dart';
 
 /// [ListsV4Service] handles API interactions for TMDB v4 Lists.
 class ListsV4Service extends BaseV4Service {
