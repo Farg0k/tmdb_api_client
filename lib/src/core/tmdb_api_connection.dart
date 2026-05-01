@@ -47,7 +47,7 @@ class TmdbApiConnection {
   /// Returns a [Future] that resolves to a `Map<String, dynamic>`
   /// representing the JSON response body.
   /// Throws [TmdbApiException] for API-specific errors or [TmdbNetworkException] for network issues.
-  Future<Map<String, dynamic>> get(
+  Future<dynamic> get(
     String path, {
     Map<String, String>? queryParameters,
   }) async {
