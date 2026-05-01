@@ -1,3 +1,5 @@
+import '../common/tmdb_credit.dart';
+
 /// [TvEpisodeSummary] represents a concise version of TV episode data.
 class TvEpisodeSummary {
   final String? airDate;
@@ -13,9 +15,10 @@ class TvEpisodeSummary {
   final String? stillPath;
   final double voteAverage;
   final int voteCount;
-  final List<TvEpisodeCrew>? crew;
-  final List<TvEpisodeGuestStar>? guestStars;
+  final List<TmdbCrew>? crew;
+  final List<TmdbCast>? guestStars;
   final int? order; // Added for Episode Groups
+  final double? rating; // Added for Rated Episode Summary support
 
   TvEpisodeSummary({
     this.airDate,
@@ -34,6 +37,7 @@ class TvEpisodeSummary {
     this.crew,
     this.guestStars,
     this.order,
+    this.rating,
   });
 
   factory TvEpisodeSummary.fromJson(Map<String, dynamic> json) {
@@ -52,100 +56,13 @@ class TvEpisodeSummary {
       voteAverage: (json['vote_average'] as num?)?.toDouble() ?? 0.0,
       voteCount: json['vote_count'] as int? ?? 0,
       crew: (json['crew'] as List?)
-          ?.map((i) => TvEpisodeCrew.fromJson(i as Map<String, dynamic>))
+          ?.map((i) => TmdbCrew.fromJson(i as Map<String, dynamic>))
           .toList(),
       guestStars: (json['guest_stars'] as List?)
-          ?.map((i) => TvEpisodeGuestStar.fromJson(i as Map<String, dynamic>))
+          ?.map((i) => TmdbCast.fromJson(i as Map<String, dynamic>))
           .toList(),
       order: json['order'] as int?,
-    );
-  }
-}
-
-class TvEpisodeCrew {
-  final String department;
-  final String job;
-  final String creditId;
-  final bool adult;
-  final int? gender;
-  final int id;
-  final String knownForDepartment;
-  final String name;
-  final String originalName;
-  final double popularity;
-  final String? profilePath;
-
-  TvEpisodeCrew({
-    required this.department,
-    required this.job,
-    required this.creditId,
-    required this.adult,
-    this.gender,
-    required this.id,
-    required this.knownForDepartment,
-    required this.name,
-    required this.originalName,
-    required this.popularity,
-    this.profilePath,
-  });
-
-  factory TvEpisodeCrew.fromJson(Map<String, dynamic> json) {
-    return TvEpisodeCrew(
-      department: json['department'] as String? ?? '',
-      job: json['job'] as String? ?? '',
-      creditId: json['credit_id'] as String? ?? '',
-      adult: json['adult'] as bool? ?? false,
-      gender: json['gender'] as int?,
-      id: json['id'] as int,
-      knownForDepartment: json['known_for_department'] as String? ?? '',
-      name: json['name'] as String? ?? '',
-      originalName: json['original_name'] as String? ?? '',
-      popularity: (json['popularity'] as num?)?.toDouble() ?? 0.0,
-      profilePath: json['profile_path'] as String?,
-    );
-  }
-}
-
-class TvEpisodeGuestStar {
-  final String character;
-  final String creditId;
-  final int order;
-  final bool adult;
-  final int? gender;
-  final int id;
-  final String knownForDepartment;
-  final String name;
-  final String originalName;
-  final double popularity;
-  final String? profilePath;
-
-  TvEpisodeGuestStar({
-    required this.character,
-    required this.creditId,
-    required this.order,
-    required this.adult,
-    this.gender,
-    required this.id,
-    required this.knownForDepartment,
-    required this.name,
-    required this.originalName,
-    required this.popularity,
-    this.profilePath,
-  });
-
-  factory TvEpisodeGuestStar.fromJson(Map<String, dynamic> json) {
-    return TvEpisodeGuestStar(
-      character: json['character'] as String? ?? '',
-      creditId: json['credit_id'] as String? ?? '',
-      order: json['order'] as int? ?? 0,
-      adult: json['adult'] as bool? ?? false,
-      gender: json['gender'] as int?,
-      id: json['id'] as int,
-      knownForDepartment: json['known_for_department'] as String? ?? '',
-      name: json['name'] as String? ?? '',
-      originalName: json['original_name'] as String? ?? '',
-      popularity: (json['popularity'] as num?)?.toDouble() ?? 0.0,
-      profilePath: json['profile_path'] as String?,
+      rating: json['rating'] != null ? (json['rating'] as num).toDouble() : null,
     );
   }
 }

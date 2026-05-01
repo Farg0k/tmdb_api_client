@@ -89,51 +89,6 @@ class TvSummary extends MediaSummary {
   }
 }
 
-/// [RatedEpisodeSummary] represents a TV episode that has been rated.
-class RatedEpisodeSummary {
-  final String airDate;
-  final int episodeNumber;
-  final int id;
-  final String name;
-  final String overview;
-  final int seasonNumber;
-  final int showId;
-  final String? stillPath;
-  final double voteAverage;
-  final int voteCount;
-  final double rating;
-
-  RatedEpisodeSummary({
-    required this.airDate,
-    required this.episodeNumber,
-    required this.id,
-    required this.name,
-    required this.overview,
-    required this.seasonNumber,
-    required this.showId,
-    this.stillPath,
-    required this.voteAverage,
-    required this.voteCount,
-    required this.rating,
-  });
-
-  factory RatedEpisodeSummary.fromJson(Map<String, dynamic> json) {
-    return RatedEpisodeSummary(
-      airDate: json['air_date'] as String? ?? '',
-      episodeNumber: json['episode_number'] as int,
-      id: json['id'] as int,
-      name: json['name'] as String,
-      overview: json['overview'] as String? ?? '',
-      seasonNumber: json['season_number'] as int,
-      showId: json['show_id'] as int,
-      stillPath: json['still_path'] as String?,
-      voteAverage: (json['vote_average'] as num).toDouble(),
-      voteCount: json['vote_count'] as int,
-      rating: (json['rating'] as num).toDouble(),
-    );
-  }
-}
-
 /// [TmdbResponsePage] is a generic wrapper for paginated responses from TMDB.
 class TmdbResponsePage<T> {
   final int page;

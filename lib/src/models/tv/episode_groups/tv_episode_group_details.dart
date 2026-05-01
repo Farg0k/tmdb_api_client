@@ -1,5 +1,5 @@
 import '../tv_episode_summary.dart';
-import '../../networks/network_details.dart';
+import '../../common/tmdb_business_details.dart';
 
 /// [TvEpisodeGroupDetails] represents the full information about a TV episode group.
 class TvEpisodeGroupDetails {
@@ -8,7 +8,7 @@ class TvEpisodeGroupDetails {
   final int groupCount;
   final String id;
   final String name;
-  final NetworkDetails? network;
+  final TmdbBusinessDetails? network;
   final int type;
   final List<TvEpisodeGroup> groups;
 
@@ -30,7 +30,7 @@ class TvEpisodeGroupDetails {
       groupCount: json['group_count'] as int? ?? 0,
       id: json['id'] as String,
       name: json['name'] as String? ?? '',
-      network: json['network'] != null ? NetworkDetails.fromJson(json['network'] as Map<String, dynamic>) : null,
+      network: json['network'] != null ? TmdbBusinessDetails.fromJson(json['network'] as Map<String, dynamic>) : null,
       type: json['type'] as int? ?? 0,
       groups: (json['groups'] as List?)
               ?.map((i) => TvEpisodeGroup.fromJson(i as Map<String, dynamic>))

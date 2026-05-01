@@ -1,6 +1,6 @@
 import 'base_tmdb_service.dart';
-import '../models/networks/network_details.dart';
-import '../models/company_models.dart';
+import '../models/common/tmdb_business_details.dart';
+import '../models/common/alternative_name.dart';
 import '../models/common/tmdb_logo.dart';
 import '../models/common/tmdb_list_response.dart';
 
@@ -9,9 +9,9 @@ class NetworksService extends BaseTmdbService {
   NetworksService(super.client);
 
   /// Get the details of a TV network.
-  Future<NetworkDetails> getDetails(int networkId, {Map<String, String>? queryParameters}) async {
+  Future<TmdbBusinessDetails> getDetails(int networkId, {Map<String, String>? queryParameters}) async {
     final jsonResponse = await get('network/$networkId', queryParameters: queryParameters);
-    return NetworkDetails.fromJson(jsonResponse);
+    return TmdbBusinessDetails.fromJson(jsonResponse);
   }
 
   /// Get the alternative names of a TV network.

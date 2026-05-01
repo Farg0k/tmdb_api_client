@@ -1,15 +1,17 @@
 import '../genre_models.dart';
-import '../networks/network_details.dart';
 import '../common/tmdb_company.dart';
 import '../common/tmdb_country.dart';
 import '../common/tmdb_language.dart';
+import '../common/tmdb_credit.dart';
+import '../common/tmdb_business_details.dart';
+import 'tv_episode_summary.dart';
 import 'tv_season_summary.dart';
 
 /// [TvDetails] represents the full information about a TV series.
 class TvDetails {
   final bool adult;
   final String? backdropPath;
-  final List<TvCreator> createdBy;
+  final List<TmdbCast> createdBy; // Replaced TvCreator with TmdbCast
   final List<int> episodeRunTime;
   final String firstAirDate;
   final List<Genre> genres;
@@ -18,10 +20,10 @@ class TvDetails {
   final bool inProduction;
   final List<String> languages;
   final String? lastAirDate;
-  final TvLastEpisodeToAir? lastEpisodeToAir;
+  final TvEpisodeSummary? lastEpisodeToAir;
   final String name;
-  final TvLastEpisodeToAir? nextEpisodeToAir;
-  final List<NetworkDetails> networks;
+  final TvEpisodeSummary? nextEpisodeToAir;
+  final List<TmdbBusinessDetails> networks;
   final int numberOfEpisodes;
   final int numberOfSeasons;
   final List<String> originCountry;
@@ -80,7 +82,7 @@ class TvDetails {
       adult: json['adult'] as bool? ?? false,
       backdropPath: json['backdrop_path'] as String?,
       createdBy: (json['created_by'] as List?)
-              ?.map((i) => TvCreator.fromJson(i as Map<String, dynamic>))
+              ?.map((i) => TmdbCast.fromJson(i as Map<String, dynamic>))
               .toList() ??
           [],
       episodeRunTime: (json['episode_run_time'] as List?)?.map((e) => e as int).toList() ?? [],
@@ -95,14 +97,14 @@ class TvDetails {
       languages: (json['languages'] as List?)?.map((e) => e as String).toList() ?? [],
       lastAirDate: json['last_air_date'] as String?,
       lastEpisodeToAir: json['last_episode_to_air'] != null
-          ? TvLastEpisodeToAir.fromJson(json['last_episode_to_air'] as Map<String, dynamic>)
+          ? TvEpisodeSummary.fromJson(json['last_episode_to_air'] as Map<String, dynamic>)
           : null,
       name: json['name'] as String? ?? '',
       nextEpisodeToAir: json['next_episode_to_air'] != null
-          ? TvLastEpisodeToAir.fromJson(json['next_episode_to_air'] as Map<String, dynamic>)
+          ? TvEpisodeSummary.fromJson(json['next_episode_to_air'] as Map<String, dynamic>)
           : null,
       networks: (json['networks'] as List?)
-              ?.map((i) => NetworkDetails.fromJson(i as Map<String, dynamic>))
+              ?.map((i) => TmdbBusinessDetails.fromJson(i as Map<String, dynamic>))
               .toList() ??
           [],
       numberOfEpisodes: json['number_of_episodes'] as int? ?? 0,
@@ -134,82 +136,6 @@ class TvDetails {
       type: json['type'] as String? ?? '',
       voteAverage: (json['vote_average'] as num?)?.toDouble() ?? 0.0,
       voteCount: json['vote_count'] as int? ?? 0,
-    );
-  }
-}
-
-class TvCreator {
-  final int id;
-  final String creditId;
-  final String name;
-  final int? gender;
-  final String? profilePath;
-
-  TvCreator({
-    required this.id,
-    required this.creditId,
-    required this.name,
-    this.gender,
-    this.profilePath,
-  });
-
-  factory TvCreator.fromJson(Map<String, dynamic> json) {
-    return TvCreator(
-      id: json['id'] as int,
-      creditId: json['credit_id'] as String? ?? '',
-      name: json['name'] as String? ?? '',
-      gender: json['gender'] as int?,
-      profilePath: json['profile_path'] as String?,
-    );
-  }
-}
-
-class TvLastEpisodeToAir {
-  final int id;
-  final String name;
-  final String overview;
-  final double voteAverage;
-  final int voteCount;
-  final String airDate;
-  final int episodeNumber;
-  final String episodeType;
-  final String productionCode;
-  final int? runtime;
-  final int seasonNumber;
-  final int showId;
-  final String? stillPath;
-
-  TvLastEpisodeToAir({
-    required this.id,
-    required this.name,
-    required this.overview,
-    required this.voteAverage,
-    required this.voteCount,
-    required this.airDate,
-    required this.episodeNumber,
-    required this.episodeType,
-    required this.productionCode,
-    this.runtime,
-    required this.seasonNumber,
-    required this.showId,
-    this.stillPath,
-  });
-
-  factory TvLastEpisodeToAir.fromJson(Map<String, dynamic> json) {
-    return TvLastEpisodeToAir(
-      id: json['id'] as int,
-      name: json['name'] as String? ?? '',
-      overview: json['overview'] as String? ?? '',
-      voteAverage: (json['vote_average'] as num?)?.toDouble() ?? 0.0,
-      voteCount: json['vote_count'] as int? ?? 0,
-      airDate: json['air_date'] as String? ?? '',
-      episodeNumber: json['episode_number'] as int? ?? 0,
-      episodeType: json['episode_type'] as String? ?? '',
-      productionCode: json['production_code'] as String? ?? '',
-      runtime: json['runtime'] as int?,
-      seasonNumber: json['season_number'] as int? ?? 0,
-      showId: json['show_id'] as int? ?? 0,
-      stillPath: json['still_path'] as String?,
     );
   }
 }

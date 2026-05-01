@@ -99,7 +99,7 @@ class TmdbCredits {
 
   TmdbCredits({required this.id, required this.cast, required this.crew});
 
-  factory TmdbCredits.fromJson(Map<dynamic, dynamic> json) {
+  factory TmdbCredits.fromJson(Map<String, dynamic> json) {
     return TmdbCredits(
       id: json['id'] as int? ?? 0,
       cast: (json['cast'] as List?)

@@ -168,7 +168,7 @@ class AccountService extends BaseTmdbService {
   }
 
   /// 10. Get the list of rated TV episodes.
-  Future<TmdbResponsePage<RatedEpisodeSummary>> getRatedTvEpisodes({
+  Future<TmdbResponsePage<TvEpisodeSummary>> getRatedTvEpisodes({
     required int accountId,
     int? page,
     String? sortBy,
@@ -182,7 +182,7 @@ class AccountService extends BaseTmdbService {
       ...?queryParameters,
     };
     final jsonResponse = await get('account/$accountId/rated/tv/episodes', queryParameters: params);
-    return TmdbResponsePage.fromJson(jsonResponse, RatedEpisodeSummary.fromJson);
+    return TmdbResponsePage.fromJson(jsonResponse, TvEpisodeSummary.fromJson);
   }
 
   /// 11. Get the list of custom lists created by the user.

@@ -1,5 +1,6 @@
 import 'base_tmdb_service.dart';
 import '../models/media_models.dart';
+import '../models/tv/tv_episode_summary.dart';
 
 /// [GuestSessionsService] handles API interactions related to guest sessions.
 class GuestSessionsService extends BaseTmdbService {
@@ -8,15 +9,13 @@ class GuestSessionsService extends BaseTmdbService {
   /// Get the rated movies for a guest session.
   Future<TmdbResponsePage<MovieSummary>> getRatedMovies(
     String guestSessionId, {
-    int? page,
-    String? sortBy,
     String? language,
+    String? sortBy,
     Map<String, String>? queryParameters,
   }) async {
     final params = {
-      if (page != null) 'page': page.toString(),
-      'sort_by': ?sortBy,
       'language': ?language,
+      'sort_by': ?sortBy,
       ...?queryParameters,
     };
     final jsonResponse = await get('guest_session/$guestSessionId/rated/movies', queryParameters: params);
@@ -26,15 +25,13 @@ class GuestSessionsService extends BaseTmdbService {
   /// Get the rated TV shows for a guest session.
   Future<TmdbResponsePage<TvSummary>> getRatedTvShows(
     String guestSessionId, {
-    int? page,
-    String? sortBy,
     String? language,
+    String? sortBy,
     Map<String, String>? queryParameters,
   }) async {
     final params = {
-      if (page != null) 'page': page.toString(),
-      'sort_by': ?sortBy,
       'language': ?language,
+      'sort_by': ?sortBy,
       ...?queryParameters,
     };
     final jsonResponse = await get('guest_session/$guestSessionId/rated/tv', queryParameters: params);
@@ -42,20 +39,18 @@ class GuestSessionsService extends BaseTmdbService {
   }
 
   /// Get the rated TV episodes for a guest session.
-  Future<TmdbResponsePage<RatedEpisodeSummary>> getRatedTvEpisodes(
+  Future<TmdbResponsePage<TvEpisodeSummary>> getRatedTvEpisodes(
     String guestSessionId, {
-    int? page,
-    String? sortBy,
     String? language,
+    String? sortBy,
     Map<String, String>? queryParameters,
   }) async {
     final params = {
-      if (page != null) 'page': page.toString(),
-      'sort_by': ?sortBy,
       'language': ?language,
+      'sort_by': ?sortBy,
       ...?queryParameters,
     };
     final jsonResponse = await get('guest_session/$guestSessionId/rated/tv/episodes', queryParameters: params);
-    return TmdbResponsePage.fromJson(jsonResponse, RatedEpisodeSummary.fromJson);
+    return TmdbResponsePage.fromJson(jsonResponse, TvEpisodeSummary.fromJson);
   }
 }
