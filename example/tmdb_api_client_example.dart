@@ -371,7 +371,16 @@ void main() async {
       print(' - ${cast.name} as ${cast.character}');
     }
 
-    // 21. Delete session
+    // 21. Demonstrate PeopleService (Popular People)
+    print('\n--- Working with People ---');
+    print('Fetching popular people...');
+    final popularPeople = await tmdbClient.people.getPopular();
+    print('Popular people found: ${popularPeople.totalResults}');
+    for (var person in popularPeople.results.take(3)) {
+      print(' - ${person.name} (Popularity: ${person.popularity})');
+    }
+
+    // 22. Delete session
     print('\n--- Cleaning Up ---');
     await tmdbClient.authentication.deleteSession(session.sessionId);
     print('✅ Session deleted.');
