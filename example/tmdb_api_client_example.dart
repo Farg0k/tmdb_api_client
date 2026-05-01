@@ -491,7 +491,19 @@ void main() async {
     final seasonExternalIds = await tmdbClient.tvSeasons.getExternalIds(seriesIdForSeason, seasonNumber);
     print('TVDB ID: ${seasonExternalIds.tvdbId}');
 
-    // 28. Demonstrate TvService (Details & Credits)
+    // 28. Demonstrate TvEpisodesService (TV Episodes)
+    print('\n--- Working with TV Episodes ---');
+    const episodeNumber = 1;
+    print('Fetching details for "The Last of Us" S1E$episodeNumber...');
+    final episodeDetails = await tmdbClient.tvEpisodes.getDetails(seriesIdForSeason, seasonNumber, episodeNumber);
+    print('Episode Name: ${episodeDetails.name}');
+    print('Overview: ${episodeDetails.overview.substring(0, 50)}...');
+
+    print('\nFetching credits for the episode...');
+    final episodeCredits = await tmdbClient.tvEpisodes.getCredits(seriesIdForSeason, seasonNumber, episodeNumber);
+    print('Guest stars: ${episodeCredits.cast.length}');
+
+    // 29. Demonstrate TvService (Details & Credits)
     print('\n--- Working with TV Series Details ---');
     const seriesId = 100088; // The Last of Us
     print('Fetching details for "The Last of Us" (ID: $seriesId)...');
