@@ -27,6 +27,7 @@ import 'src/services/people_service.dart';
 import 'src/services/reviews_service.dart';
 import 'src/services/trending_service.dart';
 import 'src/services/search_service.dart';
+import 'src/services/tv_service.dart';
 
 // Exports for the public API of the package.
 // This makes these classes/exceptions directly accessible when importing 'package:tmdb_api_client/tmdb_api_client.dart'.
@@ -105,6 +106,7 @@ class TmdbApiClient {
   late final ReviewsService reviews;
   late final TrendingService trending;
   late final SearchService search;
+  late final TvService tv;
 
   /// Constructor for [TmdbApiClient].
   ///
@@ -137,6 +139,7 @@ class TmdbApiClient {
     reviews = ReviewsService(this);
     trending = TrendingService(this);
     search = SearchService(this);
+    tv = TvService(this);
   }
 
   /// Public getter to access the current configuration of the client.

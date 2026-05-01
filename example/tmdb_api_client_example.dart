@@ -434,7 +434,20 @@ void main() async {
       print(' - ${person.name} (${person.knownForDepartment})');
     }
 
-    // 26. Delete session
+    // 26. Demonstrate TvService (TV Lists)
+    print('\n--- Working with TV Lists ---');
+    print('Fetching popular TV shows...');
+    final popularTv = await tmdbClient.tv.getPopular();
+    print('Popular TV shows found: ${popularTv.totalResults}');
+    for (var tv in popularTv.results.take(3)) {
+      print(' - ${tv.name} (Rating: ${tv.voteAverage})');
+    }
+
+    print('\nFetching TV shows airing today...');
+    final airingToday = await tmdbClient.tv.getAiringToday();
+    print('TV shows airing today: ${airingToday.totalResults}');
+
+    // 27. Delete session
     print('\n--- Cleaning Up ---');
     await tmdbClient.authentication.deleteSession(session.sessionId);
     print('✅ Session deleted.');
