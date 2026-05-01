@@ -418,7 +418,23 @@ void main() async {
     final trendingPeople = await tmdbClient.trending.getPeople(TimeWindow.week);
     print('Trending people found: ${trendingPeople.totalResults}');
 
-    // 25. Delete session
+    // 25. Demonstrate SearchService
+    print('\n--- Working with Search ---');
+    print('Searching for "Batman" movies...');
+    final movieSearch = await tmdbClient.search.movie(query: 'Batman', year: 2022);
+    print('Movies found: ${movieSearch.totalResults}');
+    for (var movie in movieSearch.results.take(3)) {
+      print(' - ${movie.title} (${movie.releaseDate})');
+    }
+
+    print('\nSearching for "Nolan" in People...');
+    final personSearch = await tmdbClient.search.person(query: 'Nolan');
+    print('People found: ${personSearch.totalResults}');
+    for (var person in personSearch.results.take(3)) {
+      print(' - ${person.name} (${person.knownForDepartment})');
+    }
+
+    // 26. Delete session
     print('\n--- Cleaning Up ---');
     await tmdbClient.authentication.deleteSession(session.sessionId);
     print('✅ Session deleted.');

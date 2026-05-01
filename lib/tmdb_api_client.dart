@@ -26,6 +26,7 @@ import 'src/services/networks_service.dart';
 import 'src/services/people_service.dart';
 import 'src/services/reviews_service.dart';
 import 'src/services/trending_service.dart';
+import 'src/services/search_service.dart';
 
 // Exports for the public API of the package.
 // This makes these classes/exceptions directly accessible when importing 'package:tmdb_api_client/tmdb_api_client.dart'.
@@ -36,7 +37,9 @@ export 'src/models/media_models.dart';
 export 'src/models/certification_models.dart';
 export 'src/models/change_models.dart';
 export 'src/models/collection_models.dart';
+export 'src/models/collections/collection_summary.dart';
 export 'src/models/company_models.dart';
+export 'src/models/companies/company_summary.dart';
 export 'src/models/configuration_models.dart';
 export 'src/models/credit_models.dart';
 export 'src/models/find_models.dart';
@@ -101,6 +104,7 @@ class TmdbApiClient {
   late final PeopleService people;
   late final ReviewsService reviews;
   late final TrendingService trending;
+  late final SearchService search;
 
   /// Constructor for [TmdbApiClient].
   ///
@@ -132,6 +136,7 @@ class TmdbApiClient {
     people = PeopleService(this);
     reviews = ReviewsService(this);
     trending = TrendingService(this);
+    search = SearchService(this);
   }
 
   /// Public getter to access the current configuration of the client.
