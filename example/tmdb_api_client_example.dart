@@ -447,7 +447,25 @@ void main() async {
     final airingToday = await tmdbClient.tv.getAiringToday();
     print('TV shows airing today: ${airingToday.totalResults}');
 
-    // 27. Delete session
+    // 27. Demonstrate TvService (Details & Credits)
+    print('\n--- Working with TV Series Details ---');
+    const seriesId = 100088; // The Last of Us
+    print('Fetching details for "The Last of Us" (ID: $seriesId)...');
+    final tvDetails = await tmdbClient.tv.getDetails(seriesId);
+    print('Name: ${tvDetails.name}');
+    print('Status: ${tvDetails.status}');
+    print('Seasons: ${tvDetails.numberOfSeasons}');
+    print('Networks: ${tvDetails.networks.map((n) => n.name).join(', ')}');
+
+    print('\nFetching aggregate credits for "The Last of Us"...');
+    final aggCredits = await tmdbClient.tv.getAggregateCredits(seriesId);
+    print('Cast members: ${aggCredits.cast.length}');
+    for (var cast in aggCredits.cast.take(5)) {
+      final roles = cast.roles.map((r) => r.character).join(', ');
+      print(' - ${cast.name} as $roles (${cast.totalEpisodeCount} episodes)');
+    }
+
+    // 28. Delete session
     print('\n--- Cleaning Up ---');
     await tmdbClient.authentication.deleteSession(session.sessionId);
     print('✅ Session deleted.');
