@@ -2,35 +2,50 @@ import 'base_tmdb_service.dart';
 import '../models/collection_models.dart';
 
 /// [CollectionsService] handles API interactions related to Movie Collections.
-///
-/// Collections are groups of movies, like the "Avengers Collection" or "Die Hard Collection".
 class CollectionsService extends BaseTmdbService {
   CollectionsService(super.client);
 
   /// Get the metadata for a specific movie collection.
-  ///
-  /// [collectionId] is the unique identifier for the collection.
-  /// Corresponds to the TMDB API endpoint: `GET /collection/{collection_id}`.
-  Future<CollectionDetails> getDetails(int collectionId) async {
-    final jsonResponse = await get('collection/$collectionId');
+  Future<CollectionDetails> getDetails(
+    int collectionId, {
+    String? language,
+    Map<String, String>? queryParameters,
+  }) async {
+    final params = {
+      if (language != null) 'language': language,
+      ...?queryParameters,
+    };
+    final jsonResponse = await get('collection/$collectionId', queryParameters: params);
     return CollectionDetails.fromJson(jsonResponse);
   }
 
   /// Get the images (posters and backdrops) for a specific movie collection.
-  ///
-  /// [collectionId] is the unique identifier for the collection.
-  /// Corresponds to the TMDB API endpoint: `GET /collection/{collection_id}/images`.
-  Future<CollectionImagesResponse> getImages(int collectionId) async {
-    final jsonResponse = await get('collection/$collectionId/images');
+  Future<CollectionImagesResponse> getImages(
+    int collectionId, {
+    String? language,
+    String? includeImageLanguage,
+    Map<String, String>? queryParameters,
+  }) async {
+    final params = {
+      if (language != null) 'language': language,
+      if (includeImageLanguage != null) 'include_image_language': includeImageLanguage,
+      ...?queryParameters,
+    };
+    final jsonResponse = await get('collection/$collectionId/images', queryParameters: params);
     return CollectionImagesResponse.fromJson(jsonResponse);
   }
 
   /// Get the list of translations available for a specific movie collection.
-  ///
-  /// [collectionId] is the unique identifier for the collection.
-  /// Corresponds to the TMDB API endpoint: `GET /collection/{collection_id}/translations`.
-  Future<CollectionTranslationsResponse> getTranslations(int collectionId) async {
-    final jsonResponse = await get('collection/$collectionId/translations');
+  Future<CollectionTranslationsResponse> getTranslations(
+    int collectionId, {
+    String? language,
+    Map<String, String>? queryParameters,
+  }) async {
+    final params = {
+      if (language != null) 'language': language,
+      ...?queryParameters,
+    };
+    final jsonResponse = await get('collection/$collectionId/translations', queryParameters: params);
     return CollectionTranslationsResponse.fromJson(jsonResponse);
   }
 }

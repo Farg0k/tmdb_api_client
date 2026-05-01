@@ -396,7 +396,16 @@ void main() async {
       print(' - ${credit.title} as ${credit.character}');
     }
 
-    // 23. Delete session
+    // 23. Demonstrate ReviewsService
+    print('\n--- Working with Reviews ---');
+    const reviewId = '586829b49251414fd80479ad'; // A review for Fight Club
+    print('Fetching details for review (ID: $reviewId)...');
+    final review = await tmdbClient.reviews.getDetails(reviewId);
+    print('Author: ${review.author}');
+    print('Media: ${review.mediaTitle}');
+    print('Content snippet: ${review.content.substring(0, 100)}...');
+
+    // 24. Delete session
     print('\n--- Cleaning Up ---');
     await tmdbClient.authentication.deleteSession(session.sessionId);
     print('✅ Session deleted.');

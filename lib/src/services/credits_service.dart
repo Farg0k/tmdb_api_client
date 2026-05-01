@@ -6,11 +6,16 @@ class CreditsService extends BaseTmdbService {
   CreditsService(super.client);
 
   /// Get the metadata for a specific credit.
-  ///
-  /// [creditId] is the unique identifier for the credit.
-  /// Corresponds to the TMDB API endpoint: `GET /credit/{credit_id}`.
-  Future<CreditDetails> getDetails(String creditId) async {
-    final jsonResponse = await get('credit/$creditId');
+  Future<CreditDetails> getDetails(
+    String creditId, {
+    String? language,
+    Map<String, String>? queryParameters,
+  }) async {
+    final params = {
+      if (language != null) 'language': language,
+      ...?queryParameters,
+    };
+    final jsonResponse = await get('credit/$creditId', queryParameters: params);
     return CreditDetails.fromJson(jsonResponse);
   }
 }
