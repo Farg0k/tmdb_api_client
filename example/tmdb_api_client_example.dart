@@ -418,7 +418,19 @@ void main() async {
     final trendingPeople = await tmdbClient.trending.getPeople(TimeWindow.week);
     print('Trending people found: ${trendingPeople.totalResults}');
 
-    // 25. Demonstrate SearchService
+    // 25. Demonstrate TvEpisodeGroupsService
+    print('\n--- Working with TV Episode Groups ---');
+    const episodeGroupId = '5af2969292514174a9003120'; // Game of Thrones Production Order
+    print('Fetching details for episode group (ID: $episodeGroupId)...');
+    final groupDetails = await tmdbClient.tvEpisodeGroups.getDetails(episodeGroupId);
+    print('Group Name: ${groupDetails.name}');
+    print('Type: ${groupDetails.type}');
+    print('Groups in this set: ${groupDetails.groups.length}');
+    if (groupDetails.groups.isNotEmpty) {
+      print('First group: ${groupDetails.groups.first.name} (${groupDetails.groups.first.episodes.length} episodes)');
+    }
+
+    // 26. Demonstrate SearchService
     print('\n--- Working with Search ---');
     print('Searching for "Batman" movies...');
     final movieSearch = await tmdbClient.search.movie(query: 'Batman', year: 2022);
