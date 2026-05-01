@@ -12,7 +12,7 @@ class CollectionsService extends BaseTmdbService {
     Map<String, String>? queryParameters,
   }) async {
     final params = {
-      if (language != null) 'language': language,
+      'language': ?language,
       ...?queryParameters,
     };
     final jsonResponse = await get('collection/$collectionId', queryParameters: params);
@@ -27,8 +27,8 @@ class CollectionsService extends BaseTmdbService {
     Map<String, String>? queryParameters,
   }) async {
     final params = {
-      if (language != null) 'language': language,
-      if (includeImageLanguage != null) 'include_image_language': includeImageLanguage,
+      'language': ?language,
+      'include_image_language': ?includeImageLanguage,
       ...?queryParameters,
     };
     final jsonResponse = await get('collection/$collectionId/images', queryParameters: params);
@@ -42,7 +42,7 @@ class CollectionsService extends BaseTmdbService {
     Map<String, String>? queryParameters,
   }) async {
     final params = {
-      if (language != null) 'language': language,
+      'language': ?language,
       ...?queryParameters,
     };
     final jsonResponse = await get('collection/$collectionId/translations', queryParameters: params);

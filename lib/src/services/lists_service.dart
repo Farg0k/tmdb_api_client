@@ -13,7 +13,7 @@ class ListsService extends BaseTmdbService {
     Map<String, String>? queryParameters,
   }) async {
     final params = {
-      if (language != null) 'language': language,
+      'language': ?language,
       ...?queryParameters,
     };
     final jsonResponse = await post(
@@ -35,7 +35,7 @@ class ListsService extends BaseTmdbService {
     Map<String, String>? queryParameters,
   }) async {
     final params = {
-      if (language != null) 'language': language,
+      'language': ?language,
       ...?queryParameters,
     };
     final jsonResponse = await get('list/$listId', queryParameters: params);
