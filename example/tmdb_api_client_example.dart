@@ -380,7 +380,23 @@ void main() async {
       print(' - ${person.name} (Popularity: ${person.popularity})');
     }
 
-    // 22. Delete session
+    // 22. Demonstrate PeopleService (Details & Credits)
+    print('\n--- Working with Person Details ---');
+    const personId = 287; // Brad Pitt
+    print('Fetching details for Brad Pitt (ID: $personId)...');
+    final personDetails = await tmdbClient.people.getDetails(personId);
+    print('Name: ${personDetails.name}');
+    print('Birthday: ${personDetails.birthday}');
+    print('Place of Birth: ${personDetails.placeOfBirth}');
+
+    print('\nFetching movie credits for Brad Pitt...');
+    final personCredits = await tmdbClient.people.getMovieCredits(personId);
+    print('Movies as cast: ${personCredits.cast.length}');
+    for (var credit in personCredits.cast.take(5)) {
+      print(' - ${credit.title} as ${credit.character}');
+    }
+
+    // 23. Delete session
     print('\n--- Cleaning Up ---');
     await tmdbClient.authentication.deleteSession(session.sessionId);
     print('✅ Session deleted.');

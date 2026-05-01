@@ -1,51 +1,31 @@
-import 'base_tmdb_service.dart'; // Import the base service class.
-import '../../tmdb_api_client.dart'; // <--- NEW: Import TmdbApiClient for constructor type.
-// Need TmdbApiException for custom error.
+import 'base_tmdb_service.dart';
+import '../../tmdb_api_client.dart';
 
 /// [AccountService] handles all API interactions related to a user's TMDB account.
-/// This includes fetching account details.
-/// This service requires an authenticated session (`session_id`).
 class AccountService extends BaseTmdbService {
-  /// Constructor for [AccountService].
-  /// It takes the main [TmdbApiClient] instance as a dependency, which it passes
-  /// to its [BaseTmdbService] superclass.
-  AccountService(super.client); // <--- Constructor now takes TmdbApiClient.
+  AccountService(super.client);
 
-  /// Fetches the details of the currently authenticated user's account.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /account`.
-  /// This method **requires a valid `session_id`** to be present in the
-  /// shared [TmdbApiClientConfig] (managed by the [TmdbApiConnection]).
-  /// If no `session_id` is available, this call will explicitly throw a [TmdbApiException]
-  /// or fail from the API with an unauthorized error.
-  ///
-  /// Returns an [AccountDetails] object containing information about the user.
-  /// Throws [TmdbApiException] if the API returns an error (e.g., unauthorized access),
-  /// or [TmdbNetworkException] on network-related failures.
-  Future<AccountDetails> getDetails() async {
-    // Check if a session ID is available before making the request.
-    // This explicit check provides clearer error handling for the developer
-    // using this service, rather than just relying on an API 401 response.
+  /// 1. Fetches the details of the currently authenticated user's account.
+  Future<AccountDetails> getDetails({Map<String, String>? queryParameters}) async {
     if (config.sessionId == null) {
       throw TmdbApiException(
         'Authentication required. Please create a user session first to fetch account details.',
-        statusCode: 401, // Simulate an Unauthorized status.
-        errorCode: 3, // TMDB's authentication failed error code.
+        statusCode: 401,
+        errorCode: 3,
       );
     }
 
-    final jsonResponse = await get('account');
+    final jsonResponse = await get('account', queryParameters: queryParameters);
     return AccountDetails.fromJson(jsonResponse);
   }
 
   /// 2. Marks a movie or TV show as favorite.
-  ///
-  /// Corresponds to the TMDB API endpoint: `POST /account/{account_id}/favorite`.
   Future<bool> markAsFavorite({
     required int accountId,
     required MediaType mediaType,
     required int mediaId,
     required bool favorite,
+    Map<String, String>? queryParameters,
   }) async {
     final jsonResponse = await post(
       'account/$accountId/favorite',
@@ -54,18 +34,18 @@ class AccountService extends BaseTmdbService {
         'media_id': mediaId,
         'favorite': favorite,
       },
+      queryParameters: queryParameters,
     );
     return jsonResponse['success'] == true;
   }
 
   /// 3. Adds a movie or TV show to the user's watchlist.
-  ///
-  /// Corresponds to the TMDB API endpoint: `POST /account/{account_id}/watchlist`.
   Future<bool> addToWatchlist({
     required int accountId,
     required MediaType mediaType,
     required int mediaId,
     required bool watchlist,
+    Map<String, String>? queryParameters,
   }) async {
     final jsonResponse = await post(
       'account/$accountId/watchlist',
@@ -74,132 +54,149 @@ class AccountService extends BaseTmdbService {
         'media_id': mediaId,
         'watchlist': watchlist,
       },
+      queryParameters: queryParameters,
     );
     return jsonResponse['success'] == true;
   }
 
   /// 4. Get the list of favorite movies.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /account/{account_id}/favorite/movies`.
   Future<TmdbResponsePage<MovieSummary>> getFavoriteMovies({
     required int accountId,
-    int page = 1,
+    int? page,
     String? sortBy,
+    String? language,
+    Map<String, String>? queryParameters,
   }) async {
-    final queryParams = {
-      'page': page.toString(),
+    final params = {
+      if (page != null) 'page': page.toString(),
       'sort_by': ?sortBy,
+      'language': ?language,
+      ...?queryParameters,
     };
-    final jsonResponse = await get('account/$accountId/favorite/movies', queryParameters: queryParams);
+    final jsonResponse = await get('account/$accountId/favorite/movies', queryParameters: params);
     return TmdbResponsePage.fromJson(jsonResponse, MovieSummary.fromJson);
   }
 
   /// 5. Get the list of favorite TV shows.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /account/{account_id}/favorite/tv`.
   Future<TmdbResponsePage<TvSummary>> getFavoriteTvShows({
     required int accountId,
-    int page = 1,
+    int? page,
     String? sortBy,
+    String? language,
+    Map<String, String>? queryParameters,
   }) async {
-    final queryParams = {
-      'page': page.toString(),
+    final params = {
+      if (page != null) 'page': page.toString(),
       'sort_by': ?sortBy,
+      'language': ?language,
+      ...?queryParameters,
     };
-    final jsonResponse = await get('account/$accountId/favorite/tv', queryParameters: queryParams);
+    final jsonResponse = await get('account/$accountId/favorite/tv', queryParameters: params);
     return TmdbResponsePage.fromJson(jsonResponse, TvSummary.fromJson);
   }
 
   /// 6. Get the list of movies on the user's watchlist.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /account/{account_id}/watchlist/movies`.
   Future<TmdbResponsePage<MovieSummary>> getWatchlistMovies({
     required int accountId,
-    int page = 1,
+    int? page,
     String? sortBy,
+    String? language,
+    Map<String, String>? queryParameters,
   }) async {
-    final queryParams = {
-      'page': page.toString(),
+    final params = {
+      if (page != null) 'page': page.toString(),
       'sort_by': ?sortBy,
+      'language': ?language,
+      ...?queryParameters,
     };
-    final jsonResponse = await get('account/$accountId/watchlist/movies', queryParameters: queryParams);
+    final jsonResponse = await get('account/$accountId/watchlist/movies', queryParameters: params);
     return TmdbResponsePage.fromJson(jsonResponse, MovieSummary.fromJson);
   }
 
   /// 7. Get the list of TV shows on the user's watchlist.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /account/{account_id}/watchlist/tv`.
   Future<TmdbResponsePage<TvSummary>> getWatchlistTvShows({
     required int accountId,
-    int page = 1,
+    int? page,
     String? sortBy,
+    String? language,
+    Map<String, String>? queryParameters,
   }) async {
-    final queryParams = {
-      'page': page.toString(),
+    final params = {
+      if (page != null) 'page': page.toString(),
       'sort_by': ?sortBy,
+      'language': ?language,
+      ...?queryParameters,
     };
-    final jsonResponse = await get('account/$accountId/watchlist/tv', queryParameters: queryParams);
+    final jsonResponse = await get('account/$accountId/watchlist/tv', queryParameters: params);
     return TmdbResponsePage.fromJson(jsonResponse, TvSummary.fromJson);
   }
 
   /// 8. Get the list of rated movies.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /account/{account_id}/rated/movies`.
   Future<TmdbResponsePage<MovieSummary>> getRatedMovies({
     required int accountId,
-    int page = 1,
+    int? page,
     String? sortBy,
+    String? language,
+    Map<String, String>? queryParameters,
   }) async {
-    final queryParams = {
-      'page': page.toString(),
+    final params = {
+      if (page != null) 'page': page.toString(),
       'sort_by': ?sortBy,
+      'language': ?language,
+      ...?queryParameters,
     };
-    final jsonResponse = await get('account/$accountId/rated/movies', queryParameters: queryParams);
+    final jsonResponse = await get('account/$accountId/rated/movies', queryParameters: params);
     return TmdbResponsePage.fromJson(jsonResponse, MovieSummary.fromJson);
   }
 
   /// 9. Get the list of rated TV shows.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /account/{account_id}/rated/tv`.
   Future<TmdbResponsePage<TvSummary>> getRatedTvShows({
     required int accountId,
-    int page = 1,
+    int? page,
     String? sortBy,
+    String? language,
+    Map<String, String>? queryParameters,
   }) async {
-    final queryParams = {
-      'page': page.toString(),
+    final params = {
+      if (page != null) 'page': page.toString(),
       'sort_by': ?sortBy,
+      'language': ?language,
+      ...?queryParameters,
     };
-    final jsonResponse = await get('account/$accountId/rated/tv', queryParameters: queryParams);
+    final jsonResponse = await get('account/$accountId/rated/tv', queryParameters: params);
     return TmdbResponsePage.fromJson(jsonResponse, TvSummary.fromJson);
   }
 
   /// 10. Get the list of rated TV episodes.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /account/{account_id}/rated/tv/episodes`.
   Future<TmdbResponsePage<RatedEpisodeSummary>> getRatedTvEpisodes({
     required int accountId,
-    int page = 1,
+    int? page,
     String? sortBy,
+    String? language,
+    Map<String, String>? queryParameters,
   }) async {
-    final queryParams = {
-      'page': page.toString(),
+    final params = {
+      if (page != null) 'page': page.toString(),
       'sort_by': ?sortBy,
+      'language': ?language,
+      ...?queryParameters,
     };
-    final jsonResponse = await get('account/$accountId/rated/tv/episodes', queryParameters: queryParams);
+    final jsonResponse = await get('account/$accountId/rated/tv/episodes', queryParameters: params);
     return TmdbResponsePage.fromJson(jsonResponse, RatedEpisodeSummary.fromJson);
   }
 
   /// 11. Get the list of custom lists created by the user.
-  ///
-  /// Corresponds to the TMDB API endpoint: `GET /account/{account_id}/lists`.
   Future<Map<String, dynamic>> getLists({
     required int accountId,
-    int page = 1,
+    int? page,
+    String? language,
+    Map<String, String>? queryParameters,
   }) async {
-    final queryParams = {
-      'page': page.toString(),
+    final params = {
+      if (page != null) 'page': page.toString(),
+      'language': ?language,
+      ...?queryParameters,
     };
-    return get('account/$accountId/lists', queryParameters: queryParams);
+    return get('account/$accountId/lists', queryParameters: params);
   }
 }

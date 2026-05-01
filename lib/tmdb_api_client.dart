@@ -56,6 +56,12 @@ export 'src/models/networks/network_details.dart';
 export 'src/models/networks/network_alternative_names.dart';
 export 'src/models/networks/network_logos.dart';
 export 'src/models/people/person_summary.dart';
+export 'src/models/people/person_details.dart';
+export 'src/models/people/person_credits.dart';
+export 'src/models/people/person_external_ids.dart';
+export 'src/models/people/person_images.dart';
+export 'src/models/people/person_tagged_images.dart';
+export 'src/models/people/person_translations.dart';
 export 'src/utils/tmdb_api_exception.dart';
 
 
