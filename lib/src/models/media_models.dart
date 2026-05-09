@@ -8,6 +8,9 @@ abstract class MediaSummary {
   final int voteCount;
   final double? rating; // Added for rated content
   final double popularity; // Added for lists
+  final String originalLanguage;
+  final List<int> genreIds;
+  final bool adult;
 
   MediaSummary({
     required this.id,
@@ -18,13 +21,18 @@ abstract class MediaSummary {
     required this.voteCount,
     this.rating,
     required this.popularity,
+    required this.originalLanguage,
+    required this.genreIds,
+    required this.adult,
   });
 }
 
 /// [MovieSummary] represents a concise version of movie data returned in lists.
 class MovieSummary extends MediaSummary {
   final String title;
+  final String originalTitle;
   final String releaseDate;
+  final bool video;
 
   MovieSummary({
     required super.id,
@@ -35,8 +43,13 @@ class MovieSummary extends MediaSummary {
     required super.voteCount,
     super.rating,
     required super.popularity,
+    required super.originalLanguage,
+    required super.genreIds,
+    required super.adult,
     required this.title,
+    required this.originalTitle,
     required this.releaseDate,
+    required this.video,
   });
 
   factory MovieSummary.fromJson(Map<String, dynamic> json) {
@@ -51,8 +64,16 @@ class MovieSummary extends MediaSummary {
           ? (json['rating'] as num).toDouble()
           : null,
       popularity: (json['popularity'] as num?)?.toDouble() ?? 0.0,
+      originalLanguage: json['original_language'] as String? ?? '',
+      genreIds: (json['genre_ids'] as List<dynamic>?)
+          ?.map((e) => e as int)
+          .toList() ??
+          [],
+      adult: json['adult'] as bool? ?? false,
       title: json['title'] as String,
+      originalTitle: json['original_title'] as String? ?? '',
       releaseDate: json['release_date'] as String? ?? '',
+      video: json['video'] as bool? ?? false,
     );
   }
 }
@@ -60,7 +81,9 @@ class MovieSummary extends MediaSummary {
 /// [TvSummary] represents a concise version of TV show data returned in lists.
 class TvSummary extends MediaSummary {
   final String name;
+  final String originalName;
   final String firstAirDate;
+  final List<String> originCountry;
 
   TvSummary({
     required super.id,
@@ -71,8 +94,13 @@ class TvSummary extends MediaSummary {
     required super.voteCount,
     super.rating,
     required super.popularity,
+    required super.originalLanguage,
+    required super.genreIds,
+    required super.adult,
     required this.name,
+    required this.originalName,
     required this.firstAirDate,
+    required this.originCountry,
   });
 
   factory TvSummary.fromJson(Map<String, dynamic> json) {
@@ -87,8 +115,19 @@ class TvSummary extends MediaSummary {
           ? (json['rating'] as num).toDouble()
           : null,
       popularity: (json['popularity'] as num?)?.toDouble() ?? 0.0,
+      originalLanguage: json['original_language'] as String? ?? '',
+      genreIds: (json['genre_ids'] as List<dynamic>?)
+          ?.map((e) => e as int)
+          .toList() ??
+          [],
+      adult: json['adult'] as bool? ?? false,
       name: json['name'] as String,
+      originalName: json['original_name'] as String? ?? '',
       firstAirDate: json['first_air_date'] as String? ?? '',
+      originCountry: (json['origin_country'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList() ??
+          [],
     );
   }
 }
@@ -108,9 +147,9 @@ class TmdbResponsePage<T> {
   });
 
   factory TmdbResponsePage.fromJson(
-    Map<String, dynamic> json,
-    T Function(Map<String, dynamic>) fromJsonT,
-  ) {
+      Map<String, dynamic> json,
+      T Function(Map<String, dynamic>) fromJsonT,
+      ) {
     return TmdbResponsePage<T>(
       page: json['page'] as int,
       results: (json['results'] as List)
