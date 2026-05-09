@@ -122,9 +122,9 @@ class TmdbResponsePage<T> {
   }
 }
 
-/// [MediaType] defines the types of media supported by TMDB.
-enum MediaType { movie, tv }
+/// [TmdbMediaType] defines the types of media supported by TMDB.
+enum TmdbMediaType { movie, tv }
 
-extension MediaTypeExtension on MediaType {
+extension MediaTypeExtension on TmdbMediaType {
   String get value => name;
 }

@@ -128,7 +128,7 @@ class ListsV4Service extends BaseV4Service {
   Future<Map<String, dynamic>> checkItemStatus(
     int listId, {
     required int mediaId,
-    required MediaType mediaType,
+    required TmdbMediaType mediaType,
     Map<String, String>? queryParameters,
   }) async {
     final params = {
@@ -143,7 +143,7 @@ class ListsV4Service extends BaseV4Service {
 /// [TmdbV4InputItem] represents an item to be added/updated in a v4 list.
 class TmdbV4InputItem {
   final int mediaId;
-  final MediaType mediaType;
+  final TmdbMediaType mediaType;
   final String? comment;
 
   TmdbV4InputItem({

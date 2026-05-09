@@ -24,7 +24,7 @@ class AccountService extends BaseTmdbService {
   /// 2. Marks a movie or TV show as favorite.
   Future<bool> markAsFavorite({
     required int accountId,
-    required MediaType mediaType,
+    required TmdbMediaType mediaType,
     required int mediaId,
     required bool favorite,
     Map<String, String>? queryParameters,
@@ -44,7 +44,7 @@ class AccountService extends BaseTmdbService {
   /// 3. Adds a movie or TV show to the user's watchlist.
   Future<bool> addToWatchlist({
     required int accountId,
-    required MediaType mediaType,
+    required TmdbMediaType mediaType,
     required int mediaId,
     required bool watchlist,
     Map<String, String>? queryParameters,

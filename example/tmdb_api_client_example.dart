@@ -91,7 +91,7 @@ void main() async {
     log.info('Working with Account Lists...');
     final favSuccess = await tmdbClient.account.markAsFavorite(
       accountId: accountId,
-      mediaType: MediaType.movie,
+      mediaType: TmdbMediaType.movie,
       mediaId: 27205,
       favorite: true,
     );
