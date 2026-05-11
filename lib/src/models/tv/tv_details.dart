@@ -1,11 +1,23 @@
 import '../genre_models.dart';
+import '../media_models.dart';
 import '../common/tmdb_company.dart';
 import '../common/tmdb_country.dart';
 import '../common/tmdb_language.dart';
 import '../common/tmdb_credit.dart';
 import '../common/tmdb_business_details.dart';
+import '../common/tmdb_image.dart';
+import '../common/tmdb_video.dart';
+import '../common/tmdb_list_response.dart';
+import '../common/tmdb_external_ids.dart';
+import '../common/tmdb_watch_provider.dart';
+import '../common/media_account_states.dart';
+import '../common/alternative_title.dart';
+import '../keyword_models.dart';
 import 'tv_episode_summary.dart';
 import 'tv_season_summary.dart';
+import 'seasons/tv_season_details.dart';
+import 'tv_content_ratings.dart';
+import 'tv_aggregate_credits.dart';
 
 /// [TvDetails] represents the full information about a TV series.
 class TvDetails {
@@ -42,6 +54,23 @@ class TvDetails {
   final double voteAverage;
   final int voteCount;
 
+   // Appended resources (optional)
+   final TmdbCredits? credits;
+   final TmdbImagesResponse? images;
+   final TmdbListResponse<TmdbVideo>? videos;
+   final TmdbListResponse<Keyword>? keywords;
+   final TmdbResponsePage<TvSummary>? recommendations;
+   final TmdbResponsePage<TvSummary>? similar;
+   final TmdbExternalIds? externalIds;
+   final List<TvContentRating>? contentRatings;
+   final TvAggregateCredits? aggregateCredits;
+   final TmdbListResponse<AlternativeTitle>? alternativeTitles;
+   final Map<int, TvSeasonDetails>? appendedSeasons;
+   final Map<String, dynamic>? translations;
+   final TmdbWatchProvidersResponse? watchProviders;
+   final MediaAccountStates? accountStates;
+   final Map<String, dynamic>? changes;
+
   TvDetails({
     required this.adult,
     this.backdropPath,
@@ -75,9 +104,42 @@ class TvDetails {
     required this.type,
     required this.voteAverage,
     required this.voteCount,
+    this.credits,
+    this.images,
+    this.videos,
+    this.keywords,
+    this.recommendations,
+    this.similar,
+    this.externalIds,
+    this.contentRatings,
+    this.aggregateCredits,
+    this.alternativeTitles,
+    this.appendedSeasons,
+    this.translations,
+    this.watchProviders,
+    this.accountStates,
+    this.changes,
   });
 
   factory TvDetails.fromJson(Map<String, dynamic> json) {
+    // Parse appended seasons (keys like "season/1", "season/2")
+    final Map<int, TvSeasonDetails> seasonsMap = {};
+    json.forEach((key, value) {
+      if (key.startsWith('season/')) {
+        final seasonNum = int.tryParse(key.substring(7));
+        if (seasonNum != null && value is Map<String, dynamic>) {
+          seasonsMap[seasonNum] = TvSeasonDetails.fromJson(value);
+        }
+      }
+    });
+
+    // Parse content ratings if present (has 'results' array)
+    final List<TvContentRating>? contentRatingsList = json['content_ratings'] != null
+        ? (json['content_ratings'] as Map<String, dynamic>)['results']
+                ?.map((e) => TvContentRating.fromJson(e as Map<String, dynamic>))
+                .toList()
+        : null;
+
     return TvDetails(
       adult: json['adult'] as bool? ?? false,
       backdropPath: json['backdrop_path'] as String?,
@@ -154,6 +216,72 @@ class TvDetails {
       type: json['type'] as String? ?? '',
       voteAverage: (json['vote_average'] as num?)?.toDouble() ?? 0.0,
       voteCount: json['vote_count'] as int? ?? 0,
+      // Appended resources
+      credits: json['credits'] != null
+          ? TmdbCredits.fromJson(json['credits'] as Map<String, dynamic>)
+          : null,
+      images: json['images'] != null
+          ? TmdbImagesResponse.fromJson(
+              json['images'] as Map<String, dynamic>,
+            )
+          : null,
+      videos: json['videos'] != null
+          ? TmdbListResponse.fromJson(
+              json['videos'] as Map<String, dynamic>,
+              TmdbVideo.fromJson,
+              resultsKey: 'results',
+            )
+          : null,
+      keywords: json['keywords'] != null
+          ? TmdbListResponse.fromJson(
+              json['keywords'] as Map<String, dynamic>,
+              Keyword.fromJson,
+              resultsKey: 'keywords',
+            )
+          : null,
+      recommendations: json['recommendations'] != null
+          ? TmdbResponsePage.fromJson(
+              json['recommendations'] as Map<String, dynamic>,
+              TvSummary.fromJson,
+            )
+          : null,
+      similar: json['similar'] != null
+          ? TmdbResponsePage.fromJson(
+              json['similar'] as Map<String, dynamic>,
+              TvSummary.fromJson,
+            )
+          : null,
+      externalIds: json['external_ids'] != null
+          ? TmdbExternalIds.fromJson(
+              json['external_ids'] as Map<String, dynamic>,
+            )
+          : null,
+      contentRatings: contentRatingsList,
+      aggregateCredits: json['aggregate_credits'] != null
+          ? TvAggregateCredits.fromJson(
+              json['aggregate_credits'] as Map<String, dynamic>,
+            )
+          : null,
+      alternativeTitles: json['alternative_titles'] != null
+          ? TmdbListResponse.fromJson(
+              json['alternative_titles'] as Map<String, dynamic>,
+              AlternativeTitle.fromJson,
+              resultsKey: 'titles',
+            )
+          : null,
+      appendedSeasons: seasonsMap.isNotEmpty ? seasonsMap : null,
+      translations: json['translations'] as Map<String, dynamic>?,
+      watchProviders: json['watch/providers'] != null
+          ? TmdbWatchProvidersResponse.fromJson(
+              json['watch/providers'] as Map<String, dynamic>,
+            )
+          : null,
+      accountStates: json['account_states'] != null
+          ? MediaAccountStates.fromJson(
+              json['account_states'] as Map<String, dynamic>,
+            )
+          : null,
+      changes: json['changes'] as Map<String, dynamic>?,
     );
   }
 }

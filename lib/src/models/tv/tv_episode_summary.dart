@@ -1,4 +1,8 @@
 import '../common/tmdb_credit.dart';
+import '../common/tmdb_image.dart';
+import '../common/tmdb_video.dart';
+import '../common/tmdb_list_response.dart';
+import '../common/tmdb_external_ids.dart';
 
 /// [TvEpisodeSummary] represents a concise version of TV episode data.
 class TvEpisodeSummary {
@@ -20,6 +24,12 @@ class TvEpisodeSummary {
   final int? order; // Added for Episode Groups
   final double? rating; // Added for Rated Episode Summary support
 
+  // Appended resources (optional)
+  final TmdbCredits? credits;
+  final TmdbImagesResponse? images;
+  final TmdbListResponse<TmdbVideo>? videos;
+  final TmdbExternalIds? externalIds;
+
   TvEpisodeSummary({
     this.airDate,
     required this.episodeNumber,
@@ -38,6 +48,10 @@ class TvEpisodeSummary {
     this.guestStars,
     this.order,
     this.rating,
+    this.credits,
+    this.images,
+    this.videos,
+    this.externalIds,
   });
 
   factory TvEpisodeSummary.fromJson(Map<String, dynamic> json) {
@@ -64,6 +78,27 @@ class TvEpisodeSummary {
       order: json['order'] as int?,
       rating: json['rating'] != null
           ? (json['rating'] as num).toDouble()
+          : null,
+      // Appended resources
+      credits: json['credits'] != null
+          ? TmdbCredits.fromJson(json['credits'] as Map<String, dynamic>)
+          : null,
+      images: json['images'] != null
+          ? TmdbImagesResponse.fromJson(
+              json['images'] as Map<String, dynamic>,
+            )
+          : null,
+      videos: json['videos'] != null
+          ? TmdbListResponse.fromJson(
+              json['videos'] as Map<String, dynamic>,
+              TmdbVideo.fromJson,
+              resultsKey: 'results',
+            )
+          : null,
+      externalIds: json['external_ids'] != null
+          ? TmdbExternalIds.fromJson(
+              json['external_ids'] as Map<String, dynamic>,
+            )
           : null,
     );
   }

@@ -17,6 +17,11 @@ class TmdbListV4Details {
   final int runtime;
   final String sortBy;
 
+  // Appended resources (optional)
+  final List<dynamic>? comments;
+  final List<dynamic>? votes;
+  final List<dynamic>? watchers;
+
   TmdbListV4Details({
     this.backdropPath,
     required this.id,
@@ -32,6 +37,9 @@ class TmdbListV4Details {
     required this.revenue,
     required this.runtime,
     required this.sortBy,
+    this.comments,
+    this.votes,
+    this.watchers,
   });
 
   factory TmdbListV4Details.fromJson(Map<String, dynamic> json) {
@@ -52,6 +60,10 @@ class TmdbListV4Details {
       revenue: (json['revenue'] as num?)?.toDouble() ?? 0.0,
       runtime: json['runtime'] as int? ?? 0,
       sortBy: json['sort_by'] as String? ?? '',
+      // Appended resources
+      comments: (json['comments'] as List?)?.cast<dynamic>(),
+      votes: (json['votes'] as List?)?.cast<dynamic>(),
+      watchers: (json['watchers'] as List?)?.cast<dynamic>(),
     );
   }
 }

@@ -12,6 +12,10 @@ class TmdbListDetails {
   final String name;
   final String? posterPath;
 
+  // Appended resources (optional)
+  final List<dynamic>? comments;
+  final List<dynamic>? votes;
+
   TmdbListDetails({
     required this.createdBy,
     required this.description,
@@ -22,6 +26,8 @@ class TmdbListDetails {
     required this.iso_639_1,
     required this.name,
     this.posterPath,
+    this.comments,
+    this.votes,
   });
 
   factory TmdbListDetails.fromJson(Map<String, dynamic> json) {
@@ -37,6 +43,9 @@ class TmdbListDetails {
       iso_639_1: json['iso_639_1'] as String,
       name: json['name'] as String,
       posterPath: json['poster_path'] as String?,
+      // Appended resources
+      comments: (json['comments'] as List?)?.cast<dynamic>(),
+      votes: (json['votes'] as List?)?.cast<dynamic>(),
     );
   }
 }

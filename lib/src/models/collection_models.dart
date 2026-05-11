@@ -9,6 +9,10 @@ class CollectionDetails {
   final String? backdropPath;
   final List<MovieSummary> parts;
 
+  // Appended resources (optional)
+  final CollectionImagesResponse? images;
+  final CollectionTranslationsResponse? translations;
+
   CollectionDetails({
     required this.id,
     required this.name,
@@ -16,6 +20,8 @@ class CollectionDetails {
     this.posterPath,
     this.backdropPath,
     required this.parts,
+    this.images,
+    this.translations,
   });
 
   factory CollectionDetails.fromJson(Map<String, dynamic> json) {
@@ -28,6 +34,17 @@ class CollectionDetails {
       parts: (json['parts'] as List)
           .map((item) => MovieSummary.fromJson(item as Map<String, dynamic>))
           .toList(),
+      // Appended resources
+      images: json['images'] != null
+          ? CollectionImagesResponse.fromJson(
+              json['images'] as Map<String, dynamic>,
+            )
+          : null,
+      translations: json['translations'] != null
+          ? CollectionTranslationsResponse.fromJson(
+              json['translations'] as Map<String, dynamic>,
+            )
+          : null,
     );
   }
 }

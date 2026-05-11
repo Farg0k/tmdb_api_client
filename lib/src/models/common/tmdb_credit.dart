@@ -96,8 +96,14 @@ class TmdbCredits {
   final int id;
   final List<TmdbCast> cast;
   final List<TmdbCrew> crew;
+  final List<TmdbCast>? guestStars; // Specific to Episodes
 
-  TmdbCredits({required this.id, required this.cast, required this.crew});
+  TmdbCredits({
+    required this.id,
+    required this.cast,
+    required this.crew,
+    this.guestStars,
+  });
 
   factory TmdbCredits.fromJson(Map<String, dynamic> json) {
     return TmdbCredits(
@@ -112,6 +118,9 @@ class TmdbCredits {
               ?.map((i) => TmdbCrew.fromJson(i as Map<String, dynamic>))
               .toList() ??
           [],
+      guestStars: (json['guest_stars'] as List?)
+          ?.map((i) => TmdbCast.fromJson(i as Map<String, dynamic>))
+          .toList(),
     );
   }
 }
