@@ -26,12 +26,20 @@ class ListsService extends BaseTmdbService {
   }
 
   /// Get the details of a list.
+  ///
+  /// Supports [appendToResponse] with comma-separated values:
+  /// `comments`, `votes`
   Future<TmdbListDetails> getDetails(
     String listId, {
     String? language,
+    String? appendToResponse,
     Map<String, String>? queryParameters,
   }) async {
-    final params = {'language': ?language, ...?queryParameters};
+    final params = {
+      'language': ?language,
+      'append_to_response': ?appendToResponse,
+      ...?queryParameters,
+    };
     final jsonResponse = await get('list/$listId', queryParameters: params);
     return TmdbListDetails.fromJson(jsonResponse);
   }

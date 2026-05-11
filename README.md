@@ -108,6 +108,96 @@ await tmdb.v4.lists.addItems(12345, [
 ]);
 ```
 
+## Append_to_response Support
+
+All detail endpoints support the `append_to_response` parameter, allowing you to fetch multiple related resources in a single HTTP request. Pass the `appendToResponse` parameter (camelCase in Dart) to any `getDetails()` method.
+
+### Movies `/movie/{id}`
+
+```dart
+final movie = await tmdb.movies.getDetails(
+  11, // The Matrix
+  appendToResponse: 'credits,images,videos,keywords',
+);
+print(movie.credits?.cast.first.name);        // Keanu Reeves
+print(movie.images?.posters.first.filePath);  // /path.jpg
+print(movie.videos?.results.first.key);       // video_id
+```
+
+**Supported parameters:** `credits`, `images`, `videos`, `keywords`, `recommendations`, `similar`, `alternative_titles`, `release_dates`, `translations`, `watch/providers`, `account_states`, `lists`, `changes`, `external_ids`
+
+### TV Shows `/tv/{id}`
+
+```dart
+final tv = await tmdb.tv.getDetails(
+  1399, // Game of Thrones
+  appendToResponse: 'credits,season/5,external_ids',
+);
+print(tv.credits?.cast.first.name);         // Available
+print(tv.appendedSeasons?[5]?.episodes);   // Season 5 episodes
+```
+
+**Supported parameters:** `credits`, `images`, `videos`, `keywords`, `recommendations`, `similar`, `external_ids`, `content_ratings`, `aggregate_credits`, `season/{season_number}`, `translations`, `watch/providers`, `account_states`, `changes`, `alternative_titles`
+
+### People `/person/{id}`
+
+```dart
+final person = await tmdb.people.getDetails(
+  525, // Keanu Reeves
+  appendToResponse: 'credits,images,tagged_images',
+);
+print(person.combinedCredits?.movieCredits.cast.first); // Movies
+print(person.combinedCredits?.tvCredits.cast.first);    // TV shows
+print(person.images?.profiles.first.filePath);          // Profile photos
+```
+
+**Supported parameters:** `credits` (combined), `movie_credits`, `tv_credits`, `images`, `changes`, `translations`, `external_ids`, `tagged_images`
+
+### TV Seasons `/tv/{tv_id}/season/{season_number}`
+
+```dart
+final season = await tmdb.tvSeasons.getDetails(
+  1399, 1,
+  appendToResponse: 'credits,aggregate_credits',
+);
+```
+
+**Supported parameters:** `credits`, `images`, `videos`, `aggregate_credits`
+
+### TV Episodes `/tv/{tv_id}/season/{season_number}/episode/{episode_number}`
+
+```dart
+final episode = await tmdb.tvEpisodes.getDetails(
+  1399, 1, 1,
+  appendToResponse: 'credits,images',
+);
+```
+
+**Supported parameters:** `credits`, `images`, `videos`, `external_ids`
+
+### Collections `/collection/{id}`
+
+```dart
+final collection = await tmdb.collections.getDetails(
+  10, // Star Wars
+  appendToResponse: 'images,translations',
+);
+```
+
+**Supported parameters:** `images`, `translations`
+
+### Lists (v3) `/list/{id}`
+
+**Supported parameters:** `comments`, `votes`
+
+### Lists (v4) `/list/{id}`
+
+**Supported parameters:** `comments`, `votes`, `watchers`
+
+---
+
+**Note:** Maximum 20 comma-separated values per request. All appended fields are returned as nullable properties on the main model object, maintaining full backward compatibility with existing code that doesn't use `append_to_response`.
+
 ## Architecture: "Maximum Unification"
 
 This package uses a unique architecture where common API blocks are unified into shared classes:

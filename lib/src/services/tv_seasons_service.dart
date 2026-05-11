@@ -9,11 +9,14 @@ import '../models/common/tmdb_watch_provider.dart';
 import '../models/tv/seasons/tv_season_details.dart';
 import '../models/tv/tv_aggregate_credits.dart';
 
-/// [TvSeasonsService] handles API interactions related to TV seasons on TMDB.
-class TvSeasonsService extends BaseTmdbService {
-  TvSeasonsService(super.client);
+  /// [TvSeasonsService] handles API interactions related to TV seasons on TMDB.
+  class TvSeasonsService extends BaseTmdbService {
+    TvSeasonsService(super.client);
 
   /// Get the details of a TV season.
+  ///
+  /// Supports [appendToResponse] with comma-separated values:
+  /// `credits`, `images`, `videos`, `aggregate_credits`
   Future<TvSeasonDetails> getDetails(
     int seriesId,
     int seasonNumber, {

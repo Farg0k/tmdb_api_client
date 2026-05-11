@@ -7,11 +7,14 @@ import '../models/common/tmdb_video.dart';
 import '../models/common/tmdb_image.dart';
 import '../models/common/tmdb_credit.dart';
 
-/// [TvEpisodesService] handles API interactions related to TV episodes on TMDB.
-class TvEpisodesService extends BaseTmdbService {
-  TvEpisodesService(super.client);
+  /// [TvEpisodesService] handles API interactions related to TV episodes on TMDB.
+  class TvEpisodesService extends BaseTmdbService {
+    TvEpisodesService(super.client);
 
   /// Get the details of a TV episode.
+  ///
+  /// Supports [appendToResponse] with comma-separated values:
+  /// `credits`, `images`, `videos`, `external_ids`
   Future<TvEpisodeSummary> getDetails(
     int seriesId,
     int seasonNumber,

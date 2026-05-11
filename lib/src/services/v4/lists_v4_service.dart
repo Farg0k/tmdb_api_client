@@ -10,15 +10,20 @@ class ListsV4Service extends BaseV4Service {
   ListsV4Service(super.client, super.connection);
 
   /// Get the details of a v4 list.
+  ///
+  /// Supports [appendToResponse] with comma-separated values:
+  /// `comments`, `votes`, `watchers`
   Future<TmdbListV4Details> getDetails(
     int listId, {
     String? language,
     int? page,
+    String? appendToResponse,
     Map<String, String>? queryParameters,
   }) async {
     final params = {
       'language': ?language,
       if (page != null) 'page': page.toString(),
+      'append_to_response': ?appendToResponse,
       ...?queryParameters,
     };
     final jsonResponse = await get('list/$listId', queryParameters: params);

@@ -93,6 +93,11 @@ class MoviesService extends BaseTmdbService {
   /// --- Movie Details & Info ---
 
   /// Get the primary information about a movie.
+  ///
+  /// Supports [appendToResponse] with comma-separated values:
+  /// `credits`, `images`, `videos`, `keywords`, `recommendations`,
+  /// `similar`, `alternative_titles`, `release_dates`, `translations`,
+  /// `watch/providers`, `account_states`, `lists`, `changes`, `external_ids`
   Future<MovieDetails> getDetails(
     int movieId, {
     String? language,

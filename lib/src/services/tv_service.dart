@@ -88,6 +88,12 @@ class TvService extends BaseTmdbService {
   /// --- TV Series Details & Info ---
 
   /// Get the primary information about a TV series.
+  ///
+  /// Supports [appendToResponse] with comma-separated values:
+  /// `credits`, `images`, `videos`, `keywords`, `recommendations`,
+  /// `similar`, `external_ids`, `content_ratings`, `aggregate_credits`,
+  /// `season/{season_number}`, `translations`, `watch/providers`,
+  /// `account_states`, `changes`, `alternative_titles`
   Future<TvDetails> getDetails(
     int seriesId, {
     String? language,

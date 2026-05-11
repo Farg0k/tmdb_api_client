@@ -6,12 +6,20 @@ class CollectionsService extends BaseTmdbService {
   CollectionsService(super.client);
 
   /// Get the metadata for a specific movie collection.
+  ///
+  /// Supports [appendToResponse] with comma-separated values:
+  /// `images`, `translations`
   Future<CollectionDetails> getDetails(
     int collectionId, {
     String? language,
+    String? appendToResponse,
     Map<String, String>? queryParameters,
   }) async {
-    final params = {'language': ?language, ...?queryParameters};
+    final params = {
+      'language': ?language,
+      'append_to_response': ?appendToResponse,
+      ...?queryParameters,
+    };
     final jsonResponse = await get(
       'collection/$collectionId',
       queryParameters: params,
