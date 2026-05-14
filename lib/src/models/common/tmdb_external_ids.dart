@@ -31,7 +31,7 @@ class TmdbExternalIds {
 
   factory TmdbExternalIds.fromJson(Map<String, dynamic> json) {
     return TmdbExternalIds(
-      id: json['id'] as int,
+      id: json['id'] as int? ?? 0,
       imdbId: json['imdb_id'] as String?,
       facebookId: json['facebook_id'] as String?,
       instagramId: json['instagram_id'] as String?,

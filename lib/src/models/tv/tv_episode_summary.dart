@@ -84,9 +84,7 @@ class TvEpisodeSummary {
           ? TmdbCredits.fromJson(json['credits'] as Map<String, dynamic>)
           : null,
       images: json['images'] != null
-          ? TmdbImagesResponse.fromJson(
-              json['images'] as Map<String, dynamic>,
-            )
+          ? TmdbImagesResponse.fromJson(json['images'] as Map<String, dynamic>)
           : null,
       videos: json['videos'] != null
           ? TmdbListResponse.fromJson(

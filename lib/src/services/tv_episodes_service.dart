@@ -7,9 +7,9 @@ import '../models/common/tmdb_video.dart';
 import '../models/common/tmdb_image.dart';
 import '../models/common/tmdb_credit.dart';
 
-  /// [TvEpisodesService] handles API interactions related to TV episodes on TMDB.
-  class TvEpisodesService extends BaseTmdbService {
-    TvEpisodesService(super.client);
+/// [TvEpisodesService] handles API interactions related to TV episodes on TMDB.
+class TvEpisodesService extends BaseTmdbService {
+  TvEpisodesService(super.client);
 
   /// Get the details of a TV episode.
   ///
@@ -70,7 +70,8 @@ import '../models/common/tmdb_credit.dart';
       'end_date': ?endDate,
       ...?queryParameters,
     };
-    return (await get('tv/episode/$episodeId/changes', queryParameters: params) as Map<String, dynamic>);
+    return (await get('tv/episode/$episodeId/changes', queryParameters: params)
+        as Map<String, dynamic>);
   }
 
   /// Get the credits for a TV episode.

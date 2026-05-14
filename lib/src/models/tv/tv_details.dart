@@ -54,22 +54,22 @@ class TvDetails {
   final double voteAverage;
   final int voteCount;
 
-   // Appended resources (optional)
-   final TmdbCredits? credits;
-   final TmdbImagesResponse? images;
-   final TmdbListResponse<TmdbVideo>? videos;
-   final TmdbListResponse<Keyword>? keywords;
-   final TmdbResponsePage<TvSummary>? recommendations;
-   final TmdbResponsePage<TvSummary>? similar;
-   final TmdbExternalIds? externalIds;
-   final List<TvContentRating>? contentRatings;
-   final TvAggregateCredits? aggregateCredits;
-   final TmdbListResponse<AlternativeTitle>? alternativeTitles;
-   final Map<int, TvSeasonDetails>? appendedSeasons;
-   final Map<String, dynamic>? translations;
-   final TmdbWatchProvidersResponse? watchProviders;
-   final MediaAccountStates? accountStates;
-   final Map<String, dynamic>? changes;
+  // Appended resources (optional)
+  final TmdbCredits? credits;
+  final TmdbImagesResponse? images;
+  final TmdbListResponse<TmdbVideo>? videos;
+  final TmdbListResponse<Keyword>? keywords;
+  final TmdbResponsePage<TvSummary>? recommendations;
+  final TmdbResponsePage<TvSummary>? similar;
+  final TmdbExternalIds? externalIds;
+  final List<TvContentRating>? contentRatings;
+  final TvAggregateCredits? aggregateCredits;
+  final TmdbListResponse<AlternativeTitle>? alternativeTitles;
+  final Map<int, TvSeasonDetails>? appendedSeasons;
+  final Map<String, dynamic>? translations;
+  final TmdbWatchProvidersResponse? watchProviders;
+  final MediaAccountStates? accountStates;
+  final Map<String, dynamic>? changes;
 
   TvDetails({
     required this.adult,
@@ -134,10 +134,11 @@ class TvDetails {
     });
 
     // Parse content ratings if present (has 'results' array)
-    final List<TvContentRating>? contentRatingsList = json['content_ratings'] != null
+    final List<TvContentRating>? contentRatingsList =
+        json['content_ratings'] != null
         ? (json['content_ratings'] as Map<String, dynamic>)['results']
-                ?.map((e) => TvContentRating.fromJson(e as Map<String, dynamic>))
-                .toList()
+              ?.map((e) => TvContentRating.fromJson(e as Map<String, dynamic>))
+              .toList()
         : null;
 
     return TvDetails(
@@ -221,9 +222,7 @@ class TvDetails {
           ? TmdbCredits.fromJson(json['credits'] as Map<String, dynamic>)
           : null,
       images: json['images'] != null
-          ? TmdbImagesResponse.fromJson(
-              json['images'] as Map<String, dynamic>,
-            )
+          ? TmdbImagesResponse.fromJson(json['images'] as Map<String, dynamic>)
           : null,
       videos: json['videos'] != null
           ? TmdbListResponse.fromJson(

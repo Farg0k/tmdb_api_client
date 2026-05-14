@@ -9,9 +9,9 @@ import '../models/common/tmdb_watch_provider.dart';
 import '../models/tv/seasons/tv_season_details.dart';
 import '../models/tv/tv_aggregate_credits.dart';
 
-  /// [TvSeasonsService] handles API interactions related to TV seasons on TMDB.
-  class TvSeasonsService extends BaseTmdbService {
-    TvSeasonsService(super.client);
+/// [TvSeasonsService] handles API interactions related to TV seasons on TMDB.
+class TvSeasonsService extends BaseTmdbService {
+  TvSeasonsService(super.client);
 
   /// Get the details of a TV season.
   ///
@@ -85,7 +85,8 @@ import '../models/tv/tv_aggregate_credits.dart';
       'end_date': ?endDate,
       ...?queryParameters,
     };
-    return (await get('tv/season/$seasonId/changes', queryParameters: params) as Map<String, dynamic>);
+    return (await get('tv/season/$seasonId/changes', queryParameters: params)
+        as Map<String, dynamic>);
   }
 
   /// Get the credits for a TV season.

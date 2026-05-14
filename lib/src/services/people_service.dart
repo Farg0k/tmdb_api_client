@@ -29,14 +29,14 @@ class PeopleService extends BaseTmdbService {
     return TmdbResponsePage.fromJson(jsonResponse, PersonSummary.fromJson);
   }
 
-   /// --- Person Details & Info ---
+  /// --- Person Details & Info ---
 
-   /// Get the primary information about a person.
-   ///
-   /// Supports [appendToResponse] with comma-separated values:
-   /// `credits` (combined), `movie_credits`, `tv_credits`, `images`,
-   /// `changes`, `translations`, `external_ids`, `tagged_images`
-   Future<PersonDetails> getDetails(
+  /// Get the primary information about a person.
+  ///
+  /// Supports [appendToResponse] with comma-separated values:
+  /// `credits` (combined), `movie_credits`, `tv_credits`, `images`,
+  /// `changes`, `translations`, `external_ids`, `tagged_images`
+  Future<PersonDetails> getDetails(
     int personId, {
     String? language,
     String? appendToResponse,
@@ -65,7 +65,8 @@ class PeopleService extends BaseTmdbService {
       'end_date': ?endDate,
       ...?queryParameters,
     };
-    return (await get('person/$personId/changes', queryParameters: params) as Map<String, dynamic>);
+    return (await get('person/$personId/changes', queryParameters: params)
+        as Map<String, dynamic>);
   }
 
   /// Get the combined movie and TV credits for a person.

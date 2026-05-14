@@ -141,7 +141,8 @@ class ListsV4Service extends BaseV4Service {
       'media_type': mediaType.value,
       ...?queryParameters,
     };
-    return (await get('list/$listId/item_status', queryParameters: params) as Map<String, dynamic>);
+    return (await get('list/$listId/item_status', queryParameters: params)
+        as Map<String, dynamic>);
   }
 }
 

@@ -28,4 +28,24 @@ void main() {
       expect(client.config.language, equals('uk-UA'));
     });
   });
+
+  group('TmdbExternalIds', () {
+    test('fromJson handles missing id field', () {
+      final json = {'imdb_id': 'tt1234567', 'facebook_id': 'fb123'};
+
+      final externalIds = TmdbExternalIds.fromJson(json);
+
+      expect(externalIds.id, equals(0));
+      expect(externalIds.imdbId, equals('tt1234567'));
+    });
+
+    test('fromJson handles null id field', () {
+      final json = {'id': null, 'imdb_id': 'tt1234567'};
+
+      final externalIds = TmdbExternalIds.fromJson(json);
+
+      expect(externalIds.id, equals(0));
+      expect(externalIds.imdbId, equals('tt1234567'));
+    });
+  });
 }

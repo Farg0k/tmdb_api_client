@@ -164,7 +164,8 @@ class MoviesService extends BaseTmdbService {
       'end_date': ?endDate,
       ...?queryParameters,
     };
-    return (await get('movie/$movieId/changes', queryParameters: params) as Map<String, dynamic>);
+    return (await get('movie/$movieId/changes', queryParameters: params)
+        as Map<String, dynamic>);
   }
 
   /// Get the cast and crew for a movie.
@@ -331,7 +332,11 @@ class MoviesService extends BaseTmdbService {
     int movieId, {
     Map<String, String>? queryParameters,
   }) async {
-    return (await get('movie/$movieId/translations', queryParameters: queryParameters) as Map<String, dynamic>);
+    return (await get(
+          'movie/$movieId/translations',
+          queryParameters: queryParameters,
+        )
+        as Map<String, dynamic>);
   }
 
   /// Get the videos that have been added to a movie.

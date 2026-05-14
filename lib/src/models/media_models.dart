@@ -65,9 +65,10 @@ class MovieSummary extends MediaSummary {
           : null,
       popularity: (json['popularity'] as num?)?.toDouble() ?? 0.0,
       originalLanguage: json['original_language'] as String? ?? '',
-      genreIds: (json['genre_ids'] as List<dynamic>?)
-          ?.map((e) => e as int)
-          .toList() ??
+      genreIds:
+          (json['genre_ids'] as List<dynamic>?)
+              ?.map((e) => e as int)
+              .toList() ??
           [],
       adult: json['adult'] as bool? ?? false,
       title: json['title'] as String,
@@ -116,17 +117,19 @@ class TvSummary extends MediaSummary {
           : null,
       popularity: (json['popularity'] as num?)?.toDouble() ?? 0.0,
       originalLanguage: json['original_language'] as String? ?? '',
-      genreIds: (json['genre_ids'] as List<dynamic>?)
-          ?.map((e) => e as int)
-          .toList() ??
+      genreIds:
+          (json['genre_ids'] as List<dynamic>?)
+              ?.map((e) => e as int)
+              .toList() ??
           [],
       adult: json['adult'] as bool? ?? false,
       name: json['name'] as String,
       originalName: json['original_name'] as String? ?? '',
       firstAirDate: json['first_air_date'] as String? ?? '',
-      originCountry: (json['origin_country'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList() ??
+      originCountry:
+          (json['origin_country'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
           [],
     );
   }
@@ -147,9 +150,9 @@ class TmdbResponsePage<T> {
   });
 
   factory TmdbResponsePage.fromJson(
-      Map<String, dynamic> json,
-      T Function(Map<String, dynamic>) fromJsonT,
-      ) {
+    Map<String, dynamic> json,
+    T Function(Map<String, dynamic>) fromJsonT,
+  ) {
     return TmdbResponsePage<T>(
       page: json['page'] as int,
       results: (json['results'] as List)

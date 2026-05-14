@@ -10,10 +10,7 @@ abstract class BaseV4Service {
 
   TmdbApiClientConfig get config => client.config;
 
-  Future<dynamic> get(
-    String path, {
-    Map<String, String>? queryParameters,
-  }) {
+  Future<dynamic> get(String path, {Map<String, String>? queryParameters}) {
     return connection.get(path, queryParameters: queryParameters);
   }
 

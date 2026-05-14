@@ -172,7 +172,8 @@ class TvService extends BaseTmdbService {
       'end_date': ?endDate,
       ...?queryParameters,
     };
-    return (await get('tv/$seriesId/changes', queryParameters: params) as Map<String, dynamic>);
+    return (await get('tv/$seriesId/changes', queryParameters: params)
+        as Map<String, dynamic>);
   }
 
   /// Get the list of content ratings for a TV series.

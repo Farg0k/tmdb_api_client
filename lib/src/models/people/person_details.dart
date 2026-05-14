@@ -76,24 +76,16 @@ class PersonDetails {
       profilePath: json['profile_path'] as String?,
       // Appended resources
       combinedCredits: json['credits'] != null
-          ? CombinedCredits.fromJson(
-              json['credits'] as Map<String, dynamic>,
-            )
+          ? CombinedCredits.fromJson(json['credits'] as Map<String, dynamic>)
           : null,
       movieCredits: json['movie_credits'] != null
-          ? TmdbCredits.fromJson(
-              json['movie_credits'] as Map<String, dynamic>,
-            )
+          ? TmdbCredits.fromJson(json['movie_credits'] as Map<String, dynamic>)
           : null,
       tvCredits: json['tv_credits'] != null
-          ? TmdbCredits.fromJson(
-              json['tv_credits'] as Map<String, dynamic>,
-            )
+          ? TmdbCredits.fromJson(json['tv_credits'] as Map<String, dynamic>)
           : null,
       images: json['images'] != null
-          ? TmdbImagesResponse.fromJson(
-              json['images'] as Map<String, dynamic>,
-            )
+          ? TmdbImagesResponse.fromJson(json['images'] as Map<String, dynamic>)
           : null,
       changes: json['changes'] as Map<String, dynamic>?,
       translations: json['translations'] as Map<String, dynamic>?,

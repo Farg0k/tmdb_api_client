@@ -25,10 +25,7 @@ abstract class BaseTmdbService {
   BaseTmdbService(this._client); // <--- Constructor now takes TmdbApiClient.
 
   /// Delegates a GET request to the internal [TmdbApiConnection] via the main client.
-  Future<dynamic> get(
-    String path, {
-    Map<String, String>? queryParameters,
-  }) {
+  Future<dynamic> get(String path, {Map<String, String>? queryParameters}) {
     return _client.get(path, queryParameters: queryParameters);
   }
 

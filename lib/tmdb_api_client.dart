@@ -239,10 +239,7 @@ class TmdbApiClient {
   }
 
   /// Performs a low-level GET request to the TMDB API v3.
-  Future<dynamic> get(
-    String path, {
-    Map<String, String>? queryParameters,
-  }) {
+  Future<dynamic> get(String path, {Map<String, String>? queryParameters}) {
     return _apiConnection.get(path, queryParameters: queryParameters);
   }
 
