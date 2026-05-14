@@ -80,4 +80,12 @@ class TmdbWatchProvidersResponse {
       results: mappedResults,
     );
   }
+
+  @override
+  String toString() {
+    return '''TmdbWatchProvidersResponse{
+      id: $id, 
+      results: $results
+    }''';
+  }
 }

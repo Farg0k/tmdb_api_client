@@ -20,4 +20,14 @@ class TmdbCountry {
       nativeName: json['native_name'] as String?,
     );
   }
+
+  @override
+  String toString() {
+    return '''TmdbCountry{
+      iso_3166_1: $iso_3166_1, 
+      name: $name, 
+      englishName: $englishName, 
+      nativeName: $nativeName
+    }''';
+  }
 }

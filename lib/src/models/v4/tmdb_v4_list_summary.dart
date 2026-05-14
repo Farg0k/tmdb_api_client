@@ -41,4 +41,21 @@ class TmdbListV4Summary {
       sortBy: json['sort_by'] as String? ?? '',
     );
   }
+
+  @override
+  String toString() {
+    return '''TmdbListV4Summary{
+      backdropPath: $backdropPath, 
+      description: $description, 
+      id: $id, 
+      iso_639_1: $iso_639_1, 
+      itemCount: $itemCount, 
+      name: $name, 
+      posterPath: $posterPath, 
+      public: $public, 
+      revenue: $revenue, 
+      runtime: $runtime, 
+      sortBy: $sortBy
+    }''';
+  }
 }

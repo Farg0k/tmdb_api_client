@@ -44,6 +44,24 @@ class TmdbCast {
       castId: json['cast_id'] as int?,
     );
   }
+
+  @override
+  String toString() {
+    return '''TmdbCast{
+      adult: $adult, 
+      gender: $gender, 
+      id: $id, 
+      knownForDepartment: $knownForDepartment, 
+      name: $name, 
+      originalName: $originalName, 
+      popularity: $popularity, 
+      profilePath: $profilePath, 
+      character: $character, 
+      creditId: $creditId, 
+      order: $order, 
+      castId: $castId
+    }''';
+  }
 }
 
 /// [TmdbCrew] represents a unified crew member for Movies, TV, and Episodes.
@@ -89,6 +107,23 @@ class TmdbCrew {
       job: json['job'] as String? ?? '',
     );
   }
+
+  @override
+  String toString() {
+    return '''TmdbCrew{
+      adult: $adult, 
+      gender: $gender, 
+      id: $id, 
+      knownForDepartment: $knownForDepartment, 
+      name: $name, 
+      originalName: $originalName, 
+      popularity: $popularity, 
+      profilePath: $profilePath, 
+      creditId: $creditId, 
+      department: $department, 
+      job: $job
+    }''';
+  }
 }
 
 /// [TmdbCredits] represents a generic credits response.
@@ -122,5 +157,15 @@ class TmdbCredits {
           ?.map((i) => TmdbCast.fromJson(i as Map<String, dynamic>))
           .toList(),
     );
+  }
+
+  @override
+  String toString() {
+    return '''TmdbCredits{
+      id: $id, 
+      cast: $cast, 
+      crew: $crew, 
+      guestStars: $guestStars
+    }''';
   }
 }

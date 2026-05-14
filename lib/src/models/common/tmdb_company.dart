@@ -20,4 +20,14 @@ class TmdbCompany {
       originCountry: json['origin_country'] as String?,
     );
   }
+
+  @override
+  String toString() {
+    return '''TmdbCompany{
+      id: $id, 
+      logoPath: $logoPath, 
+      name: $name, 
+      originCountry: $originCountry
+    }''';
+  }
 }

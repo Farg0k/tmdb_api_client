@@ -13,8 +13,8 @@ class TmdbListDetails {
   final String? posterPath;
 
   // Appended resources (optional)
-  final List<dynamic>? comments;
-  final List<dynamic>? votes;
+  final List<Map<String, dynamic>>? comments;
+  final List<Map<String, dynamic>>? votes;
 
   TmdbListDetails({
     required this.createdBy,
@@ -44,8 +44,8 @@ class TmdbListDetails {
       name: json['name'] as String,
       posterPath: json['poster_path'] as String?,
       // Appended resources
-      comments: (json['comments'] as List?)?.cast<dynamic>(),
-      votes: (json['votes'] as List?)?.cast<dynamic>(),
+      comments: (json['comments'] as List?)?.cast<Map<String, dynamic>>(),
+      votes: (json['votes'] as List?)?.cast<Map<String, dynamic>>(),
     );
   }
 }

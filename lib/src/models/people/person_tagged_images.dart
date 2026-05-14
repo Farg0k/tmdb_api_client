@@ -1,10 +1,11 @@
 import '../common/tmdb_image.dart';
+import '../media_models.dart';
 
 /// [PersonTaggedImage] represents an image of a person that is tagged with media info.
 class PersonTaggedImage extends TmdbImage {
   final String id;
   final String imageType;
-  final dynamic media; // Can be MovieSummary or TvSummary data
+  final MediaSummary? media; // Can be MovieSummary or TvSummary data
   final String mediaType;
 
   PersonTaggedImage({
@@ -22,6 +23,18 @@ class PersonTaggedImage extends TmdbImage {
   });
 
   factory PersonTaggedImage.fromJson(Map<String, dynamic> json) {
+    final mediaData = json['media'] as Map<String, dynamic>?;
+    final type = json['media_type'] as String?;
+    MediaSummary? media;
+
+    if (mediaData != null) {
+      if (type == 'movie' || mediaData.containsKey('title')) {
+        media = MovieSummary.fromJson(mediaData);
+      } else if (type == 'tv' || mediaData.containsKey('name')) {
+        media = TvSummary.fromJson(mediaData);
+      }
+    }
+
     return PersonTaggedImage(
       aspectRatio: (json['aspect_ratio'] as num?)?.toDouble() ?? 0.0,
       height: json['height'] as int? ?? 0,
@@ -32,8 +45,8 @@ class PersonTaggedImage extends TmdbImage {
       width: json['width'] as int? ?? 0,
       id: json['id'] as String? ?? '',
       imageType: json['image_type'] as String? ?? '',
-      media: json['media'],
-      mediaType: json['media_type'] as String? ?? '',
+      media: media,
+      mediaType: type ?? '',
     );
   }
 }

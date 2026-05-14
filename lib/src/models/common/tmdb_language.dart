@@ -13,4 +13,13 @@ class TmdbLanguage {
       englishName: json['english_name'] as String?,
     );
   }
+
+  @override
+  String toString() {
+    return '''TmdbLanguage{
+      iso_639_1: $iso_639_1, 
+      name: $name, 
+      englishName: $englishName
+    }''';
+  }
 }

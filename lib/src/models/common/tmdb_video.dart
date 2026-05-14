@@ -38,4 +38,20 @@ class TmdbVideo {
       id: json['id'] as String? ?? '',
     );
   }
+
+  @override
+  String toString() {
+    return '''TmdbVideo{
+      iso_639_1: $iso_639_1, 
+      iso_3166_1: $iso_3166_1, 
+      name: $name, 
+      key: $key, 
+      site: $site, 
+      size: $size, 
+      type: $type, 
+      official: $official, 
+      publishedAt: $publishedAt, 
+      id: $id
+    }''';
+  }
 }

@@ -6,7 +6,7 @@ import '../models/common/tmdb_image.dart';
 import '../models/people/person_tagged_images.dart';
 import '../models/common/tmdb_external_ids.dart';
 import '../models/common/tmdb_credit.dart';
-import '../models/common/tmdb_list_response.dart';
+import '../models/common/tmdb_translation.dart';
 
 /// [PeopleService] handles API interactions related to people on TMDB.
 class PeopleService extends BaseTmdbService {
@@ -167,7 +167,7 @@ class PeopleService extends BaseTmdbService {
   }
 
   /// Get the translations for a person.
-  Future<TmdbListResponse<Map<String, dynamic>>> getTranslations(
+  Future<TmdbTranslationsResponse> getTranslations(
     int personId, {
     Map<String, String>? queryParameters,
   }) async {
@@ -175,10 +175,6 @@ class PeopleService extends BaseTmdbService {
       'person/$personId/translations',
       queryParameters: queryParameters,
     );
-    return TmdbListResponse.fromJson(
-      jsonResponse,
-      (i) => i,
-      resultsKey: 'translations',
-    );
+    return TmdbTranslationsResponse.fromJson(jsonResponse);
   }
 }

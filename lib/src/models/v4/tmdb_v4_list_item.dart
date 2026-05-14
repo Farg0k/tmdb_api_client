@@ -2,7 +2,7 @@ import '../media_models.dart';
 
 /// [TmdbListV4Item] represents a single item in a v4 list with optional comment.
 class TmdbListV4Item {
-  final dynamic media; // MovieSummary or TvSummary
+  final MediaSummary? media; // MovieSummary or TvSummary
   final String mediaType;
   final String? comment;
 
@@ -10,13 +10,11 @@ class TmdbListV4Item {
 
   factory TmdbListV4Item.fromJson(Map<String, dynamic> json) {
     final type = json['media_type'] as String;
-    dynamic media;
+    MediaSummary? media;
     if (type == 'movie') {
       media = MovieSummary.fromJson(json);
     } else if (type == 'tv') {
       media = TvSummary.fromJson(json);
-    } else {
-      media = json;
     }
 
     return TmdbListV4Item(

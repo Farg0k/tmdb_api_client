@@ -1,5 +1,6 @@
 import 'base_tmdb_service.dart';
 import '../models/collection_models.dart';
+import '../models/common/tmdb_translation.dart';
 
 /// [CollectionsService] handles API interactions related to Movie Collections.
 class CollectionsService extends BaseTmdbService {
@@ -47,7 +48,7 @@ class CollectionsService extends BaseTmdbService {
   }
 
   /// Get the list of translations available for a specific movie collection.
-  Future<CollectionTranslationsResponse> getTranslations(
+  Future<TmdbTranslationsResponse> getTranslations(
     int collectionId, {
     String? language,
     Map<String, String>? queryParameters,
@@ -57,6 +58,6 @@ class CollectionsService extends BaseTmdbService {
       'collection/$collectionId/translations',
       queryParameters: params,
     );
-    return CollectionTranslationsResponse.fromJson(jsonResponse);
+    return TmdbTranslationsResponse.fromJson(jsonResponse);
   }
 }

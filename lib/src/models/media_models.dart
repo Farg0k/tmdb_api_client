@@ -77,6 +77,16 @@ class MovieSummary extends MediaSummary {
       video: json['video'] as bool? ?? false,
     );
   }
+
+  @override
+  String toString() {
+    return '''MovieSummary{
+      title: $title, 
+      originalTitle: $originalTitle, 
+      releaseDate: $releaseDate, 
+      video: $video
+    }''';
+  }
 }
 
 /// [TvSummary] represents a concise version of TV show data returned in lists.
@@ -161,6 +171,16 @@ class TmdbResponsePage<T> {
       totalPages: json['total_pages'] as int,
       totalResults: json['total_results'] as int,
     );
+  }
+
+  @override
+  String toString() {
+    return '''TmdbResponsePage{
+      page: $page, 
+      results: $results, 
+      totalPages: $totalPages, 
+      totalResults: $totalResults
+    }''';
   }
 }
 

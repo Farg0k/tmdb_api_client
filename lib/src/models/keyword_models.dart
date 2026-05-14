@@ -8,4 +8,12 @@ class Keyword {
   factory Keyword.fromJson(Map<String, dynamic> json) {
     return Keyword(id: json['id'] as int, name: json['name'] as String);
   }
+
+  @override
+  String toString() {
+    return '''Keyword{
+      id: $id, 
+      name: $name
+    }''';
+  }
 }

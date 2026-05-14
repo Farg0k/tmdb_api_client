@@ -45,4 +45,23 @@ class TmdbExternalIds {
       freebaseId: json['freebase_id'] as String?,
     );
   }
+
+  @override
+  String toString() {
+    return '''
+    TmdbExternalIds{
+      id: $id, 
+      imdbId: $imdbId, 
+      facebookId: $facebookId, 
+      instagramId: $instagramId, 
+      twitterId: $twitterId, 
+      tiktokId: $tiktokId, 
+      youtubeId: $youtubeId, 
+      wikidataId: $wikidataId, 
+      tvdbId: $tvdbId, 
+      tvrageId: $tvrageId, 
+      freebaseMid: $freebaseMid, 
+      freebaseId: $freebaseId
+    }''';
+  }
 }

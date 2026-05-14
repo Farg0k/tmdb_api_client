@@ -18,6 +18,8 @@ import 'tv_season_summary.dart';
 import 'seasons/tv_season_details.dart';
 import 'tv_content_ratings.dart';
 import 'tv_aggregate_credits.dart';
+import '../common/tmdb_translation.dart';
+import '../common/tmdb_change.dart';
 
 /// [TvDetails] represents the full information about a TV series.
 class TvDetails {
@@ -66,10 +68,10 @@ class TvDetails {
   final TvAggregateCredits? aggregateCredits;
   final TmdbListResponse<AlternativeTitle>? alternativeTitles;
   final Map<int, TvSeasonDetails>? appendedSeasons;
-  final Map<String, dynamic>? translations;
+  final TmdbTranslationsResponse? translations;
   final TmdbWatchProvidersResponse? watchProviders;
   final MediaAccountStates? accountStates;
-  final Map<String, dynamic>? changes;
+  final TmdbChangesResponse? changes;
 
   TvDetails({
     required this.adult,
@@ -269,7 +271,11 @@ class TvDetails {
             )
           : null,
       appendedSeasons: seasonsMap.isNotEmpty ? seasonsMap : null,
-      translations: json['translations'] as Map<String, dynamic>?,
+      translations: json['translations'] != null
+          ? TmdbTranslationsResponse.fromJson(
+              json['translations'] as Map<String, dynamic>,
+            )
+          : null,
       watchProviders: json['watch/providers'] != null
           ? TmdbWatchProvidersResponse.fromJson(
               json['watch/providers'] as Map<String, dynamic>,
@@ -280,7 +286,9 @@ class TvDetails {
               json['account_states'] as Map<String, dynamic>,
             )
           : null,
-      changes: json['changes'] as Map<String, dynamic>?,
+      changes: json['changes'] != null
+          ? TmdbChangesResponse.fromJson({'changes': json['changes']})
+          : null,
     );
   }
 }

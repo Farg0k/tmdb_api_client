@@ -18,9 +18,9 @@ class TmdbListV4Details {
   final String sortBy;
 
   // Appended resources (optional)
-  final List<dynamic>? comments;
-  final List<dynamic>? votes;
-  final List<dynamic>? watchers;
+  final List<Map<String, dynamic>>? comments;
+  final List<Map<String, dynamic>>? votes;
+  final List<Map<String, dynamic>>? watchers;
 
   TmdbListV4Details({
     this.backdropPath,
@@ -61,9 +61,9 @@ class TmdbListV4Details {
       runtime: json['runtime'] as int? ?? 0,
       sortBy: json['sort_by'] as String? ?? '',
       // Appended resources
-      comments: (json['comments'] as List?)?.cast<dynamic>(),
-      votes: (json['votes'] as List?)?.cast<dynamic>(),
-      watchers: (json['watchers'] as List?)?.cast<dynamic>(),
+      comments: (json['comments'] as List?)?.cast<Map<String, dynamic>>(),
+      votes: (json['votes'] as List?)?.cast<Map<String, dynamic>>(),
+      watchers: (json['watchers'] as List?)?.cast<Map<String, dynamic>>(),
     );
   }
 }

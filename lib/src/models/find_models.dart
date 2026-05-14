@@ -1,13 +1,16 @@
 import 'media_models.dart';
+import 'tv/tv_episode_summary.dart';
+import 'tv/tv_season_summary.dart';
+import 'people/person_summary.dart';
 
 /// [FindResponse] contains the results of a find by external ID request.
 /// TMDB returns results grouped by media type.
 class FindResponse {
   final List<MovieSummary> movieResults;
   final List<TvSummary> tvResults;
-  final List<dynamic> tvEpisodeResults;
-  final List<dynamic> tvSeasonResults;
-  final List<dynamic> personResults;
+  final List<TvEpisodeSummary> tvEpisodeResults;
+  final List<TvSeasonSummary> tvSeasonResults;
+  final List<PersonSummary> personResults;
 
   FindResponse({
     required this.movieResults,
@@ -29,9 +32,21 @@ class FindResponse {
               ?.map((i) => TvSummary.fromJson(i as Map<String, dynamic>))
               .toList() ??
           [],
-      tvEpisodeResults: json['tv_episode_results'] as List? ?? [],
-      tvSeasonResults: json['tv_season_results'] as List? ?? [],
-      personResults: json['person_results'] as List? ?? [],
+      tvEpisodeResults:
+          (json['tv_episode_results'] as List?)
+              ?.map((i) => TvEpisodeSummary.fromJson(i as Map<String, dynamic>))
+              .toList() ??
+          [],
+      tvSeasonResults:
+          (json['tv_season_results'] as List?)
+              ?.map((i) => TvSeasonSummary.fromJson(i as Map<String, dynamic>))
+              .toList() ??
+          [],
+      personResults:
+          (json['person_results'] as List?)
+              ?.map((i) => PersonSummary.fromJson(i as Map<String, dynamic>))
+              .toList() ??
+          [],
     );
   }
 }

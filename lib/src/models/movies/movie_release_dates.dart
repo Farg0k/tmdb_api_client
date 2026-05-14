@@ -13,6 +13,14 @@ class MovieReleaseDateEntry {
           .toList(),
     );
   }
+
+  @override
+  String toString() {
+    return '''MovieReleaseDateEntry{
+      iso_3166_1: $iso_3166_1, 
+      releaseDates: $releaseDates
+    }''';
+  }
 }
 
 class ReleaseDateDetails {
@@ -59,5 +67,13 @@ class MovieReleaseDatesResponse {
           .map((i) => MovieReleaseDateEntry.fromJson(i as Map<String, dynamic>))
           .toList(),
     );
+  }
+
+  @override
+  String toString() {
+    return '''MovieReleaseDatesResponse{
+      id: $id, 
+      results: $results
+    }''';
   }
 }

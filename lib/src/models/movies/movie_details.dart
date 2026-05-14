@@ -13,12 +13,17 @@ import '../common/tmdb_watch_provider.dart';
 import '../common/media_account_states.dart';
 import 'movie_release_dates.dart';
 import '../keyword_models.dart';
+import 'belongs_to_collection.dart';
+import '../common/tmdb_translation.dart';
+import '../common/tmdb_change.dart';
+import '../v4/tmdb_v4_list_summary.dart';
 
 /// [MovieDetails] represents the full information about a movie.
 class MovieDetails {
   final bool adult;
   final String? backdropPath;
-  final dynamic belongsToCollection; // Can be a full object or null
+  final BelongsToCollection?
+  belongsToCollection; // Can be a full object or null
   final int budget;
   final List<Genre> genres;
   final String? homepage;
@@ -52,11 +57,11 @@ class MovieDetails {
   final TmdbResponsePage<MovieSummary>? similar;
   final TmdbListResponse<AlternativeTitle>? alternativeTitles;
   final MovieReleaseDatesResponse? releaseDates;
-  final Map<String, dynamic>? translations;
+  final TmdbTranslationsResponse? translations;
   final TmdbWatchProvidersResponse? watchProviders;
   final MediaAccountStates? accountStates;
-  final TmdbResponsePage<Map<String, dynamic>>? lists;
-  final Map<String, dynamic>? changes;
+  final TmdbResponsePage<TmdbListV4Summary>? lists;
+  final TmdbChangesResponse? changes;
 
   MovieDetails({
     required this.adult,
@@ -104,7 +109,11 @@ class MovieDetails {
     return MovieDetails(
       adult: json['adult'] as bool? ?? false,
       backdropPath: json['backdrop_path'] as String?,
-      belongsToCollection: json['belongs_to_collection'],
+      belongsToCollection: json['belongs_to_collection'] != null
+          ? BelongsToCollection.fromJson(
+              json['belongs_to_collection'] as Map<String, dynamic>,
+            )
+          : null,
       budget: json['budget'] as int? ?? 0,
       genres:
           (json['genres'] as List?)
@@ -193,7 +202,11 @@ class MovieDetails {
               json['release_dates'] as Map<String, dynamic>,
             )
           : null,
-      translations: json['translations'] as Map<String, dynamic>?,
+      translations: json['translations'] != null
+          ? TmdbTranslationsResponse.fromJson(
+              json['translations'] as Map<String, dynamic>,
+            )
+          : null,
       watchProviders: json['watch/providers'] != null
           ? TmdbWatchProvidersResponse.fromJson(
               json['watch/providers'] as Map<String, dynamic>,
@@ -207,10 +220,58 @@ class MovieDetails {
       lists: json['lists'] != null
           ? TmdbResponsePage.fromJson(
               json['lists'] as Map<String, dynamic>,
-              (i) => i,
+              TmdbListV4Summary.fromJson,
             )
           : null,
-      changes: json['changes'] as Map<String, dynamic>?,
+      changes: json['changes'] != null
+          ? TmdbChangesResponse.fromJson({'changes': json['changes']})
+          : null,
     );
+  }
+
+  @override
+  String toString() {
+    return '''
+    MovieDetails{
+      adult: $adult, 
+      backdropPath: $backdropPath, 
+      belongsToCollection: $belongsToCollection, 
+      budget: $budget, 
+      genres: $genres, 
+      homepage: $homepage, 
+      id: $id, 
+      imdbId: $imdbId, 
+      originalLanguage: $originalLanguage, 
+      originalTitle: $originalTitle, 
+      overview: $overview, 
+      popularity: $popularity, 
+      posterPath: $posterPath, 
+      productionCompanies: $productionCompanies, 
+      productionCountries: $productionCountries, 
+      releaseDate: $releaseDate, 
+      revenue: $revenue, 
+      runtime: $runtime, 
+      spokenLanguages: $spokenLanguages, 
+      status: $status, 
+      tagline: $tagline, 
+      title: $title, 
+      video: $video, 
+      voteAverage: $voteAverage, 
+      voteCount: $voteCount, 
+      externalIds: $externalIds, 
+      credits: $credits, 
+      images: $images, 
+      videos: $videos, 
+      keywords: $keywords, 
+      recommendations: $recommendations, 
+      similar: $similar, 
+      alternativeTitles: $alternativeTitles, 
+      releaseDates: $releaseDates, 
+      translations: $translations, 
+      watchProviders: $watchProviders, 
+      accountStates: $accountStates, 
+      lists: $lists, 
+      changes: $changes
+    }''';
   }
 }

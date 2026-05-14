@@ -3,6 +3,7 @@ import '../models/tv/tv_episode_summary.dart';
 import '../models/common/media_account_states.dart';
 import '../models/common/tmdb_external_ids.dart';
 import '../models/common/tmdb_list_response.dart';
+import '../models/common/tmdb_translation.dart';
 import '../models/common/tmdb_video.dart';
 import '../models/common/tmdb_image.dart';
 import '../models/common/tmdb_credit.dart';
@@ -126,7 +127,7 @@ class TvEpisodesService extends BaseTmdbService {
   }
 
   /// Get the translations for a TV episode.
-  Future<TmdbListResponse<Map<String, dynamic>>> getTranslations(
+  Future<TmdbTranslationsResponse> getTranslations(
     int seriesId,
     int seasonNumber,
     int episodeNumber, {
@@ -136,11 +137,7 @@ class TvEpisodesService extends BaseTmdbService {
       'tv/$seriesId/season/$seasonNumber/episode/$episodeNumber/translations',
       queryParameters: queryParameters,
     );
-    return TmdbListResponse.fromJson(
-      jsonResponse,
-      (i) => i,
-      resultsKey: 'translations',
-    );
+    return TmdbTranslationsResponse.fromJson(jsonResponse);
   }
 
   /// Get the videos for a TV episode.

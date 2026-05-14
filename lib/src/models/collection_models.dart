@@ -1,4 +1,5 @@
 import 'media_models.dart';
+import 'common/tmdb_translation.dart';
 
 /// [CollectionDetails] represents the full information about a movie collection.
 class CollectionDetails {
@@ -11,7 +12,7 @@ class CollectionDetails {
 
   // Appended resources (optional)
   final CollectionImagesResponse? images;
-  final CollectionTranslationsResponse? translations;
+  final TmdbTranslationsResponse? translations;
 
   CollectionDetails({
     required this.id,
@@ -41,7 +42,7 @@ class CollectionDetails {
             )
           : null,
       translations: json['translations'] != null
-          ? CollectionTranslationsResponse.fromJson(
+          ? TmdbTranslationsResponse.fromJson(
               json['translations'] as Map<String, dynamic>,
             )
           : null,
@@ -99,77 +100,6 @@ class CollectionImagesResponse {
           .toList(),
       posters: (json['posters'] as List)
           .map((item) => CollectionImage.fromJson(item as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-}
-
-/// [CollectionTranslation] represents the translated metadata for a collection.
-class CollectionTranslation {
-  final String iso_3166_1;
-  final String iso_639_1;
-  final String name;
-  final String englishName;
-  final TranslationData data;
-
-  CollectionTranslation({
-    required this.iso_3166_1,
-    required this.iso_639_1,
-    required this.name,
-    required this.englishName,
-    required this.data,
-  });
-
-  factory CollectionTranslation.fromJson(Map<String, dynamic> json) {
-    return CollectionTranslation(
-      iso_3166_1: json['iso_3166_1'] as String,
-      iso_639_1: json['iso_639_1'] as String,
-      name: json['name'] as String,
-      englishName: json['english_name'] as String,
-      data: TranslationData.fromJson(json['data'] as Map<String, dynamic>),
-    );
-  }
-}
-
-/// [TranslationData] contains the actual translated fields.
-class TranslationData {
-  final String name;
-  final String overview;
-  final String homepage;
-
-  TranslationData({
-    required this.name,
-    required this.overview,
-    required this.homepage,
-  });
-
-  factory TranslationData.fromJson(Map<String, dynamic> json) {
-    return TranslationData(
-      name: json['title'] as String? ?? json['name'] as String? ?? '',
-      overview: json['overview'] as String? ?? '',
-      homepage: json['homepage'] as String? ?? '',
-    );
-  }
-}
-
-/// [CollectionTranslationsResponse] contains a list of translations for a collection.
-class CollectionTranslationsResponse {
-  final int id;
-  final List<CollectionTranslation> translations;
-
-  CollectionTranslationsResponse({
-    required this.id,
-    required this.translations,
-  });
-
-  factory CollectionTranslationsResponse.fromJson(Map<String, dynamic> json) {
-    return CollectionTranslationsResponse(
-      id: json['id'] as int,
-      translations: (json['translations'] as List)
-          .map(
-            (item) =>
-                CollectionTranslation.fromJson(item as Map<String, dynamic>),
-          )
           .toList(),
     );
   }

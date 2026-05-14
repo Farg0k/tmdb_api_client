@@ -8,6 +8,14 @@ class Genre {
   factory Genre.fromJson(Map<String, dynamic> json) {
     return Genre(id: json['id'] as int, name: json['name'] as String);
   }
+
+  @override
+  String toString() {
+    return '''Genre{
+      id: $id, 
+      name: $name
+    }''';
+  }
 }
 
 /// [GenresResponse] contains a list of genres for movies or TV shows.

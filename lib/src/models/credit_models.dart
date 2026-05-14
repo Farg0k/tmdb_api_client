@@ -1,3 +1,6 @@
+import 'tv/tv_episode_summary.dart';
+import 'tv/tv_season_summary.dart';
+
 /// [CreditDetails] represents the full information about a specific credit (cast or crew).
 class CreditDetails {
   final String creditType;
@@ -36,8 +39,8 @@ class MediaCredit {
   final String? originalName;
   final String? originalTitle;
   final String? character;
-  final List<dynamic>? episodes;
-  final List<dynamic>? seasons;
+  final List<TvEpisodeSummary>? episodes;
+  final List<TvSeasonSummary>? seasons;
 
   MediaCredit({
     required this.id,
@@ -58,8 +61,12 @@ class MediaCredit {
       originalName: json['original_name'] as String?,
       originalTitle: json['original_title'] as String?,
       character: json['character'] as String?,
-      episodes: json['episodes'] as List<dynamic>?,
-      seasons: json['seasons'] as List<dynamic>?,
+      episodes: (json['episodes'] as List?)
+          ?.map((i) => TvEpisodeSummary.fromJson(i as Map<String, dynamic>))
+          .toList(),
+      seasons: (json['seasons'] as List?)
+          ?.map((i) => TvSeasonSummary.fromJson(i as Map<String, dynamic>))
+          .toList(),
     );
   }
 

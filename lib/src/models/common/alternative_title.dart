@@ -17,4 +17,13 @@ class AlternativeTitle {
       type: json['type'] as String? ?? '',
     );
   }
+
+  @override
+  String toString() {
+    return '''AlternativeTitle{
+      iso_3166_1: $iso_3166_1, 
+      title: $title, 
+      type: $type
+    }''';
+  }
 }

@@ -9,6 +9,7 @@ import '../models/common/tmdb_image.dart';
 import '../models/common/tmdb_review.dart';
 import '../models/common/tmdb_credit.dart';
 import '../models/common/tmdb_watch_provider.dart';
+import '../models/common/tmdb_translation.dart';
 import '../models/movies/movie_details.dart';
 import '../models/movies/movie_release_dates.dart';
 import '../models/keyword_models.dart';
@@ -328,15 +329,15 @@ class MoviesService extends BaseTmdbService {
   }
 
   /// Get a list of translations that have been created for a movie.
-  Future<Map<String, dynamic>> getTranslations(
+  Future<TmdbTranslationsResponse> getTranslations(
     int movieId, {
     Map<String, String>? queryParameters,
   }) async {
-    return (await get(
-          'movie/$movieId/translations',
-          queryParameters: queryParameters,
-        )
-        as Map<String, dynamic>);
+    final jsonResponse = await get(
+      'movie/$movieId/translations',
+      queryParameters: queryParameters,
+    );
+    return TmdbTranslationsResponse.fromJson(jsonResponse);
   }
 
   /// Get the videos that have been added to a movie.

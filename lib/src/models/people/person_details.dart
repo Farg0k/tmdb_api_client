@@ -3,6 +3,8 @@ import '../common/tmdb_image.dart';
 import '../common/tmdb_external_ids.dart';
 import '../people/person_tagged_images.dart';
 import 'combined_credits.dart';
+import '../common/tmdb_translation.dart';
+import '../common/tmdb_change.dart';
 
 /// [PersonDetails] represents the full information about a person.
 class PersonDetails {
@@ -26,8 +28,8 @@ class PersonDetails {
   final TmdbCredits? movieCredits;
   final TmdbCredits? tvCredits;
   final TmdbImagesResponse? images;
-  final Map<String, dynamic>? changes;
-  final Map<String, dynamic>? translations;
+  final TmdbChangesResponse? changes;
+  final TmdbTranslationsResponse? translations;
   final TmdbExternalIds? externalIds;
   final PersonTaggedImagesResponse? taggedImages;
 
@@ -87,8 +89,14 @@ class PersonDetails {
       images: json['images'] != null
           ? TmdbImagesResponse.fromJson(json['images'] as Map<String, dynamic>)
           : null,
-      changes: json['changes'] as Map<String, dynamic>?,
-      translations: json['translations'] as Map<String, dynamic>?,
+      changes: json['changes'] != null
+          ? TmdbChangesResponse.fromJson({'changes': json['changes']})
+          : null,
+      translations: json['translations'] != null
+          ? TmdbTranslationsResponse.fromJson(
+              json['translations'] as Map<String, dynamic>,
+            )
+          : null,
       externalIds: json['external_ids'] != null
           ? TmdbExternalIds.fromJson(
               json['external_ids'] as Map<String, dynamic>,

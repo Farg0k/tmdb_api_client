@@ -29,6 +29,19 @@ class TmdbImage {
       width: json['width'] as int? ?? 0,
     );
   }
+
+  @override
+  String toString() {
+    return '''TmdbImage{
+      aspectRatio: $aspectRatio, 
+      height: $height, 
+      iso_639_1: $iso_639_1, 
+      filePath: $filePath, 
+      voteAverage: $voteAverage, 
+      voteCount: $voteCount, 
+      width: $width
+    }''';
+  }
 }
 
 class TmdbImagesResponse {
@@ -68,5 +81,16 @@ class TmdbImagesResponse {
           ?.map((i) => TmdbImage.fromJson(i as Map<String, dynamic>))
           .toList(),
     );
+  }
+
+  @override
+  String toString() {
+    return '''TmdbImagesResponse{
+      id: $id, 
+      backdrops: $backdrops, 
+      logos: $logos, 
+      posters: $posters, 
+      profiles: $profiles
+    }''';
   }
 }

@@ -2,29 +2,33 @@
 class MediaAccountStates {
   final int id;
   final bool? favorite;
-  final dynamic rated; // Can be bool or Map with 'value'
+  final double? rating;
   final bool? watchlist;
 
   MediaAccountStates({
     required this.id,
     this.favorite,
-    this.rated,
+    this.rating,
     this.watchlist,
   });
 
   factory MediaAccountStates.fromJson(Map<String, dynamic> json) {
+    double? rating;
+    if (json['rated'] is Map) {
+      rating = (json['rated']['value'] as num).toDouble();
+    }
+
     return MediaAccountStates(
       id: json['id'] as int,
       favorite: json['favorite'] as bool?,
-      rated: json['rated'],
+      rating: rating,
       watchlist: json['watchlist'] as bool?,
     );
   }
 
-  double? get ratingValue {
-    if (rated is Map) {
-      return (rated['value'] as num).toDouble();
-    }
-    return null;
-  }
+  /// Backward compatibility for the old 'rated' field logic.
+  double? get ratingValue => rating;
+
+  /// Returns true if the item has been rated by the user.
+  bool get isRated => rating != null;
 }
